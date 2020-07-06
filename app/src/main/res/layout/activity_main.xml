@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:contentInsetLeft="@dimen/dimen_0dp"
+        app:contentInsetStart="@dimen/dimen_0dp"
+        app:contentInsetStartWithNavigation="@dimen/dimen_0dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/lyt_main_activity_swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@id/lyt_order_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="@dimen/margin_5dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/margin_2dp"
+                    android:weightSum="3">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/margin_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_shadow"
+                        app:cardCornerRadius="@dimen/dimen_10dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/margin_10dp">
+
+                            <ImageView
+                                android:id="@+id/imgOrders"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:contentDescription="@string/app_name"
+                                app:srcCompat="@drawable/ic_order" />
+
+                            <TextView
+                                android:id="@+id/tvOrders"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgOrders"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/orders"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/tvOrdersCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvOrders"
+                                android:layout_centerHorizontal="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/mid_text"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/margin_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_shadow"
+                        app:cardCornerRadius="@dimen/dimen_10dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/margin_10dp">
+
+                            <ImageView
+                                android:id="@+id/imgBalance"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:contentDescription="@string/app_name"
+                                app:srcCompat="@drawable/ic_balance" />
+
+                            <TextView
+                                android:id="@+id/tvBalance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgBalance"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/balance"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/tvBalanceCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBalance"
+                                android:layout_centerHorizontal="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/mid_text"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/margin_2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/card_shadow"
+                        app:cardCornerRadius="@dimen/dimen_10dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="@dimen/margin_10dp">
+
+                            <ImageView
+                                android:id="@+id/imgBonus"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:contentDescription="@string/app_name"
+                                app:srcCompat="@drawable/ic_bonus" />
+
+                            <TextView
+                                android:id="@+id/tvBonus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/imgBonus"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/bonus"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:id="@+id/tvBonusCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvBonus"
+                                android:layout_centerHorizontal="true"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/mid_text"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleOrderList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/lyt_order_detail"
+                    android:layout_margin="@dimen/margin_5dp" />
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>
