@@ -88,7 +88,7 @@ public class Constant {
     public static String country_code = "";
     public static String TYPE = "type";
     public static String verificationCode;
-    public static String PRODUCT_LOAD_LIMIT="10";
+    public static String PRODUCT_LOAD_LIMIT = "10";
 
     //set your jwt secret key here...key must same in PHP and Android and Ekart Delivery Boy
     public static String JWT_KEY = "replace_with_your_strong_jwt_secret_key";

@@ -59,17 +59,17 @@ public class ApiConfig {
         return message;
     }
 
-    public static void disableButton(final Activity activity, final Button button){
+    public static void disableButton(final Activity activity, final Button button) {
 
         button.setBackground (activity.getResources ().getDrawable (R.drawable.disabled_btn));
         button.setTextColor (activity.getResources ().getColor (R.color.black));
-        button.setEnabled(false);
-        button.postDelayed(new Runnable() {
+        button.setEnabled (false);
+        button.postDelayed (new Runnable () {
             @Override
             public void run() {
                 button.setBackground (activity.getResources ().getDrawable (R.drawable.bg_button));
                 button.setTextColor (activity.getResources ().getColor (R.color.white));
-                button.setEnabled(true);
+                button.setEnabled (true);
             }
         }, 3000);
     }

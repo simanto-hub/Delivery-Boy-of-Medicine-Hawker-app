@@ -107,15 +107,15 @@ public class ProfileActivity extends AppCompatActivity {
                         if (! jsonObject.getBoolean (Constant.ERROR)) {
                             setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.GREEN);
                             getDeliveryBoyData (activity);
-                            
+
                         } else {
-                            
+
                             setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                         }
 
                     } catch (JSONException e) {
                         e.printStackTrace ();
-                        
+
                     }
                 }
             }
@@ -144,7 +144,7 @@ public class ProfileActivity extends AppCompatActivity {
                     edtaddress.setError (getString (R.string.address_required));
                 } else {
                     updateUserData ();
-                    ApiConfig.disableButton (activity,btnsubmit);
+                    ApiConfig.disableButton (activity, btnsubmit);
                 }
             }
         } else {

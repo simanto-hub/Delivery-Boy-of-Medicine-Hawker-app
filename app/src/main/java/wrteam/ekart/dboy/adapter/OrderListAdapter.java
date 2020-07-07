@@ -26,38 +26,38 @@ import wrteam.ekart.dboy.model.OrderList;
 
 public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    // for load more
+    public final int VIEW_TYPE_ITEM = 0;
+    public final int VIEW_TYPE_LOADING = 1;
+    public boolean isLoading;
     Activity activity;
     ArrayList<OrderList> orderLists;
     String id = "0";
 
-    // for load more
-    public final int VIEW_TYPE_ITEM = 0;
-    public final int VIEW_TYPE_LOADING = 1;
-
-    public boolean isLoading;
     public OrderListAdapter(Activity activity, ArrayList<OrderList> orderLists) {
         this.activity = activity;
         this.orderLists = orderLists;
     }
+
     public void add(int position, OrderList item) {
-        orderLists.add(position, item);
-        notifyItemInserted(position);
+        orderLists.add (position, item);
+        notifyItemInserted (position);
     }
+
     public void setLoaded() {
         isLoading = false;
     }
-
 
 
     // Create new views (invoked by the layout manager)
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(activity).inflate(R.layout.lyt_order_list, parent, false);
-            return new OrderHolderItems(view);
+            View view = LayoutInflater.from (activity).inflate (R.layout.lyt_order_list, parent, false);
+            return new OrderHolderItems (view);
         } else if (viewType == VIEW_TYPE_LOADING) {
-            View view = LayoutInflater.from(activity).inflate(R.layout.item_progressbar, parent, false);
-            return new ViewHolderLoading(view);
+            View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar, parent, false);
+            return new ViewHolderLoading (view);
         }
 
         return null;
@@ -70,7 +70,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holderparent, final int position) {
 
         if (holderparent instanceof OrderHolderItems) {
-            OrderHolderItems holder =(OrderHolderItems)holderparent;
+            OrderHolderItems holder = (OrderHolderItems) holderparent;
             final OrderList orderList = orderLists.get (position);
             id = orderList.getId ();
 
@@ -108,9 +108,9 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     activity.startActivity (new Intent (activity, OrderDetailActivity.class).putExtra (Constant.ORDER_ID, orderList.getId ()));
                 }
             });
-        }else if (holderparent instanceof ViewHolderLoading) {
+        } else if (holderparent instanceof ViewHolderLoading) {
             ViewHolderLoading loadingViewHolder = (ViewHolderLoading) holderparent;
-            loadingViewHolder.progressBar.setIndeterminate(true);
+            loadingViewHolder.progressBar.setIndeterminate (true);
         }
 
 
@@ -123,22 +123,24 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        return orderLists.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return orderLists.get (position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
+
     @Override
     public long getItemId(int position) {
-        OrderList product = orderLists.get(position);
+        OrderList product = orderLists.get (position);
         if (product != null)
-            return Integer.parseInt(product.getId());
+            return Integer.parseInt (product.getId ());
         else
             return position;
     }
+
     private class ViewHolderLoading extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public ViewHolderLoading(View view) {
-            super(view);
-            progressBar = (ProgressBar) view.findViewById(R.id.itemProgressbar);
+            super (view);
+            progressBar = view.findViewById (R.id.itemProgressbar);
         }
     }
 

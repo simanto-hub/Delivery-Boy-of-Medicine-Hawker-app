@@ -48,8 +48,9 @@ public class MainActivity extends DrawerActivity {
     OrderListAdapter orderListAdapter;
     SwipeRefreshLayout lyt_main_activity_swipe_refresh;
     NestedScrollView scrollView;
+    int total = 0;
     private boolean isLoadMore = false;
-    int total=0;
+
     @SuppressLint ("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class MainActivity extends DrawerActivity {
                     if (AppController.isConnected (activity)) {
                         getDeliveryBoyData (activity);
                         GetData (0);
-                       // getOrderData (activity, offset, Constant.LOAD_LIMIT);
+                        // getOrderData (activity, offset, Constant.LOAD_LIMIT);
                     } else {
                         setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
                     }
@@ -121,7 +122,7 @@ public class MainActivity extends DrawerActivity {
                         R.string.drawer_close
                 ) {
         };
-        
+
 //        setAppLocal("in");
 
         //System.out.println("============token     "+createJWT("eKart", "eKart Authentication"));
@@ -168,16 +169,16 @@ public class MainActivity extends DrawerActivity {
 
 
 //        System.out.println("====params " + params.toString());
-        ApiConfig.RequestToVolley(new VolleyCallback() {
+        ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
             public void onSuccess(boolean result, String response) {
 
                 if (result) {
                     try {
                         //    System.out.println("====product  " + response);
-                        JSONObject objectbject = new JSONObject(response);
-                        if (!objectbject.getBoolean(Constant.ERROR)) {
-                            total = Integer.parseInt(objectbject.getString(Constant.TOTAL));
+                        JSONObject objectbject = new JSONObject (response);
+                        if (! objectbject.getBoolean (Constant.ERROR)) {
+                            total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
                             JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
 
@@ -196,45 +197,45 @@ public class MainActivity extends DrawerActivity {
 
                             }
                             if (startoffset == 0) {
-                                orderListAdapter = new OrderListAdapter(MainActivity.this, orderListArrayList );
-                                orderListAdapter.setHasStableIds(true);
-                                recycleOrderList.setAdapter(orderListAdapter);
-                                scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                                orderListAdapter = new OrderListAdapter (MainActivity.this, orderListArrayList);
+                                orderListAdapter.setHasStableIds (true);
+                                recycleOrderList.setAdapter (orderListAdapter);
+                                scrollView.setOnScrollChangeListener (new NestedScrollView.OnScrollChangeListener () {
                                     @Override
                                     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                                         // if (diff == 0) {
-                                        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recycleOrderList.getLayoutManager();
-                                            if (orderListArrayList.size() < total) {
-                                                if (!isLoadMore) {
-                                                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == orderListArrayList.size() - 1) {
+                                        if (scrollY == (v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight ())) {
+                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recycleOrderList.getLayoutManager ();
+                                            if (orderListArrayList.size () < total) {
+                                                if (! isLoadMore) {
+                                                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition () == orderListArrayList.size () - 1) {
                                                         //bottom of list!
-                                                        orderListArrayList.add(null);
-                                                        orderListAdapter.notifyItemInserted(orderListArrayList.size() - 1);
-                                                        new Handler().postDelayed(new Runnable() {
+                                                        orderListArrayList.add (null);
+                                                        orderListAdapter.notifyItemInserted (orderListArrayList.size () - 1);
+                                                        new Handler ().postDelayed (new Runnable () {
                                                             @Override
                                                             public void run() {
 
-                                                                offset = offset + Integer.parseInt(Constant.LOAD_ITEM_LIMIT);
-                                                                Map<String, String> params = new HashMap<>();
+                                                                offset = offset + Integer.parseInt (Constant.LOAD_ITEM_LIMIT);
+                                                                Map<String, String> params = new HashMap<> ();
                                                                 params.put (Constant.ID, session.getData (Constant.ID));
                                                                 params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
-                                                                params.put(Constant.LIMIT, Constant.LOAD_ITEM_LIMIT);
-                                                                params.put(Constant.OFFSET, offset + "");
+                                                                params.put (Constant.LIMIT, Constant.LOAD_ITEM_LIMIT);
+                                                                params.put (Constant.OFFSET, offset + "");
 
-                                                                ApiConfig.RequestToVolley(new VolleyCallback() {
+                                                                ApiConfig.RequestToVolley (new VolleyCallback () {
                                                                     @Override
                                                                     public void onSuccess(boolean result, String response) {
 
                                                                         if (result) {
                                                                             try {
                                                                                 // System.out.println("====product  " + response);
-                                                                                JSONObject objectbject = new JSONObject(response);
-                                                                                if (!objectbject.getBoolean(Constant.ERROR)) {
+                                                                                JSONObject objectbject = new JSONObject (response);
+                                                                                if (! objectbject.getBoolean (Constant.ERROR)) {
 
-                                                                                    orderListArrayList.remove(orderListArrayList.size() - 1);
-                                                                                    orderListAdapter.notifyItemRemoved(orderListArrayList.size());
+                                                                                    orderListArrayList.remove (orderListArrayList.size () - 1);
+                                                                                    orderListAdapter.notifyItemRemoved (orderListArrayList.size ());
 
                                                                                  /*   if (orderListArrayList.contains(null)) {
                                                                                         for (int i = 0; i < orderListArrayList.size(); i++) {
@@ -261,12 +262,12 @@ public class MainActivity extends DrawerActivity {
                                                                                         }
 
                                                                                     }
-                                                                                    orderListAdapter.notifyDataSetChanged();
-                                                                                    orderListAdapter.setLoaded();
+                                                                                    orderListAdapter.notifyDataSetChanged ();
+                                                                                    orderListAdapter.setLoaded ();
                                                                                     isLoadMore = false;
                                                                                 }
                                                                             } catch (JSONException e) {
-                                                                                e.printStackTrace();
+                                                                                e.printStackTrace ();
                                                                             }
                                                                         }
                                                                     }
@@ -289,12 +290,13 @@ public class MainActivity extends DrawerActivity {
                             }
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        e.printStackTrace ();
                     }
                 }
             }
         }, MainActivity.this, Constant.MAIN_URL, params, true);
     }
+
     public void getOrderData(final Activity activity, int offset, String limit) {
         if (AppController.isConnected (activity)) {
 
@@ -392,7 +394,7 @@ public class MainActivity extends DrawerActivity {
                         jsonObject.getString (Constant.STATUS),
                         jsonObject.getString (Constant.CREATED_AT));
 
-                session.setData (Constant.ID,jsonObject.getString (Constant.ID));
+                session.setData (Constant.ID, jsonObject.getString (Constant.ID));
 
                 tvOrdersCount.setText (session.getData (Constant.TOTAL));
                 tvBalanceCount.setText (session.getData (Constant.BALANCE));

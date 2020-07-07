@@ -47,7 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             if (type.equals ("delivery_boys")) {
-                intent.putExtra (Constant.ORDER_ID,id);
+                intent.putExtra (Constant.ORDER_ID, id);
                 intent = new Intent (getApplicationContext (), OrderDetailActivity.class);
             } else {
                 intent = new Intent (getApplicationContext (), MainActivity.class);

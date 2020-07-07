@@ -11,9 +11,9 @@
     tools:context=".activity.OrderDetailActivity">
 
     <LinearLayout
-        android:layout_marginBottom="@dimen/dimen_55dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dimen_55dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -336,18 +336,18 @@
 
     <LinearLayout
         android:id="@+id/lytButtons"
-        android:layout_alignParentBottom="true"
-        android:weightSum="2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:weightSum="2">
 
 
         <Button
-            android:layout_margin="@dimen/margin_5dp"
-            android:layout_weight="1"
             android:id="@+id/btnGetDirection"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_40dp"
+            android:layout_margin="@dimen/margin_5dp"
+            android:layout_weight="1"
             android:background="@drawable/bg_button"
             android:onClick="OnBtnClick"
             android:text="@string/get_direction"
@@ -355,11 +355,11 @@
             android:textColor="@color/white" />
 
         <Button
-            android:layout_margin="@dimen/margin_5dp"
-            android:layout_weight="1"
             android:id="@+id/btnDeliveryStatus"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_40dp"
+            android:layout_margin="@dimen/margin_5dp"
+            android:layout_weight="1"
             android:background="@drawable/bg_button"
             android:drawableEnd="@drawable/ic_dropdown"
             android:drawableTint="@color/white"

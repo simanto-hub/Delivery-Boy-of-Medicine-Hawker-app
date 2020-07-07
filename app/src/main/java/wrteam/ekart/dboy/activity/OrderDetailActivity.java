@@ -199,16 +199,15 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     private boolean appInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
+        PackageManager pm = getPackageManager ();
         boolean app_installed = false;
         try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            pm.getPackageInfo (uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             app_installed = false;
         }
-        return app_installed ;
+        return app_installed;
     }
 
     public void OnBtnClick(View view) {
@@ -226,14 +225,12 @@ public class OrderDetailActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener () {
                             public void onClick(DialogInterface dialog, int id) {
 //                                com.google.android.apps.maps
-                                if(appInstalledOrNot ("com.google.android.apps.maps"))
-                                {
+                                if (appInstalledOrNot ("com.google.android.apps.maps")) {
                                     Uri googleMapIntentUri = Uri.parse ("google.navigation:q=" + latitude + "," + longitude + "");
                                     Intent mapIntent = new Intent (Intent.ACTION_VIEW, googleMapIntentUri);
                                     mapIntent.setPackage ("com.google.android.apps.maps");
                                     activity.startActivity (mapIntent);
-                                }
-                                else{
+                                } else {
                                     AlertDialog.Builder builder1 = new AlertDialog.Builder (activity);
                                     builder1.setMessage ("Please install google map.");
                                     builder1.setCancelable (true);

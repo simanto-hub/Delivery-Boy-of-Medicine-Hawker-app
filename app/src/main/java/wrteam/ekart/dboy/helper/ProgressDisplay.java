@@ -15,30 +15,30 @@ public class ProgressDisplay {
     public ProgressDisplay(Context context) {
 
         ViewGroup layout = (ViewGroup) ((Activity) context).findViewById (android.R.id.content)
-                    .getRootView ();
+                .getRootView ();
 
-            mProgressBar = new ProgressBar (context, null, android.R.attr.progressBarStyle);
-            mProgressBar.setIndeterminate (true);
+        mProgressBar = new ProgressBar (context, null, android.R.attr.progressBarStyle);
+        mProgressBar.setIndeterminate (true);
 
-            RelativeLayout.LayoutParams params = new
-                    RelativeLayout.LayoutParams (RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams params = new
+                RelativeLayout.LayoutParams (RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
 
-            RelativeLayout rl = new RelativeLayout (context);
-            rl.setGravity (Gravity.CENTER);
-            rl.addView (mProgressBar);
-            layout.addView (rl, params);
-            hideProgress ();
+        RelativeLayout rl = new RelativeLayout (context);
+        rl.setGravity (Gravity.CENTER);
+        rl.addView (mProgressBar);
+        layout.addView (rl, params);
+        hideProgress ();
     }
 
 
     public void showProgress() {
-        if(! (mProgressBar.getVisibility () ==View.VISIBLE)){
+        if (! (mProgressBar.getVisibility () == View.VISIBLE)) {
             mProgressBar.setVisibility (View.VISIBLE);
         }
     }
 
     public void hideProgress() {
-            mProgressBar.setVisibility (View.GONE);
+        mProgressBar.setVisibility (View.GONE);
     }
 }

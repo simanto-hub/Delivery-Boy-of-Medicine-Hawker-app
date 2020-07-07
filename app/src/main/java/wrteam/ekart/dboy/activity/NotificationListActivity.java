@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +17,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.GenericSignatureFormatError;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +24,6 @@ import java.util.Map;
 import wrteam.ekart.dboy.R;
 import wrteam.ekart.dboy.adapter.NotificationAdapter;
 import wrteam.ekart.dboy.helper.ApiConfig;
-import wrteam.ekart.dboy.helper.AppController;
 import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.helper.Session;
 import wrteam.ekart.dboy.helper.VolleyCallback;
@@ -57,13 +53,13 @@ public class NotificationListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager (new LinearLayoutManager (NotificationListActivity.this));
         session = new Session (NotificationListActivity.this);
 
-        getNotificationData(NotificationListActivity.this);
+        getNotificationData (NotificationListActivity.this);
 
 
         swipeLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
             public void onRefresh() {
-                getNotificationData(NotificationListActivity.this);
+                getNotificationData (NotificationListActivity.this);
                 new Handler ().postDelayed (new Runnable () {
                     @Override
                     public void run() {
@@ -77,28 +73,28 @@ public class NotificationListActivity extends AppCompatActivity {
 
     public void getNotificationData(final Activity activity) {
         Map<String, String> params = new HashMap<String, String> ();
-        params.put(Constant.DELIVERY_BOY_ID, session.getData(Constant.ID));
-        params.put(Constant.GET_DELIVERY_BOY_NOTIFICATION, Constant.GetVal);
-        params.put(Constant.TYPE, Constant.ORDER_STATUS);
-        ApiConfig.RequestToVolley(new VolleyCallback () {
+        params.put (Constant.DELIVERY_BOY_ID, session.getData (Constant.ID));
+        params.put (Constant.GET_DELIVERY_BOY_NOTIFICATION, Constant.GetVal);
+        params.put (Constant.TYPE, Constant.ORDER_STATUS);
+        ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
             public void onSuccess(boolean result, String response) {
                 if (result) {
                     try {
 //                        System.out.println("===n response "+response);
-                        notifications = new ArrayList<>();
-                        JSONObject object = new JSONObject(response);
-                        JSONArray jsonArray = object.getJSONArray(Constant.DATA);
+                        notifications = new ArrayList<> ();
+                        JSONObject object = new JSONObject (response);
+                        JSONArray jsonArray = object.getJSONArray (Constant.DATA);
                         Gson g = new Gson ();
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            Notification notification = g.fromJson (jsonArray.getJSONObject (i).toString (),Notification.class);
-                            notifications.add(notification);
+                        for (int i = 0; i < jsonArray.length (); i++) {
+                            Notification notification = g.fromJson (jsonArray.getJSONObject (i).toString (), Notification.class);
+                            notifications.add (notification);
                         }
-                        NotificationAdapter notificationAdapter = new NotificationAdapter(NotificationListActivity.this, notifications);
-                        recyclerView.setAdapter(notificationAdapter);
+                        NotificationAdapter notificationAdapter = new NotificationAdapter (NotificationListActivity.this, notifications);
+                        recyclerView.setAdapter (notificationAdapter);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        e.printStackTrace ();
                     }
                 }
             }

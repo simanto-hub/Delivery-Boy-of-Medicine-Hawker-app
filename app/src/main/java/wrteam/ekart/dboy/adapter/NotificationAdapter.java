@@ -11,12 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.toolbox.NetworkImageView;
-
 import java.util.ArrayList;
 
 import wrteam.ekart.dboy.R;
-import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.model.Notification;
 
 
@@ -43,7 +40,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         Notification notification = notifications.get (position);
 
-        holder.tvOrderDate.setText (activity.getString(R.string.ordered_on)+notification.getDate_sent ());
+        holder.tvOrderDate.setText (activity.getString (R.string.ordered_on) + notification.getDate_sent ());
         holder.tvTitle.setText (Html.fromHtml (notification.getTitle ()));
         holder.tvMessage.setText (Html.fromHtml (notification.getMessage ()));
 
@@ -56,7 +53,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class NotificationItemHolder extends RecyclerView.ViewHolder {
 
-        TextView tvOrderDate,tvTitle, tvMessage;
+        TextView tvOrderDate, tvTitle, tvMessage;
 
 
         public NotificationItemHolder(@NonNull View itemView) {
