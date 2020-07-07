@@ -138,9 +138,9 @@ public class ProfileActivity extends AppCompatActivity {
                 address = edtaddress.getText ().toString ();
                 name = edtname.getText ().toString ();
 
-                if (ApiConfig.CheckValidattion (name, false, false)) {
+                if (ApiConfig.CheckValidation (name, false, false)) {
                     edtname.setError (getString (R.string.name_required));
-                } else if (ApiConfig.CheckValidattion (address, false, false)) {
+                } else if (ApiConfig.CheckValidation (address, false, false)) {
                     edtaddress.setError (getString (R.string.address_required));
                 } else {
                     updateUserData ();

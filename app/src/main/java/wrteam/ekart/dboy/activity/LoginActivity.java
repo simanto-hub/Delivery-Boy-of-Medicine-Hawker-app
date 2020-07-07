@@ -198,12 +198,12 @@ public class LoginActivity extends AppCompatActivity {
                     String email = edtLoginMobile.getText ().toString ();
                     String password = edtLoginPassword.getText ().toString ();
 
-                    if (ApiConfig.CheckValidattion (email, false, false)) {
+                    if (ApiConfig.CheckValidation (email, false, false)) {
                         edtLoginMobile.setError (getString (R.string.enter_mobile_number));
-                    } else if (ApiConfig.CheckValidattion (email, false, true)) {
+                    } else if (ApiConfig.CheckValidation (email, false, true)) {
                         edtLoginMobile.setError (getString (R.string.enter_valid_mobile_number));
 
-                    } else if (ApiConfig.CheckValidattion (password, false, false)) {
+                    } else if (ApiConfig.CheckValidation (password, false, false)) {
                         edtLoginPassword.setError (getString (R.string.password_required));
                     } else if (AppController.isConnected (activity)) {
 
@@ -249,11 +249,11 @@ public class LoginActivity extends AppCompatActivity {
                 new_password = edtProfileNewPassword.getText ().toString ();
                 new_confirm_password = edtProfileConfirmNewPassword.getText ().toString ();
 
-                if (ApiConfig.CheckValidattion (old_password, false, false)) {
+                if (ApiConfig.CheckValidation (old_password, false, false)) {
                     edtProfileOldPassword.setError (getString (R.string.old_password_required));
-                } else if (ApiConfig.CheckValidattion (new_password, false, false)) {
+                } else if (ApiConfig.CheckValidation (new_password, false, false)) {
                     edtProfileNewPassword.setError (getString (R.string.new_password_required));
-                } else if (ApiConfig.CheckValidattion (new_confirm_password, false, false)) {
+                } else if (ApiConfig.CheckValidation (new_confirm_password, false, false)) {
                     edtProfileConfirmNewPassword.setError (getString (R.string.confirm_password_required));
                 } else {
 
@@ -320,7 +320,7 @@ public class LoginActivity extends AppCompatActivity {
     public void OTP_Varification() {
         String otptext = edtotp.getText ().toString ().trim ();
 
-        if (ApiConfig.CheckValidattion (otptext, false, false)) {
+        if (ApiConfig.CheckValidation (otptext, false, false)) {
             edtotp.setError ("Enter OTP");
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential (firebase_otp, otptext);
@@ -448,12 +448,12 @@ public class LoginActivity extends AppCompatActivity {
         ApiConfig.disableButton (activity, btnrecover);
         final String mobile = edtforgotmobile.getText ().toString ().trim ();
         String code = Constant.country_code = edtFCode.getText ().toString ().trim ();
-        if (ApiConfig.CheckValidattion (code, false, false)) {
+        if (ApiConfig.CheckValidation (code, false, false)) {
             edtFCode.setError ("Enter Country Code");
-        } else if (ApiConfig.CheckValidattion (mobile, false, false)) {
+        } else if (ApiConfig.CheckValidation (mobile, false, false)) {
             Toast.makeText (LoginActivity.this, "Enter Mobile Number", Toast.LENGTH_SHORT).show ();
 
-        } else if (mobile.length () != 0 && ApiConfig.CheckValidattion (mobile, false, true)) {
+        } else if (mobile.length () != 0 && ApiConfig.CheckValidation (mobile, false, true)) {
             edtforgotmobile.setError ("Enter valid mobile number");
 
         } else {

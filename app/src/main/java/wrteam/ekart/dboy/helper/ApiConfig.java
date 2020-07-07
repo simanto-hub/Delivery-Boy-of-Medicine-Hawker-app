@@ -30,7 +30,7 @@ import wrteam.ekart.dboy.R;
 public class ApiConfig {
 
 
-    public static boolean CheckValidattion(String item, boolean isemailvalidation, boolean ismobvalidation) {
+    public static boolean CheckValidation(String item, boolean isemailvalidation, boolean ismobvalidation) {
         if (item.length () == 0)
             return true;
         else if (isemailvalidation && (! android.util.Patterns.EMAIL_ADDRESS.matcher (item).matches ()))

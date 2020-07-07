@@ -79,7 +79,8 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="update_status">Update Order Status</string>
-    <string name="map_open_message">You want to open map to get order delivery direction?</string>
+    <string name="map_open_message">You want to open google map to get order delivery
+        direction?</string>
     <string name="order_number">Order No. :\u0020</string>
     <string name="order_on">Ordered\u0020on\u0020</string>
     <string name="_name">Name\u0020:\u0020</string>
@@ -112,5 +113,7 @@
     <string name="reset_pass_text">Reset Your Password</string>
     <string name="confirm_pass">Confirm Password</string>
     <string name="ordered_on">"Ordered\u0020on\u0020"</string>
+    <string name="show_more">Show More</string>
+    <string name="show_less">Show Less</string>
 
 </resources>

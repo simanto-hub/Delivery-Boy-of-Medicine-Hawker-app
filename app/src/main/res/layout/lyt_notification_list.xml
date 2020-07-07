@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/card_shadow"
-    android:layoutDirection="rtl"
     android:orientation="vertical"
+    android:layout_margin="@dimen/margin_10dp"
     android:padding="@dimen/margin_10dp">
 
     <TextView
@@ -12,14 +12,13 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/margin_10dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:paddingBottom="@dimen/dimen_5dp"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/mid_text"
+        android:padding="@dimen/margin_5dp"
         android:textStyle="bold" />
 
     <View
+        android:padding="@dimen/margin_5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray" />
@@ -28,18 +27,33 @@
         android:id="@+id/tvMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="5"
-        android:paddingStart="@dimen/margin_10dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:paddingBottom="@dimen/dimen_5dp" />
+        android:maxLines="2"
+        android:padding="@dimen/margin_5dp" />
 
-    <TextView
-        android:id="@+id/tvOrderDate"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_2dp"
-        android:paddingStart="@dimen/margin_10dp"
-        android:paddingEnd="@dimen/margin_10dp"
-        android:paddingBottom="@dimen/dimen_5dp"
-        android:textColor="@color/black" />
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_5dp">
+
+        <TextView
+            android:id="@+id/tvOrderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/tvShowMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:drawableEnd="@drawable/ic_show_more"
+            android:text="@string/show_more"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
 </LinearLayout>

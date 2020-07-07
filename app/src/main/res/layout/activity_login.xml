@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_10dp"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
 
                 <TextView
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10dp"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -279,7 +279,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -335,7 +335,7 @@
                     android:gravity="center"
                     android:textColor="@color/dark_gray"
                     android:textSize="@dimen/mid_text"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnotpverify"
@@ -357,7 +357,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

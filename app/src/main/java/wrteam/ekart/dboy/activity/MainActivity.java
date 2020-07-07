@@ -73,12 +73,6 @@ public class MainActivity extends DrawerActivity {
 
         recycleOrderList = findViewById (R.id.recycleOrderList);
         lyt_main_activity_swipe_refresh = findViewById (R.id.lyt_main_activity_swipe_refresh);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
-        recycleOrderList.setLayoutManager (linearLayoutManager);
-
-
-        orderListArrayList = new ArrayList<> ();
-
 
         if (session.isUserLoggedIn ()) {
             getDeliveryBoyData (activity);
@@ -159,6 +153,9 @@ public class MainActivity extends DrawerActivity {
 //    }
 
     private void GetData(final int startoffset) {
+        orderListArrayList = new ArrayList<> ();
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
+        recycleOrderList.setLayoutManager (linearLayoutManager);
 
 
         Map<String, String> params = new HashMap<String, String> ();
@@ -179,8 +176,11 @@ public class MainActivity extends DrawerActivity {
                         JSONObject objectbject = new JSONObject (response);
                         if (! objectbject.getBoolean (Constant.ERROR)) {
                             total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
+                            session.setData (Constant.TOTAL, String.valueOf (total));
+
                             JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
+
 
                             Gson g = new Gson ();
 
@@ -282,11 +282,7 @@ public class MainActivity extends DrawerActivity {
                                             }
                                         }
                                     }
-
-
                                 });
-
-
                             }
                         }
                     } catch (JSONException e) {
@@ -294,16 +290,14 @@ public class MainActivity extends DrawerActivity {
                     }
                 }
             }
-        }, MainActivity.this, Constant.MAIN_URL, params, true);
+        }, MainActivity.this, Constant.MAIN_URL, params, false);
     }
 
-    public void getOrderData(final Activity activity, int offset, String limit) {
+    public void getTotalOrderCount(final Activity activity) {
         if (AppController.isConnected (activity)) {
 
             Map<String, String> params = new HashMap<String, String> ();
             params.put (Constant.ID, session.getData (Constant.ID));
-            params.put (Constant.OFFSET, String.valueOf (offset));
-            params.put (Constant.LIMIT, limit);
             params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
@@ -315,27 +309,6 @@ public class MainActivity extends DrawerActivity {
 
                             if (! jsonObject.getBoolean (Constant.ERROR)) {
                                 session.setData (Constant.TOTAL, jsonObject.getString (Constant.TOTAL));
-                                tvOrdersCount.setText (session.getData (Constant.TOTAL));
-
-                                JSONObject object = new JSONObject (response);
-                                JSONArray jsonArray = object.getJSONArray (Constant.DATA);
-
-                                Gson g = new Gson ();
-
-
-                                for (int i = 0; i < jsonArray.length (); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject (i);
-
-                                    if (jsonObject1 != null) {
-                                        OrderList orderList = g.fromJson (jsonObject1.toString (), OrderList.class);
-                                        orderListArrayList.add (orderList);
-                                    } else {
-                                        break;
-                                    }
-
-                                }
-                                orderListAdapter = new OrderListAdapter (activity, orderListArrayList);
-                                recycleOrderList.setAdapter (orderListAdapter);
 
                             }
                         } catch (JSONException e) {
@@ -395,6 +368,8 @@ public class MainActivity extends DrawerActivity {
                         jsonObject.getString (Constant.CREATED_AT));
 
                 session.setData (Constant.ID, jsonObject.getString (Constant.ID));
+
+                getTotalOrderCount (activity);
 
                 tvOrdersCount.setText (session.getData (Constant.TOTAL));
                 tvBalanceCount.setText (session.getData (Constant.BALANCE));
