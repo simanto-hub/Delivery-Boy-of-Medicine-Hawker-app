@@ -43,6 +43,8 @@ import wrteam.ekart.dboy.helper.VolleyCallback;
 import wrteam.ekart.dboy.model.Items;
 import wrteam.ekart.dboy.model.OrderList;
 
+import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
+
 public class OrderDetailActivity extends AppCompatActivity {
 
     TextView tvDate, tvName, tvPhone, tvAddress, tvDeliveryTime, tvItemTotal,
@@ -113,6 +115,8 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onRefresh() {
                 if (AppController.isConnected (activity)) {
                     getOrderData (activity);
+                    SwipeRefresh.setRefreshing (false);
+                    disableSwipe (SwipeRefresh);
                 } else {
                     setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
                 }

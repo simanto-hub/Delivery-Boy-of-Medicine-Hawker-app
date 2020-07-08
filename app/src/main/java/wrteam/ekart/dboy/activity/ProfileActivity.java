@@ -32,6 +32,8 @@ import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.helper.Session;
 import wrteam.ekart.dboy.helper.VolleyCallback;
 
+import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
+
 public class ProfileActivity extends AppCompatActivity {
 
     EditText edtname, edtaddress;
@@ -67,14 +69,15 @@ public class ProfileActivity extends AppCompatActivity {
         tvMobile.setCompoundDrawablesWithIntrinsicBounds (0, 0, 0, 0);
         edtaddress.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_edt_home, 0, 0, 0);
 
+        lyt_profile_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
         lyt_profile_activity_swipe_refresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
             public void onRefresh() {
-                lyt_profile_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
                 if (AppController.isConnected (activity)) {
                     edtname.setText (session.getData (Constant.NAME));
                     tvMobile.setText (session.getData (Constant.MOBILE));
                     edtaddress.setText (session.getData (Constant.ADDRESS));
+                    disableSwipe (lyt_profile_activity_swipe_refresh);
 
                 } else {
                     setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);

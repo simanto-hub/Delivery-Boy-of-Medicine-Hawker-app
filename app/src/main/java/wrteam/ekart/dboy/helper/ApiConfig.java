@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -74,6 +76,17 @@ public class ApiConfig {
         }, 3000);
     }
 
+    public static void disableSwipe(final SwipeRefreshLayout swipeRefreshLayout) {
+
+        swipeRefreshLayout.setEnabled (false);
+        swipeRefreshLayout.postDelayed (new Runnable () {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setEnabled (true);
+            }
+        }, 3000);
+    }
+
 
     public static void RequestToVolley(final VolleyCallback callback, final Activity activity, final String url, final Map<String, String> params, final boolean isprogress) {
         final ProgressDisplay progressDisplay = new ProgressDisplay (activity);
@@ -100,8 +113,10 @@ public class ApiConfig {
 
                             callback.onSuccess (false, "");
                             String message = VolleyErrorMessage (error);
-                            if (! message.equals (""))
-                                Toast.makeText (activity, message, Toast.LENGTH_SHORT).show ();
+                            if (! message.equals ("")) if (isprogress)
+                                if (isprogress)
+                                    progressDisplay.hideProgress ();
+                            Toast.makeText (activity, message, Toast.LENGTH_SHORT).show ();
                         }
                     }) {
 
@@ -122,6 +137,7 @@ public class ApiConfig {
             stringRequest.setRetryPolicy (new DefaultRetryPolicy (0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             AppController.getInstance ().getRequestQueue ().getCache ().clear ();
             AppController.getInstance ().addToRequestQueue (stringRequest);
+
         }
 
     }

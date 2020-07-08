@@ -33,6 +33,8 @@ import wrteam.ekart.dboy.helper.Session;
 import wrteam.ekart.dboy.helper.VolleyCallback;
 import wrteam.ekart.dboy.model.WalletHistory;
 
+import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
+
 public class WalletHistoryActivity extends AppCompatActivity {
 
 
@@ -71,17 +73,19 @@ public class WalletHistoryActivity extends AppCompatActivity {
             setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
         }
 
+        lyt_wallet_history_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
+
         lyt_wallet_history_activity_swipe_refresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
 
             @Override
             public void onRefresh() {
-                lyt_wallet_history_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
                 if (AppController.isConnected (activity)) {
                     getWalletHistory (activity);
+                    lyt_wallet_history_activity_swipe_refresh.setRefreshing (false);
+                    disableSwipe (lyt_wallet_history_activity_swipe_refresh);
                 } else {
                     setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
                 }
-                lyt_wallet_history_activity_swipe_refresh.setRefreshing (false);
             }
         });
     }

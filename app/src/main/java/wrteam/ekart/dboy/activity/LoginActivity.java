@@ -291,7 +291,7 @@ public class LoginActivity extends AppCompatActivity {
                     }, activity, Constant.MAIN_URL, params, true);
                 }
             } else if (id == R.id.tvForgotPass) {
-                startActivity (new Intent (LoginActivity.this, LoginActivity.class).putExtra (Constant.FROM, "lytforgot"));
+                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytforgot"));
             } else if (id == R.id.btnrecover) {
 
                 RecoverPassword ();
@@ -313,7 +313,7 @@ public class LoginActivity extends AppCompatActivity {
                 phoneNumber,                     // Phone number to verify
                 100,                           // Timeout duration
                 TimeUnit.SECONDS,                // Unit of timeout
-                LoginActivity.this,        // Activity (for callback binding)
+                activity,        // Activity (for callback binding)
                 mCallback);
     }
 
@@ -329,7 +329,7 @@ public class LoginActivity extends AppCompatActivity {
             else {
                 ApiConfig.disableButton (activity, btnotpverify);
                 session.setData (Constant.MOBILE, mobile);
-                startActivity (new Intent (LoginActivity.this, LoginActivity.class).putExtra (Constant.FROM, "lytResetPass"));
+                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytResetPass"));
 
             }
 
@@ -354,7 +354,7 @@ public class LoginActivity extends AppCompatActivity {
                 Constant.verificationCode = s;
                 String mobileno = "";
                 mobileno = edtforgotmobile.getText ().toString ();
-                startActivity (new Intent (LoginActivity.this, LoginActivity.class)
+                startActivity (new Intent (activity, LoginActivity.class)
                         .putExtra ("from", "lytotp")
                         .putExtra ("txtmobile", mobileno)
                         .putExtra ("OTP", s));
@@ -427,7 +427,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject (response);
 
                             if (! object.getBoolean (Constant.ERROR)) {
-                                startActivity (new Intent (LoginActivity.this, LoginActivity.class).putExtra (Constant.FROM, (Bundle) null));
+                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, (Bundle) null));
                             } else {
                                 setSnackBar (activity, object.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                             }
@@ -436,7 +436,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 }
-            }, LoginActivity.this, Constant.MAIN_URL, params, true);
+            }, activity, Constant.MAIN_URL, params, true);
         } else {
             edtResetPass.setError ("New password and confirm password not matched!");
         }
@@ -451,7 +451,7 @@ public class LoginActivity extends AppCompatActivity {
         if (ApiConfig.CheckValidation (code, false, false)) {
             edtFCode.setError ("Enter Country Code");
         } else if (ApiConfig.CheckValidation (mobile, false, false)) {
-            Toast.makeText (LoginActivity.this, "Enter Mobile Number", Toast.LENGTH_SHORT).show ();
+            Toast.makeText (activity, "Enter Mobile Number", Toast.LENGTH_SHORT).show ();
 
         } else if (mobile.length () != 0 && ApiConfig.CheckValidation (mobile, false, true)) {
             edtforgotmobile.setError ("Enter valid mobile number");

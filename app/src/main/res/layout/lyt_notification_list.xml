@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lytNotification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/card_shadow"
@@ -8,7 +9,6 @@
     android:padding="@dimen/margin_10dp">
 
     <TextView
-
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,6 +30,16 @@
         android:maxLines="2"
         android:padding="@dimen/margin_5dp" />
 
+
+    <TextView
+        android:id="@+id/tvMessageMore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="7"
+        android:padding="@dimen/margin_5dp"
+        android:visibility="gone" />
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:textColor="@color/black" />
-
 
         <TextView
             android:id="@+id/tvShowMore"

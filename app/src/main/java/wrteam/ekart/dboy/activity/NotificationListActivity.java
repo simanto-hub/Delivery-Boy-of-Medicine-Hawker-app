@@ -2,7 +2,6 @@ package wrteam.ekart.dboy.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -29,9 +28,11 @@ import wrteam.ekart.dboy.helper.Session;
 import wrteam.ekart.dboy.helper.VolleyCallback;
 import wrteam.ekart.dboy.model.Notification;
 
+import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
+
 public class NotificationListActivity extends AppCompatActivity {
 
-
+    Activity activity;
     RecyclerView recyclerView;
     ArrayList<Notification> notifications;
     Toolbar toolbar;
@@ -49,23 +50,21 @@ public class NotificationListActivity extends AppCompatActivity {
         getSupportActionBar ().setTitle (getString (R.string.notifications));
         getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
         swipeLayout = findViewById (R.id.swipeLayout);
+        activity = NotificationListActivity.this;
         recyclerView = findViewById (R.id.recyclerView);
-        recyclerView.setLayoutManager (new LinearLayoutManager (NotificationListActivity.this));
-        session = new Session (NotificationListActivity.this);
+        recyclerView.setLayoutManager (new LinearLayoutManager (activity));
 
-        getNotificationData (NotificationListActivity.this);
+        session = new Session (activity);
+
+        getNotificationData (activity);
 
 
         swipeLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
             public void onRefresh() {
-                getNotificationData (NotificationListActivity.this);
-                new Handler ().postDelayed (new Runnable () {
-                    @Override
-                    public void run() {
-                        swipeLayout.setRefreshing (false);
-                    }
-                }, 1000);
+                getNotificationData (activity);
+                swipeLayout.setRefreshing (false);
+                disableSwipe (swipeLayout);
             }
         });
 
@@ -73,15 +72,14 @@ public class NotificationListActivity extends AppCompatActivity {
 
     public void getNotificationData(final Activity activity) {
         Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.DELIVERY_BOY_ID, session.getData (Constant.ID));
-        params.put (Constant.GET_DELIVERY_BOY_NOTIFICATION, Constant.GetVal);
-        params.put (Constant.TYPE, Constant.ORDER_STATUS);
+        params.put (Constant.ID, session.getData (Constant.ID));
+        params.put (Constant.GET_NOTIFICATION, Constant.GetVal);
         ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
             public void onSuccess(boolean result, String response) {
                 if (result) {
                     try {
-//                        System.out.println("===n response "+response);
+//                        System.out.println ("===n response " + response);
                         notifications = new ArrayList<> ();
                         JSONObject object = new JSONObject (response);
                         JSONArray jsonArray = object.getJSONArray (Constant.DATA);
@@ -91,14 +89,14 @@ public class NotificationListActivity extends AppCompatActivity {
                             Notification notification = g.fromJson (jsonArray.getJSONObject (i).toString (), Notification.class);
                             notifications.add (notification);
                         }
-                        NotificationAdapter notificationAdapter = new NotificationAdapter (NotificationListActivity.this, notifications);
+                        NotificationAdapter notificationAdapter = new NotificationAdapter (activity, notifications);
                         recyclerView.setAdapter (notificationAdapter);
                     } catch (Exception e) {
                         e.printStackTrace ();
                     }
                 }
             }
-        }, activity, Constant.NOTIFICATIONS_URL, params, true);
+        }, activity, Constant.MAIN_URL, params, true);
     }
 
     @Override

@@ -24,7 +24,8 @@ public class Constant {
     public static final String UPDATE_ORDER_STATUS = "update_order_status";
     public static final String GET_FUND_TRANSFERS = "get_fund_transfers";
     public static final String DELIVERY_BOY_FORGOT_PASSWORD = "delivery_boy_forgot_password";
-    public static final String GET_DELIVERY_BOY_NOTIFICATION = "get-delivery-boy-notifications";
+    public static final String GET_NOTIFICATION = "get_notifications";
+    public static final String UPDATE_DELIVERY_BOY_FCM_ID = "update_delivery_boy_fcm_id";
 
 
     public static final String ID = "id";

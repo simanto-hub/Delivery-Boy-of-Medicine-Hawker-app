@@ -85,7 +85,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/mid_text"
                                 android:textStyle="bold"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
 
                         </RelativeLayout>
@@ -136,7 +136,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/mid_text"
                                 android:textStyle="bold"
-                                android:visibility="visible" />
+                                android:visibility="gone" />
 
 
                         </RelativeLayout>
@@ -187,8 +187,7 @@
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/mid_text"
                                 android:textStyle="bold"
-                                android:visibility="visible" />
-
+                                android:visibility="gone" />
 
                         </RelativeLayout>
 

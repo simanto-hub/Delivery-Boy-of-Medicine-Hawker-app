@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -35,6 +38,8 @@ import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.helper.Session;
 import wrteam.ekart.dboy.helper.VolleyCallback;
 import wrteam.ekart.dboy.model.OrderList;
+
+import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
 
 public class MainActivity extends DrawerActivity {
     public static ArrayList<OrderList> orderListArrayList;
@@ -75,9 +80,8 @@ public class MainActivity extends DrawerActivity {
         lyt_main_activity_swipe_refresh = findViewById (R.id.lyt_main_activity_swipe_refresh);
 
         if (session.isUserLoggedIn ()) {
-            getDeliveryBoyData (activity);
-            //getOrderData (activity, offset, Constant.LOAD_LIMIT);
             GetData (0);
+            getDeliveryBoyData (activity);
 
             lyt_main_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
 
@@ -85,9 +89,15 @@ public class MainActivity extends DrawerActivity {
                 @Override
                 public void onRefresh() {
                     if (AppController.isConnected (activity)) {
-                        getDeliveryBoyData (activity);
+                        orderListArrayList = new ArrayList<> ();
+                        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
+                        recycleOrderList.setLayoutManager (linearLayoutManager);
+
                         GetData (0);
-                        // getOrderData (activity, offset, Constant.LOAD_LIMIT);
+                        getDeliveryBoyData (activity);
+
+                        disableSwipe (lyt_main_activity_swipe_refresh);
+
                     } else {
                         setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
                     }
@@ -95,17 +105,6 @@ public class MainActivity extends DrawerActivity {
                     lyt_main_activity_swipe_refresh.setRefreshing (false);
                 }
             });
-
-
-//            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult> () {
-//                @Override
-//                public void onSuccess(InstanceIdResult instanceIdResult) {
-//                    String token = instanceIdResult.getToken();
-//                    if (!token.equals(session.getData(Session.KEY_FCM_ID))) {
-//                        UpdateToken(token, MainActivity.this);
-//                    }
-//                }
-//            });
         }
 
         drawerToggle = new ActionBarDrawerToggle
@@ -117,40 +116,32 @@ public class MainActivity extends DrawerActivity {
                 ) {
         };
 
-//        setAppLocal("in");
-
-        //System.out.println("============token     "+createJWT("eKart", "eKart Authentication"));
+        FirebaseInstanceId.getInstance ().getInstanceId ().addOnSuccessListener (new OnSuccessListener<InstanceIdResult> () {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken ();
+                AppController.getInstance ().setDeviceToken (token);
+                if (! token.equals (session.getData (Session.KEY_FCM_ID))) {
+                    updateFCMId ();
+                }
+            }
+        });
     }
 
-//	public void setAppLocal(String languageCode){
-//		Resources resources = getResources ();
-//		DisplayMetrics dm = resources.getDisplayMetrics ();
-//		Configuration configuration = resources.getConfiguration ();
-//		configuration.setLocale (new Locale (languageCode.toLowerCase ()));
-//		resources.updateConfiguration (configuration,dm);
-//	}
+    public void updateFCMId() {
+        Map<String, String> params = new HashMap<String, String> ();
+        params.put (Constant.ID, session.getData (Constant.ID));
+        params.put (Constant.UPDATE_DELIVERY_BOY_FCM_ID, Constant.GetVal);
+        params.put (Constant.FCM_ID, "" + AppController.getInstance ().getDeviceToken ());
 
-//    public  void UpdateToken(final String token, Activity activity) {
-//        Map<String, String> params = new HashMap<>();
-//        params.put(Constant.TYPE, Constant.REGISTER_DEVICE);
-//        params.put(Constant.TOKEN, token);
-//        params.put(Constant.USER_ID, session.getData(Session.KEY_ID));
-//        ApiConfig.RequestToVolley(new VolleyCallback() {
-//            @Override
-//            public void onSuccess(boolean result, String response) {
-//                if (result) {
-//                    try {
-//                        JSONObject object = new JSONObject(response);
-//                        if (!object.getBoolean(Constant.ERROR)) {
-//                            session.setData(Session.KEY_FCM_ID, token);
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }, activity, Constant.RegisterUrl, params, false);
-//    }
+        ApiConfig.RequestToVolley (new VolleyCallback () {
+            @SuppressLint ("SetTextI18n")
+            @Override
+            public void onSuccess(boolean result, String response) {
+            }
+        }, activity, Constant.MAIN_URL, params, true);
+    }
+
 
     private void GetData(final int startoffset) {
         orderListArrayList = new ArrayList<> ();
@@ -197,7 +188,7 @@ public class MainActivity extends DrawerActivity {
 
                             }
                             if (startoffset == 0) {
-                                orderListAdapter = new OrderListAdapter (MainActivity.this, orderListArrayList);
+                                orderListAdapter = new OrderListAdapter (activity, orderListArrayList);
                                 orderListAdapter.setHasStableIds (true);
                                 recycleOrderList.setAdapter (orderListAdapter);
                                 scrollView.setOnScrollChangeListener (new NestedScrollView.OnScrollChangeListener () {
@@ -231,20 +222,14 @@ public class MainActivity extends DrawerActivity {
                                                                         if (result) {
                                                                             try {
                                                                                 // System.out.println("====product  " + response);
-                                                                                JSONObject objectbject = new JSONObject (response);
-                                                                                if (! objectbject.getBoolean (Constant.ERROR)) {
+                                                                                JSONObject objectbject1 = new JSONObject (response);
+                                                                                if (! objectbject1.getBoolean (Constant.ERROR)) {
+
+                                                                                    session.setData (Constant.TOTAL, objectbject1.getString (Constant.TOTAL));
 
                                                                                     orderListArrayList.remove (orderListArrayList.size () - 1);
                                                                                     orderListAdapter.notifyItemRemoved (orderListArrayList.size ());
 
-                                                                                 /*   if (orderListArrayList.contains(null)) {
-                                                                                        for (int i = 0; i < orderListArrayList.size(); i++) {
-                                                                                            if (orderListArrayList.get(i) == null) {
-                                                                                                orderListArrayList.remove(i);
-                                                                                                break;
-                                                                                            }
-                                                                                        }
-                                                                                    }*/
                                                                                     JSONObject object = new JSONObject (response);
                                                                                     JSONArray jsonArray = object.getJSONArray (Constant.DATA);
 
@@ -271,10 +256,10 @@ public class MainActivity extends DrawerActivity {
                                                                             }
                                                                         }
                                                                     }
-                                                                }, MainActivity.this, Constant.MAIN_URL, params, false);
+                                                                }, activity, Constant.MAIN_URL, params, true);
 
                                                             }
-                                                        }, 2000);
+                                                        }, 0);
                                                         isLoadMore = true;
                                                     }
 
@@ -290,7 +275,7 @@ public class MainActivity extends DrawerActivity {
                     }
                 }
             }
-        }, MainActivity.this, Constant.MAIN_URL, params, false);
+        }, activity, Constant.MAIN_URL, params, false);
     }
 
     public void getTotalOrderCount(final Activity activity) {
