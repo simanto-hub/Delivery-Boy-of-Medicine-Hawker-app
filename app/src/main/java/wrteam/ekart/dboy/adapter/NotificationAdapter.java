@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,59 +22,70 @@ import wrteam.ekart.dboy.activity.OrderDetailActivity;
 import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.model.Notification;
 
+public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationItemHolder> {
+    // for load more
+    public final int VIEW_TYPE_ITEM = 0;
+    public final int VIEW_TYPE_LOADING = 1;
+    public boolean isLoading;
     Activity activity;
     ArrayList<Notification> notifications;
+    String id = "0";
 
     public NotificationAdapter(Activity activity, ArrayList<Notification> notifications) {
         this.activity = activity;
         this.notifications = notifications;
     }
 
-    @NonNull
-    @Override
-    public NotificationAdapter.NotificationItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from (parent.getContext ()).inflate (R.layout.lyt_notification_list, null);
-        NotificationItemHolder notificationItemHolder = new NotificationItemHolder (v);
-        return notificationItemHolder;
+    public void add(int position, Notification item) {
+        notifications.add (position, item);
+        notifyItemInserted (position);
     }
 
+    public void setLoaded() {
+        isLoading = false;
+    }
+
+
+    // Create new views (invoked by the layout manager)
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from (activity).inflate (R.layout.lyt_notification_list, parent, false);
+            return new OrderHolderItems (view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar, parent, false);
+            return new ViewHolderLoading (view);
+        }
+
+        return null;
+    }
+
+
+    @RequiresApi (api = Build.VERSION_CODES.M)
     @SuppressLint ("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final NotificationAdapter.NotificationItemHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holderparent, final int position) {
 
-        final Notification notification = notifications.get (position);
+        if (holderparent instanceof OrderHolderItems) {
+            OrderHolderItems holder = (OrderHolderItems) holderparent;
+            final Notification orderList = notifications.get (position);
+            id = orderList.getId ();
 
-        holder.tvOrderDate.setText (activity.getString (R.string.ordered_on) + notification.getDate_created ());
-        holder.tvTitle.setText (activity.getString (R.string.order_number) + notification.getOrder_id ());
-        holder.tvMessage.setText (notification.getTitle ());
-        holder.tvMessageMore.setText (notification.getMessage ());
 
-        holder.tvShowMore.setOnClickListener (new View.OnClickListener () {
-            @RequiresApi (api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
-                if (holder.statusShowMore) {
-                    holder.tvShowMore.setText (activity.getString (R.string.show_more));
-                    holder.tvMessageMore.setVisibility (View.GONE);
-                    holder.tvShowMore.setCompoundDrawablesWithIntrinsicBounds (0, 0, R.drawable.ic_show_less, 0);
-                    holder.statusShowMore = false;
-                } else {
-                    holder.tvShowMore.setText (activity.getString (R.string.show_less));
-                    holder.tvMessageMore.setVisibility (View.VISIBLE);
-                    holder.tvShowMore.setCompoundDrawablesWithIntrinsicBounds (0, 0, R.drawable.ic_show_more, 0);
-                    holder.statusShowMore = true;
+            holder.lytNotification.setOnClickListener (new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                    Constant.Position_Value = position;
+                    activity.startActivity (new Intent (activity, OrderDetailActivity.class).putExtra (Constant.ORDER_ID, orderList.getId ()));
                 }
-            }
-        });
+            });
+        } else if (holderparent instanceof ViewHolderLoading) {
+            ViewHolderLoading loadingViewHolder = (ViewHolderLoading) holderparent;
+            loadingViewHolder.progressBar.setIndeterminate (true);
+        }
 
-        holder.lytNotification.setOnClickListener (new View.OnClickListener () {
-            @Override
-            public void onClick(View view) {
-                activity.startActivity (new Intent (activity, OrderDetailActivity.class).putExtra (Constant.ORDER_ID, notification.getOrder_id ()));
-            }
-        });
+
     }
 
     @Override
@@ -81,24 +93,49 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         return notifications.size ();
     }
 
-    public class NotificationItemHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return notifications.get (position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
 
-        TextView tvOrderDate, tvTitle, tvMessageMore, tvMessage, tvShowMore;
-        boolean statusShowMore;
-        LinearLayout lytNotification;
+    @Override
+    public long getItemId(int position) {
+        Notification product = notifications.get (position);
+        if (product != null)
+            return Integer.parseInt (product.getId ());
+        else
+            return position;
+    }
 
+    class ViewHolderLoading extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
 
-        public NotificationItemHolder(@NonNull View itemView) {
-            super (itemView);
-
-            tvOrderDate = itemView.findViewById (R.id.tvOrderDate);
-            tvTitle = itemView.findViewById (R.id.tvTitle);
-            tvMessage = itemView.findViewById (R.id.tvMessage);
-            tvMessageMore = itemView.findViewById (R.id.tvMessageMore);
-            tvShowMore = itemView.findViewById (R.id.tvShowMore);
-            lytNotification = itemView.findViewById (R.id.lytNotification);
-            statusShowMore = false;
+        public ViewHolderLoading(View view) {
+            super (view);
+            progressBar = view.findViewById (R.id.itemProgressbar);
         }
     }
 
+    public class OrderHolderItems extends RecyclerView.ViewHolder {
+
+        TextView tvCustomerName, tvCustomerMobile, tvCustomerOrderNo, tvCustomerPaymentMethod, tvCustomerOrderDate, tvStatus;
+        LinearLayout lytNotification;
+
+        public OrderHolderItems(@NonNull View itemView) {
+            super (itemView);
+
+            tvCustomerOrderNo = itemView.findViewById (R.id.tvCustomerOrderNo);
+            tvCustomerOrderDate = itemView.findViewById (R.id.tvCustomerOrderDate);
+
+            tvStatus = itemView.findViewById (R.id.tvStatus);
+            tvCustomerName = itemView.findViewById (R.id.tvCustomerName);
+
+            tvCustomerMobile = itemView.findViewById (R.id.tvCustomerMobile);
+            tvCustomerPaymentMethod = itemView.findViewById (R.id.tvCustomerPaymentMethod);
+
+            lytNotification = itemView.findViewById (R.id.lytNotification);
+
+
+        }
+    }
 }

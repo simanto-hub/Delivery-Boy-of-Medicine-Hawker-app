@@ -135,7 +135,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return position;
     }
 
-    private class ViewHolderLoading extends RecyclerView.ViewHolder {
+    class ViewHolderLoading extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
         public ViewHolderLoading(View view) {
