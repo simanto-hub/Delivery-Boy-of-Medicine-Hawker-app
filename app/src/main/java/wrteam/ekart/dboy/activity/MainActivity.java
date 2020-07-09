@@ -256,7 +256,7 @@ public class MainActivity extends DrawerActivity {
                                                                             }
                                                                         }
                                                                     }
-                                                                }, activity, Constant.MAIN_URL, params, true);
+                                                                }, activity, Constant.MAIN_URL, params, false);
 
                                                             }
                                                         }, 0);

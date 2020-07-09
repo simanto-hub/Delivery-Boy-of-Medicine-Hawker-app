@@ -456,7 +456,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject (response);
 
                             if (! object.getBoolean (Constant.ERROR)) {
-                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, (Bundle) null).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "login").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                             } else {
                                 setSnackBar (activity, object.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                             }

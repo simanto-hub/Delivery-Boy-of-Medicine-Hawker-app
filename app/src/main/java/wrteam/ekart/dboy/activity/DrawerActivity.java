@@ -70,9 +70,7 @@ public class DrawerActivity extends AppCompatActivity {
                 startActivity (new Intent (getApplicationContext (), ProfileActivity.class));
             }
         });
-
         setupNavigationDrawer ();
-
     }
 
 
@@ -84,7 +82,7 @@ public class DrawerActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId ()) {
                     case R.id.menu_home:
-                        startActivity (new Intent (getApplicationContext (), MainActivity.class));
+                        startActivity (new Intent (getApplicationContext (), MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case R.id.menu_notifications:
                         startActivity (new Intent (getApplicationContext (), NotificationListActivity.class));
@@ -102,8 +100,6 @@ public class DrawerActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
     @Override
