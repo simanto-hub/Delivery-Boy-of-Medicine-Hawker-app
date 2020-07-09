@@ -48,7 +48,7 @@ public class WalletHistoryAdapter extends RecyclerView.Adapter<WalletHistoryAdap
         holder.tvTxDateAndTime.setText (walletHistory.getDate_created ());
         holder.tvTxMessage.setText (walletHistory.getMessage ());
 
-        holder.tvTxAmount.setText (activity.getString (R.string.amount_title) + (Float.parseFloat (walletHistories.get (position).getOpening_balance ()) - Float.parseFloat (walletHistories.get (position).getClosing_balance ())));
+        holder.tvTxAmount.setText (activity.getString (R.string.amount_title) + (Float.parseFloat (walletHistory.getAmount ())));
 
         if (walletHistory.getStatus ().equals (Constant.SUCCESS)) {
             holder.cardViewTxStatus.setCardBackgroundColor (activity.getColor (R.color.tx_success_bg));

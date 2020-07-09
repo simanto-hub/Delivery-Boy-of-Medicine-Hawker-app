@@ -2,18 +2,20 @@ package wrteam.ekart.dboy.model;
 
 public class WalletHistory {
 
-    String id, name, mobile, address, delivery_boy_id, opening_balance, closing_balance, status, message, date_created;
+    String id, name, mobile, address, delivery_boy_id, type, opening_balance, amount, closing_balance, status, message, date_created;
 
     public WalletHistory() {
     }
 
-    public WalletHistory(String id, String name, String mobile, String address, String delivery_boy_id, String opening_balance, String closing_balance, String status, String message, String date_created) {
+    public WalletHistory(String id, String name, String mobile, String address, String delivery_boy_id, String type, String opening_balance, String amount, String closing_balance, String status, String message, String date_created) {
         this.id = id;
         this.name = name;
         this.mobile = mobile;
         this.address = address;
         this.delivery_boy_id = delivery_boy_id;
+        this.type = type;
         this.opening_balance = opening_balance;
+        this.amount = amount;
         this.closing_balance = closing_balance;
         this.status = status;
         this.message = message;
@@ -60,12 +62,28 @@ public class WalletHistory {
         this.delivery_boy_id = delivery_boy_id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getOpening_balance() {
         return opening_balance;
     }
 
     public void setOpening_balance(String opening_balance) {
         this.opening_balance = opening_balance;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
     public String getClosing_balance() {

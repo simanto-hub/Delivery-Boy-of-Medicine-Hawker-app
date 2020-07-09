@@ -115,5 +115,8 @@
     <string name="ordered_on">"Ordered\u0020on\u0020"</string>
     <string name="show_more">Show More</string>
     <string name="show_less">Show Less</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="non_user_msg">Mobile number is not registered, Please contact to\u0020</string>
+    <string name="contact_person">\u0020contact person.</string>
 
 </resources>

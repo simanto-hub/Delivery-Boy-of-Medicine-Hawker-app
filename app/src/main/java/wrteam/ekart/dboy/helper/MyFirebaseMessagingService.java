@@ -10,8 +10,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import wrteam.ekart.dboy.activity.MainActivity;
 import wrteam.ekart.dboy.activity.OrderDetailActivity;
+import wrteam.ekart.dboy.model.WalletHistory;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -23,7 +23,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData ().size () > 0) {
             try {
                 JSONObject json = new JSONObject (remoteMessage.getData ().toString ());
-                //System.out.println ("=====n_response " + json.toString ());
+//                System.out.println ("=====n_response " + json.toString ());
                 sendPushNotification (json);
             } catch (Exception e) {
                 Log.e (TAG, "Exception: " + e.getMessage ());
@@ -50,7 +50,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 intent = new Intent (getApplicationContext (), OrderDetailActivity.class);
                 intent.putExtra ("order_id", id);
             } else {
-                intent = new Intent (getApplicationContext (), MainActivity.class);
+                intent = new Intent (getApplicationContext (), WalletHistory.class);
             }
 
             MyNotificationManager mNotificationManager = new MyNotificationManager (getApplicationContext ());

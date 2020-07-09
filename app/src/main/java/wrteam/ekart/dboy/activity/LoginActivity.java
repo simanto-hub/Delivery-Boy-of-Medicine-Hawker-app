@@ -11,16 +11,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -32,7 +36,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import wrteam.ekart.dboy.R;
@@ -164,6 +167,12 @@ public class LoginActivity extends AppCompatActivity {
                 lytResetPass.setVisibility (View.VISIBLE);
                 lyt_update_password.setVisibility (View.GONE);
 
+            } else if (from.equals ("login")) {
+                lytlogin.setVisibility (View.VISIBLE);
+                lytforgot.setVisibility (View.GONE);
+                lytotp.setVisibility (View.GONE);
+                lytResetPass.setVisibility (View.GONE);
+                lyt_update_password.setVisibility (View.GONE);
             }
         } else {
 
@@ -226,7 +235,7 @@ public class LoginActivity extends AppCompatActivity {
                                         JSONObject jsonObject = new JSONObject (response);
                                         if (! jsonObject.getBoolean (Constant.ERROR)) {
                                             StartMainActivity (jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
-                                            startActivity (new Intent (activity, MainActivity.class));
+                                            startActivity (new Intent (activity, MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                                         } else {
                                             setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                                         }
@@ -291,7 +300,7 @@ public class LoginActivity extends AppCompatActivity {
                     }, activity, Constant.MAIN_URL, params, true);
                 }
             } else if (id == R.id.tvForgotPass) {
-                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytforgot"));
+                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytforgot").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
             } else if (id == R.id.btnrecover) {
 
                 RecoverPassword ();
@@ -321,19 +330,38 @@ public class LoginActivity extends AppCompatActivity {
         String otptext = edtotp.getText ().toString ().trim ();
 
         if (ApiConfig.CheckValidation (otptext, false, false)) {
-            edtotp.setError ("Enter OTP");
+            edtotp.setError (getString (R.string.enter_otp));
         } else {
             PhoneAuthCredential credential = PhoneAuthProvider.getCredential (firebase_otp, otptext);
-            if (! Objects.requireNonNull (credential.getSmsCode ()).equalsIgnoreCase (otptext))
-                edtotp.setError ("OTP not matched");
-            else {
-                ApiConfig.disableButton (activity, btnotpverify);
-                session.setData (Constant.MOBILE, mobile);
-                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytResetPass"));
-
-            }
+            signInWithPhoneAuthCredential (credential, otptext);
 
         }
+    }
+
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential, final String otptext) {
+        auth.signInWithCredential (credential)
+                .addOnCompleteListener (LoginActivity.this, new OnCompleteListener<AuthResult> () {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful ()) {
+                            //verification successful we will start the profile activity
+                            ApiConfig.disableButton (activity, btnotpverify);
+                            session.setData (Constant.MOBILE, mobile);
+                            startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytResetPass").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                            edtotp.setError (null);
+                        } else {
+
+                            //verification unsuccessful.. display an error message
+                            String message = "Something is wrong, we will fix it soon...";
+
+                            if (task.getException () instanceof FirebaseAuthInvalidCredentialsException) {
+                                message = "Invalid code entered...";
+                            }
+                            edtotp.setError (message);
+
+                        }
+                    }
+                });
     }
 
     private void StartFirebaseLogin() {
@@ -357,7 +385,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity (new Intent (activity, LoginActivity.class)
                         .putExtra ("from", "lytotp")
                         .putExtra ("txtmobile", mobileno)
-                        .putExtra ("OTP", s));
+                        .putExtra ("OTP", s).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         };
     }
@@ -401,6 +429,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 snackbar.dismiss ();
+                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "login").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
         snackbar.setActionTextColor (color);
@@ -427,7 +456,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject (response);
 
                             if (! object.getBoolean (Constant.ERROR)) {
-                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, (Bundle) null));
+                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, (Bundle) null).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                             } else {
                                 setSnackBar (activity, object.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                             }
@@ -447,18 +476,40 @@ public class LoginActivity extends AppCompatActivity {
     public void RecoverPassword() {
         ApiConfig.disableButton (activity, btnrecover);
         final String mobile = edtforgotmobile.getText ().toString ().trim ();
-        String code = Constant.country_code = edtFCode.getText ().toString ().trim ();
+        final String code = Constant.country_code = edtFCode.getText ().toString ().trim ();
         if (ApiConfig.CheckValidation (code, false, false)) {
             edtFCode.setError ("Enter Country Code");
         } else if (ApiConfig.CheckValidation (mobile, false, false)) {
-            Toast.makeText (activity, "Enter Mobile Number", Toast.LENGTH_SHORT).show ();
+            edtforgotmobile.setError ("Enter Mobile Number");
 
         } else if (mobile.length () != 0 && ApiConfig.CheckValidation (mobile, false, true)) {
             edtforgotmobile.setError ("Enter valid mobile number");
-
         } else {
-            phoneNumber = "+" + code + mobile;
-            sentRequest (phoneNumber);
+
+            Map<String, String> params = new HashMap<String, String> ();
+            params.put (Constant.MOBILE, mobile);
+            params.put (Constant.CHECK_DELIVERY_BOY_BY_MOBILE, Constant.GetVal);
+            ApiConfig.RequestToVolley (new VolleyCallback () {
+                @Override
+                public void onSuccess(boolean result, String response) {
+                    if (result) {
+                        try {
+                            JSONObject object = new JSONObject (response);
+
+                            if (! object.getBoolean (Constant.ERROR)) {
+                                phoneNumber = "+" + code + mobile;
+                                sentRequest (phoneNumber);
+                            } else {
+                                setSnackBar (activity, getString (R.string.non_user_msg) + getString (R.string.app_name) + getString (R.string.contact_person), getString (R.string.ok), Color.RED);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace ();
+                        }
+                    }
+                }
+            }, activity, Constant.MAIN_URL, params, true);
+
+
         }
     }
 }

@@ -26,6 +26,7 @@ public class Constant {
     public static final String DELIVERY_BOY_FORGOT_PASSWORD = "delivery_boy_forgot_password";
     public static final String GET_NOTIFICATION = "get_notifications";
     public static final String UPDATE_DELIVERY_BOY_FCM_ID = "update_delivery_boy_fcm_id";
+    public static final String CHECK_DELIVERY_BOY_BY_MOBILE = "check_delivery_boy_by_mobile";
 
 
     public static final String ID = "id";
