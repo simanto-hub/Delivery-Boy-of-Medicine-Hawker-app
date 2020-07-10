@@ -73,6 +73,8 @@ public class Constant {
     public static final String DATE_ADDED = "date_added";
     public static final String STR_WALLET_BALANCE = "wallet_balance";
     public static final String ITEMS = "items";
+    public static final String OFFSET_WALLET = "offset_wallet";
+    public static final String OFFSET_NOTIFICATION = "offset_notification";
     public static final String OFFSET = "offset";
     public static final String LIMIT = "limit";
     public static final String ACTIVE_STATUS = "active_status";

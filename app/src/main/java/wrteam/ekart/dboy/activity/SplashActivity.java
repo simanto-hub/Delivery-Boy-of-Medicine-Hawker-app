@@ -7,6 +7,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import wrteam.ekart.dboy.R;
+import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.helper.Session;
 
 public class SplashActivity extends AppCompatActivity {
@@ -26,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (session.isUserLoggedIn ()) {
+                    session.setData (Constant.OFFSET, "" + 0);
                     startActivity (new Intent (SplashActivity.this, MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                 } else {
                     startActivity (new Intent (SplashActivity.this, LoginActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));

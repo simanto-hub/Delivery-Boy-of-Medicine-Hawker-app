@@ -4,7 +4,6 @@
     android:id="@+id/lytOrderList"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_5dp"
     android:background="@drawable/card_shadow"
     android:padding="@dimen/margin_10dp">
 
@@ -35,15 +34,14 @@
             android:textSize="@dimen/mid_text"
             android:textStyle="bold" />
 
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewTxStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            app:cardBackgroundColor="@color/delivered_status_bg"
-            app:cardCornerRadius="@dimen/margin_5dp">
+            android:background="@drawable/card_shadow"
+            app:cardBackgroundColor="@color/delivered_status_bg">
 
             <TextView
                 android:id="@+id/tvTxStatus"

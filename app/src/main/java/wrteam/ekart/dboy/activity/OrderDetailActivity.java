@@ -1,5 +1,6 @@
 package wrteam.ekart.dboy.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -152,7 +155,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                                 tvDate.setText (getString (R.string.order_on) + jsonObject1.getString (Constant.DATE_ADDED));
                                 tvName.setText (getString (R.string._name) + jsonObject1.getString (Constant.NAME));
-                                tvPhone.setText (getString (R.string._mobile) + jsonObject1.getString (Constant.MOBILE));
+                                tvPhone.setText (jsonObject1.getString (Constant.MOBILE));
                                 tvAddress.setText (getString (R.string.at) + jsonObject1.getString (Constant.ADDRESS));
                                 btnDeliveryStatus.setText (AppController.toTitleCase (jsonObject1.getString (Constant.ACTIVE_STATUS)));
                                 tvDeliveryTime.setText (getString (R.string.delivery_by) + jsonObject1.getString (Constant.DELIVERY_TIME));
@@ -218,7 +221,15 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         if (AppController.isConnected (activity)) {
             int id = view.getId ();
-            if (id == R.id.btnGetDirection) {
+            if (id == R.id.btnCallCustomer) {
+                Intent callIntent = new Intent (Intent.ACTION_CALL);
+                if (ContextCompat.checkSelfPermission (OrderDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions (OrderDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                } else {
+                    callIntent.setData (Uri.parse ("tel:" + tvPhone.getText ().toString ().trim ()));
+                    startActivity (callIntent);
+                }
+            } else if (id == R.id.btnGetDirection) {
 
                 AlertDialog.Builder builder1 = new AlertDialog.Builder (activity);
                 builder1.setMessage (R.string.map_open_message);
@@ -390,7 +401,6 @@ public class OrderDetailActivity extends AppCompatActivity {
         onBackPressed ();
         return super.onSupportNavigateUp ();
     }
-
 
     public void setSnackBar(final Activity activity, String message, String action, int color) {
         final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);

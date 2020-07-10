@@ -26,6 +26,7 @@
     <color name="half_transparent">#4D000000</color>
 
     <color name="status_text">#FFFFFF</color>
+
     <color name="received_status_bg">#3c8dbc</color>
     <color name="processed_status_bg">#63bff5</color>
     <color name="shipped_status_bg">#f39c12</color>
@@ -33,10 +34,9 @@
     <color name="delivered_status_bg">#00a65a</color>
 
 
-    <color name="tx_fail_text">#dd4b39</color>
-    <color name="tx_fail_bg">#FFEBD3</color>
+    <color name="tx_text">#FFFFFF</color>
 
-    <color name="tx_success_text">#00a65a</color>
-    <color name="tx_success_bg">#C8F5BA</color>
+    <color name="tx_fail_bg">#dd4b39</color>
+    <color name="tx_success_bg">#00a65a</color>
 
 </resources>

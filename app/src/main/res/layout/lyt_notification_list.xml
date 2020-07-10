@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/card_shadow"
     android:orientation="vertical"
-    android:layout_margin="@dimen/margin_10dp"
-    android:padding="@dimen/margin_10dp">
+    android:padding="@dimen/margin_5dp">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -30,7 +29,6 @@
         android:maxLines="2"
         android:padding="@dimen/margin_5dp" />
 
-
     <TextView
         android:id="@+id/tvMessageMore"
         android:layout_width="match_parent"
@@ -38,7 +36,6 @@
         android:maxLines="7"
         android:padding="@dimen/margin_5dp"
         android:visibility="gone" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"

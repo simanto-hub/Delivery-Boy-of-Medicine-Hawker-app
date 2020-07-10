@@ -2,7 +2,6 @@ package wrteam.ekart.dboy.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import wrteam.ekart.dboy.R;
-import wrteam.ekart.dboy.activity.OrderDetailActivity;
-import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.model.Notification;
 
 public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -31,6 +28,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     Activity activity;
     ArrayList<Notification> notifications;
     String id = "0";
+    boolean showMore = false;
 
     public NotificationAdapter(Activity activity, ArrayList<Notification> notifications) {
         this.activity = activity;
@@ -52,7 +50,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from (activity).inflate (R.layout.lyt_notification_list, parent, false);
-            return new OrderHolderItems (view);
+            return new NotificationHolderItems (view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar, parent, false);
             return new ViewHolderLoading (view);
@@ -67,25 +65,36 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holderparent, final int position) {
 
-        if (holderparent instanceof OrderHolderItems) {
-            OrderHolderItems holder = (OrderHolderItems) holderparent;
-            final Notification orderList = notifications.get (position);
-            id = orderList.getId ();
+        if (holderparent instanceof NotificationHolderItems) {
+            final NotificationHolderItems holder = (NotificationHolderItems) holderparent;
+            final Notification notification = notifications.get (position);
+            id = notification.getId ();
 
+            holder.tvTitle.setText (activity.getString (R.string.order_number) + notification.getOrder_id ());
+            holder.tvMessage.setText (notification.getTitle ());
+            holder.tvOrderDate.setText (notification.getDate_created ());
+            holder.tvMessageMore.setText (notification.getMessage ());
 
-            holder.lytNotification.setOnClickListener (new View.OnClickListener () {
+            holder.tvShowMore.setOnClickListener (new View.OnClickListener () {
                 @Override
                 public void onClick(View view) {
-                    Constant.Position_Value = position;
-                    activity.startActivity (new Intent (activity, OrderDetailActivity.class).putExtra (Constant.ORDER_ID, orderList.getId ()));
+                    if (showMore) {
+                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds (0, 0, R.drawable.ic_show_less, 0);
+                        holder.tvMessageMore.setVisibility (View.VISIBLE);
+                        showMore = false;
+                    } else {
+
+                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds (0, 0, R.drawable.ic_show_more, 0);
+                        holder.tvMessageMore.setVisibility (View.GONE);
+                        showMore = true;
+                    }
                 }
             });
+
         } else if (holderparent instanceof ViewHolderLoading) {
             ViewHolderLoading loadingViewHolder = (ViewHolderLoading) holderparent;
             loadingViewHolder.progressBar.setIndeterminate (true);
         }
-
-
     }
 
     @Override
@@ -116,22 +125,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public class OrderHolderItems extends RecyclerView.ViewHolder {
+    public class NotificationHolderItems extends RecyclerView.ViewHolder {
 
-        TextView tvCustomerName, tvCustomerMobile, tvCustomerOrderNo, tvCustomerPaymentMethod, tvCustomerOrderDate, tvStatus;
+        TextView tvTitle, tvMessage, tvMessageMore, tvOrderDate, tvShowMore;
         LinearLayout lytNotification;
 
-        public OrderHolderItems(@NonNull View itemView) {
+        public NotificationHolderItems(@NonNull View itemView) {
             super (itemView);
 
-            tvCustomerOrderNo = itemView.findViewById (R.id.tvCustomerOrderNo);
-            tvCustomerOrderDate = itemView.findViewById (R.id.tvCustomerOrderDate);
+            tvTitle = itemView.findViewById (R.id.tvTitle);
+            tvMessage = itemView.findViewById (R.id.tvMessage);
 
-            tvStatus = itemView.findViewById (R.id.tvStatus);
-            tvCustomerName = itemView.findViewById (R.id.tvCustomerName);
+            tvMessageMore = itemView.findViewById (R.id.tvMessageMore);
+            tvOrderDate = itemView.findViewById (R.id.tvOrderDate);
 
-            tvCustomerMobile = itemView.findViewById (R.id.tvCustomerMobile);
-            tvCustomerPaymentMethod = itemView.findViewById (R.id.tvCustomerPaymentMethod);
+            tvShowMore = itemView.findViewById (R.id.tvShowMore);
 
             lytNotification = itemView.findViewById (R.id.lytNotification);
 

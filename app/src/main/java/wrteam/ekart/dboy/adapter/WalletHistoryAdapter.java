@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,70 +17,122 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import wrteam.ekart.dboy.R;
-import wrteam.ekart.dboy.helper.AppController;
-import wrteam.ekart.dboy.helper.Constant;
 import wrteam.ekart.dboy.model.WalletHistory;
 
-public class WalletHistoryAdapter extends RecyclerView.Adapter<WalletHistoryAdapter.HolderWalletTransaction> {
+public class WalletHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    ArrayList<WalletHistory> walletHistories;
+    // for load more
+    public final int VIEW_TYPE_ITEM = 0;
+    public final int VIEW_TYPE_LOADING = 1;
+    public boolean isLoading;
     Activity activity;
+    ArrayList<WalletHistory> histories;
+    String id = "0";
 
-    public WalletHistoryAdapter(ArrayList<WalletHistory> walletHistories, Activity activity) {
-        this.walletHistories = walletHistories;
+    public WalletHistoryAdapter(Activity activity, ArrayList<WalletHistory> histories) {
         this.activity = activity;
+        this.histories = histories;
     }
 
-    @NonNull
-    @Override
-    public HolderWalletTransaction onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from (parent.getContext ()).inflate (R.layout.lyt_wallet_history_list, null);
-        WalletHistoryAdapter.HolderWalletTransaction holderItems = new WalletHistoryAdapter.HolderWalletTransaction (v);
-        return holderItems;
+    public void add(int position, WalletHistory item) {
+        histories.add (position, item);
+        notifyItemInserted (position);
     }
+
+    public void setLoaded() {
+        isLoading = false;
+    }
+
+
+    // Create new views (invoked by the layout manager)
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from (activity).inflate (R.layout.lyt_wallet_history_list, parent, false);
+            return new WalletHistoryHolderItems (view);
+        } else if (viewType == VIEW_TYPE_LOADING) {
+            View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar, parent, false);
+            return new ViewHolderLoading (view);
+        }
+
+        return null;
+    }
+
 
     @RequiresApi (api = Build.VERSION_CODES.M)
     @SuppressLint ("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull HolderWalletTransaction holder, int position) {
-        final WalletHistory walletHistory = walletHistories.get (position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holderparent, final int position) {
 
-        holder.tvTxNo.setText (walletHistory.getId ());
-        holder.tvTxDateAndTime.setText (walletHistory.getDate_created ());
-        holder.tvTxMessage.setText (walletHistory.getMessage ());
+        if (holderparent instanceof WalletHistoryHolderItems) {
+            final WalletHistoryHolderItems holder = (WalletHistoryHolderItems) holderparent;
+            final WalletHistory walletHistory = histories.get (position);
+            id = walletHistory.getId ();
 
-        holder.tvTxAmount.setText (activity.getString (R.string.amount_title) + (Float.parseFloat (walletHistory.getAmount ())));
+            holder.tvTxNo.setText (walletHistory.getId ());
+            holder.tvTxDateAndTime.setText (walletHistory.getDate_created ());
+            holder.tvTxMessage.setText (walletHistory.getMessage ());
+            holder.tvTxAmount.setText (activity.getString (R.string.amount_title) + walletHistory.getAmount ());
 
-        if (walletHistory.getStatus ().equals (Constant.SUCCESS)) {
-            holder.cardViewTxStatus.setCardBackgroundColor (activity.getColor (R.color.tx_success_bg));
-            holder.tvTxStatus.setTextColor (activity.getColor (R.color.tx_success_text));
-        } else {
-            holder.cardViewTxStatus.setCardBackgroundColor (activity.getColor (R.color.tx_fail_bg));
-            holder.tvTxStatus.setTextColor (activity.getColor (R.color.tx_fail_text));
+            if (walletHistory.getStatus ().equals ("SUCCESS")) {
+                holder.cardViewTxStatus.setBackgroundColor (activity.getColor (R.color.tx_success_bg));
+            } else {
+                holder.cardViewTxStatus.setBackgroundColor (activity.getColor (R.color.tx_fail_bg));
+            }
+
+            holder.tvTxStatus.setText (walletHistory.getStatus ());
+
+        } else if (holderparent instanceof ViewHolderLoading) {
+            ViewHolderLoading loadingViewHolder = (ViewHolderLoading) holderparent;
+            loadingViewHolder.progressBar.setIndeterminate (true);
         }
-        holder.tvTxStatus.setText (AppController.toTitleCase (walletHistory.getStatus ()));
-
-
     }
 
     @Override
     public int getItemCount() {
-        return walletHistories.size ();
+        return histories.size ();
     }
 
-    public class HolderWalletTransaction extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        return histories.get (position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
 
-        TextView tvTxNo, tvTxDateAndTime, tvTxStatus, tvTxMessage, tvTxAmount;
+    @Override
+    public long getItemId(int position) {
+        WalletHistory product = histories.get (position);
+        if (product != null)
+            return Integer.parseInt (product.getId ());
+        else
+            return position;
+    }
+
+    class ViewHolderLoading extends RecyclerView.ViewHolder {
+        public ProgressBar progressBar;
+
+        public ViewHolderLoading(View view) {
+            super (view);
+            progressBar = view.findViewById (R.id.itemProgressbar);
+        }
+    }
+
+    public class WalletHistoryHolderItems extends RecyclerView.ViewHolder {
+
+        TextView tvTxNo, tvTxDateAndTime, tvTxMessage, tvTxAmount, tvTxStatus;
         CardView cardViewTxStatus;
 
-        public HolderWalletTransaction(@NonNull View itemView) {
+        public WalletHistoryHolderItems(@NonNull View itemView) {
             super (itemView);
+
             tvTxNo = itemView.findViewById (R.id.tvTxNo);
             tvTxDateAndTime = itemView.findViewById (R.id.tvTxDateAndTime);
-            tvTxStatus = itemView.findViewById (R.id.tvTxStatus);
             tvTxMessage = itemView.findViewById (R.id.tvTxMessage);
-            cardViewTxStatus = itemView.findViewById (R.id.cardViewTxStatus);
             tvTxAmount = itemView.findViewById (R.id.tvTxAmount);
+            tvTxStatus = itemView.findViewById (R.id.tvTxStatus);
+
+            cardViewTxStatus = itemView.findViewById (R.id.cardViewTxStatus);
+
+
         }
     }
 }

@@ -43,7 +43,6 @@ import static wrteam.ekart.dboy.helper.ApiConfig.disableSwipe;
 
 public class MainActivity extends DrawerActivity {
     public static ArrayList<OrderList> orderListArrayList;
-    public static int offset;
     public Session session;
     boolean doubleBackToExitPressedOnce = false;
     TextView tvOrdersCount, tvBalanceCount, tvBonusCount;
@@ -89,10 +88,7 @@ public class MainActivity extends DrawerActivity {
                 @Override
                 public void onRefresh() {
                     if (AppController.isConnected (activity)) {
-                        orderListArrayList = new ArrayList<> ();
-                        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
-                        recycleOrderList.setLayoutManager (linearLayoutManager);
-
+                        session.setData (Constant.OFFSET, "" + 0);
                         GetData (0);
                         getDeliveryBoyData (activity);
 
@@ -152,7 +148,7 @@ public class MainActivity extends DrawerActivity {
         Map<String, String> params = new HashMap<String, String> ();
         params.put (Constant.ID, session.getData (Constant.ID));
         params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
-        params.put (Constant.OFFSET, String.valueOf (startoffset));
+        params.put (Constant.OFFSET, session.getData (Constant.OFFSET));
         params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
 
 
@@ -169,7 +165,7 @@ public class MainActivity extends DrawerActivity {
                             total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
                             session.setData (Constant.TOTAL, String.valueOf (total));
 
-                            JSONObject object = new JSONObject (response);
+                            final JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
 
 
@@ -208,12 +204,13 @@ public class MainActivity extends DrawerActivity {
                                                             @Override
                                                             public void run() {
 
-                                                                offset = offset + Integer.parseInt (Constant.LOAD_ITEM_LIMIT);
+                                                                session.setData (Constant.OFFSET, Integer.parseInt (session.getData (Constant.OFFSET)) + Constant.LOAD_ITEM_LIMIT);
+
                                                                 Map<String, String> params = new HashMap<> ();
                                                                 params.put (Constant.ID, session.getData (Constant.ID));
                                                                 params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
                                                                 params.put (Constant.LIMIT, Constant.LOAD_ITEM_LIMIT);
-                                                                params.put (Constant.OFFSET, offset + "");
+                                                                params.put (Constant.OFFSET, session.getData (Constant.OFFSET));
 
                                                                 ApiConfig.RequestToVolley (new VolleyCallback () {
                                                                     @Override
@@ -414,6 +411,7 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void onResume() {
         super.onResume ();
+
         if (Constant.CLICK) {
             orderListAdapter.notifyDataSetChanged ();
             Constant.CLICK = false;

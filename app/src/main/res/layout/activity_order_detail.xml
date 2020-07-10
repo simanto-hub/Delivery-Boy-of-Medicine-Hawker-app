@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:visibility="gone"
+    android:visibility="visible"
     tools:context=".activity.OrderDetailActivity">
 
     <LinearLayout
@@ -64,18 +64,30 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10dp"
                             android:layout_marginTop="@dimen/margin_10dp"
-                            android:ems="10"
                             android:textColor="@color/overlay_white" />
 
-
-                        <TextView
-                            android:id="@+id/tvPhone"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin_10dp"
-                            android:layout_marginTop="2dp"
-                            android:ems="10"
-                            android:textColor="@color/overlay_white" />
+                            android:layout_marginStart="@dimen/margin_10dp">
+
+                            <TextView
+                                android:id="@+id/tvPhoneTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:text="@string/mobiletitle" />
+
+                            <TextView
+                                android:id="@+id/tvPhone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin_10dp"
+                                android:layout_marginTop="2dp"
+                                android:textColor="@color/overlay_white" />
+
+                        </RelativeLayout>
+
 
                         <TextView
                             android:id="@+id/tvDeliveryTime"
@@ -94,15 +106,35 @@
                             android:maxLines="2"
                             android:textColor="@color/overlay_white" />
 
-                        <TextView
-                            android:id="@+id/tvPaymentMethod"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin_10dp"
-                            android:layout_marginTop="@dimen/margin_10dp"
-                            android:ems="10"
-                            android:textColor="@color/colorPrimary"
-                            android:textStyle="bold" />
+                            android:layout_marginTop="@dimen/margin_10dp">
+
+                            <TextView
+                                android:id="@+id/tvPaymentMethod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:ems="10"
+                                android:textColor="@color/colorPrimary"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnCallCustomer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/dimen_30dp"
+                                android:layout_alignParentEnd="true"
+                                android:background="@drawable/bg_button"
+                                android:onClick="OnBtnClick"
+                                android:padding="@dimen/margin_5dp"
+                                android:text="@string/call_to_customer"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white" />
+
+                        </RelativeLayout>
 
                     </LinearLayout>
 

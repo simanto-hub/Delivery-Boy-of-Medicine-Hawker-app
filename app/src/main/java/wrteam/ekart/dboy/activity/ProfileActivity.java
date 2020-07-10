@@ -202,6 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
                         jsonObject.getString (Constant.CREATED_AT));
 
                 edtname.setText (session.getData (Constant.NAME));
+                DrawerActivity.tvName.setText (session.getData (Constant.NAME));
                 tvMobile.setText (session.getData (Constant.MOBILE));
                 edtaddress.setText (session.getData (Constant.ADDRESS));
 

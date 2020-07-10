@@ -118,5 +118,7 @@
     <string name="enter_otp">Enter OTP</string>
     <string name="non_user_msg">Mobile number is not registered, Please contact to\u0020</string>
     <string name="contact_person">\u0020contact person.</string>
+    <string name="call_to_customer">Call To Customer</string>
+    <string name="mobiletitle">Mobile :</string>
 
 </resources>

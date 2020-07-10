@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.NotificationListActivity">
+    tools:context=".activity.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,11 +29,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
-                android:layout_margin="@dimen/margin_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
         </androidx.core.widget.NestedScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

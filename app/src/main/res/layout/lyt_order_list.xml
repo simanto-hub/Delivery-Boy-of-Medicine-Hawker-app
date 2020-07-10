@@ -70,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
-            android:elevation="@dimen/dimen_0dp"
             app:cardBackgroundColor="@color/delivered_status_bg"
             app:cardCornerRadius="@dimen/margin_5dp">
 

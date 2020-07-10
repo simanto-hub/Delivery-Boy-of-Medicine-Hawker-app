@@ -82,15 +82,18 @@ public class DrawerActivity extends AppCompatActivity {
 
                 switch (menuItem.getItemId ()) {
                     case R.id.menu_home:
+                        session.setData (Constant.OFFSET, "" + 0);
                         startActivity (new Intent (getApplicationContext (), MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case R.id.menu_notifications:
+                        session.setData (Constant.OFFSET_NOTIFICATION, "" + 0);
                         startActivity (new Intent (getApplicationContext (), NotificationListActivity.class));
                         break;
                     case R.id.menu_profile:
                         startActivity (new Intent (getApplicationContext (), ProfileActivity.class));
                         break;
                     case R.id.menu_wallet_history:
+                        session.setData (Constant.OFFSET_WALLET, "" + 0);
                         startActivity (new Intent (getApplicationContext (), WalletHistoryActivity.class));
                         break;
                     case R.id.menu_logout:
