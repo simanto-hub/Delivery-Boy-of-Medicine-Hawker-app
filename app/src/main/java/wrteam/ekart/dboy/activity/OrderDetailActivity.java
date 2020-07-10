@@ -222,12 +222,16 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (AppController.isConnected (activity)) {
             int id = view.getId ();
             if (id == R.id.btnCallCustomer) {
-                Intent callIntent = new Intent (Intent.ACTION_CALL);
-                if (ContextCompat.checkSelfPermission (OrderDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions (OrderDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
-                } else {
-                    callIntent.setData (Uri.parse ("tel:" + tvPhone.getText ().toString ().trim ()));
-                    startActivity (callIntent);
+                try {
+                    Intent callIntent = new Intent (Intent.ACTION_CALL);
+                    if (ContextCompat.checkSelfPermission (OrderDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions (OrderDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                    } else {
+                        callIntent.setData (Uri.parse ("tel:" + tvPhone.getText ().toString ().trim ()));
+                        startActivity (callIntent);
+                    }
+                } catch (Exception e) {
+
                 }
             } else if (id == R.id.btnGetDirection) {
 
