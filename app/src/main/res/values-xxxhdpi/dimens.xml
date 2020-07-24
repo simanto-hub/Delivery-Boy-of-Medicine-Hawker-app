@@ -7,10 +7,7 @@
     <dimen name="pv_pin_view_cursor_width">2dp</dimen>
 
     <dimen name="common_padding">5dp</dimen>
-    <dimen name="slider_height">150dp</dimen>
-    <dimen name="default_margin">10dp</dimen>
     <dimen name="p_text_size">12sp</dimen>
-    <dimen name="txt_size">10sp</dimen>
     <dimen name="mid_text">16sp</dimen>
     <dimen name="small_size">12sp</dimen>
 
@@ -19,7 +16,6 @@
     <dimen name="dimen_0dp">0dp</dimen>
     <dimen name="dimen_10dp">10dp</dimen>
     <dimen name="dimen_20dp">20dp</dimen>
-    <dimen name="dimen_50dp">50dp</dimen>
     <dimen name="margin_10dp">10dp</dimen>
     <dimen name="dimen_7dp">7dp</dimen>
     <dimen name="dimen_15dp">15dp</dimen>
@@ -27,15 +23,11 @@
     <dimen name="dimen_1dp">1dp</dimen>
     <dimen name="margin_5dp">5dp</dimen>
     <dimen name="dimen_2dp">2dp</dimen>
-    <dimen name="dimen_20sp">20sp</dimen>
-    <dimen name="dimen_15sp">15sp</dimen>
     <dimen name="margin_2dp">2dp</dimen>
-    <dimen name="dimen_70dp">70dp</dimen>
     <dimen name="dimen_3dp">3dp</dimen>
     <dimen name="margin_15dp">15dp</dimen>
     <dimen name="dimen_40dp">40dp</dimen>
     <dimen name="margin_7dp">7dp</dimen>
-    <dimen name="dimen_60dp">60dp</dimen>
     <dimen name="dimen_55dp">55dp</dimen>
     <dimen name="c_thumb_width">90dp</dimen>
     <dimen name="c_thumb_height">100dp</dimen>

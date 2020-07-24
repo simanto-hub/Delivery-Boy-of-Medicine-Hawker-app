@@ -21,9 +21,20 @@
         android:icon="@drawable/ic_notifications"
         android:title="@string/notification" />
 
+
+    <item
+        android:id="@+id/menu_terms"
+        android:icon="@drawable/ic_terms"
+        android:title="@string/terms_conditions" />
+
+    <item
+        android:id="@+id/menu_policy"
+        android:icon="@drawable/ic_privacy"
+        android:title="@string/privacy_policy" />
+
+
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/ic_logout"
         android:title="@string/logout" />
-
 </menu>

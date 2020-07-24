@@ -11,16 +11,16 @@
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/margin_5dp"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/mid_text"
-        android:padding="@dimen/margin_5dp"
         android:textStyle="bold" />
 
     <View
-        android:padding="@dimen/margin_5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray" />
+        android:background="@color/gray"
+        android:padding="@dimen/margin_5dp" />
 
     <TextView
         android:id="@+id/tvMessage"

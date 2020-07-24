@@ -86,18 +86,28 @@ public class DrawerActivity extends AppCompatActivity {
                         startActivity (new Intent (getApplicationContext (), MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case R.id.menu_notifications:
-                        session.setData (Constant.OFFSET_NOTIFICATION, "" + 0);
-                        startActivity (new Intent (getApplicationContext (), NotificationListActivity.class));
+                        session.setData(Constant.OFFSET_NOTIFICATION, "" + 0);
+                        startActivity(new Intent(getApplicationContext(), NotificationListActivity.class));
                         break;
                     case R.id.menu_profile:
-                        startActivity (new Intent (getApplicationContext (), ProfileActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
                         break;
                     case R.id.menu_wallet_history:
-                        session.setData (Constant.OFFSET_WALLET, "" + 0);
-                        startActivity (new Intent (getApplicationContext (), WalletHistoryActivity.class));
+                        session.setData(Constant.OFFSET_WALLET, "" + 0);
+                        startActivity(new Intent(getApplicationContext(), WalletHistoryActivity.class));
+                        break;
+                    case R.id.menu_policy:
+                        Intent policy = new Intent(DrawerActivity.this, WebViewActivity.class);
+                        policy.putExtra("link", Constant.DELIVERY_BOY_POLICY);
+                        startActivity(policy);
+                        break;
+                    case R.id.menu_terms:
+                        Intent terms = new Intent(DrawerActivity.this, WebViewActivity.class);
+                        terms.putExtra("link", Constant.DELIVERY_BOY_TERMS);
+                        startActivity(terms);
                         break;
                     case R.id.menu_logout:
-                        session.logoutUserConfirmation (activity);
+                        session.logoutUserConfirmation(activity);
                         break;
                 }
                 return true;

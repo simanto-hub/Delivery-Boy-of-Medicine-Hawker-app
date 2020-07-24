@@ -11,11 +11,5 @@
         <item name="android:windowEnableSplitTouch">false</item>
     </style>
 
-    <style name="TabLayoutStyle" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
 
 </resources>

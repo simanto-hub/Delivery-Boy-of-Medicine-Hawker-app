@@ -78,15 +78,15 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.tvShowMore.setOnClickListener (new View.OnClickListener () {
                 @Override
                 public void onClick(View view) {
-                    if (showMore) {
-                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds (0, 0, R.drawable.ic_show_less, 0);
-                        holder.tvMessageMore.setVisibility (View.VISIBLE);
-                        showMore = false;
-                    } else {
-
-                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds (0, 0, R.drawable.ic_show_more, 0);
-                        holder.tvMessageMore.setVisibility (View.GONE);
+                    if (!showMore) {
                         showMore = true;
+                        holder.tvMessageMore.setVisibility(View.GONE);
+                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_more, 0);
+                    } else {
+                        showMore = false;
+                        holder.tvMessageMore.setVisibility(View.VISIBLE);
+                        holder.tvShowMore.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_less, 0);
+
                     }
                 }
             });

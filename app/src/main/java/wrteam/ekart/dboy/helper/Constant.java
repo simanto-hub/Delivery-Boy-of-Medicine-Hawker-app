@@ -4,12 +4,13 @@ import com.android.volley.toolbox.ImageLoader;
 
 public class Constant {
 
-    public static final String BASE_URL = "https://ekart.wrteam.in/delivery-boy/";
+    public static final String BASE_URL = "https://ekart.wrteam.in/";
     //change admin pane user here
+    public static final String SUB_URL = "delivery-boy/";
+    public static final String MAIN_URL = BASE_URL + SUB_URL + "api/api-v1.php";
 
-    public static final String MAIN_URL = BASE_URL + "api/api-v1.php";
-
-    public static final String NOTIFICATIONS_URL = "https://ekart.wrteam.in/api-firebase/sections.php";
+    public static final String DELIVERY_BOY_POLICY = BASE_URL + "delivery-boy-play-store-privacy-policy.php";
+    public static final String DELIVERY_BOY_TERMS = BASE_URL + "delivery-boy-play-store-terms-conditions.php";
 
     public static final String AccessKey = "accesskey";
     public static final String AccessKeyVal = "90336";

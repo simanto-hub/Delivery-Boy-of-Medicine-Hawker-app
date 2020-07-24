@@ -44,10 +44,10 @@ public class NotificationListActivity extends AppCompatActivity {
     ArrayList<Notification> notifications;
     Toolbar toolbar;
     SwipeRefreshLayout swipeLayout;
-    private Session session;
     NestedScrollView scrollView;
     NotificationAdapter notificationAdapter;
     int total = 0;
+    private Session session;
     private boolean isLoadMore = false;
 
 

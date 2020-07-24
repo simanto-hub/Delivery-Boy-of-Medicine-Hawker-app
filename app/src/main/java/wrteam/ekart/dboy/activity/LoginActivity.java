@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     Session session;
     Activity activity;
     PinView edtotp;
-    TextView txtmobileno;
+    TextView txtmobileno, tvPrivacy;
 
     ////Firebase
     String phoneNumber, firebase_otp;
@@ -66,21 +72,21 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate (savedInstanceState);
-        setContentView (R.layout.activity_login);
-        toolbar = findViewById (R.id.toolbar);
-        setSupportActionBar (toolbar);
-        getSupportActionBar ().setDisplayShowTitleEnabled (false);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         activity = LoginActivity.this;
 
-        session = new Session (activity);
+        session = new Session(activity);
 
-        btnLogin = findViewById (R.id.btnlogin);
-        btnChangePassword = findViewById (R.id.btnChangePassword);
-        btnrecover = findViewById (R.id.btnrecover);
-        btnResetPass = findViewById (R.id.btnResetPass);
-        btnotpverify = findViewById (R.id.btnotpverify);
+        btnLogin = findViewById(R.id.btnlogin);
+        btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnrecover = findViewById(R.id.btnrecover);
+        btnResetPass = findViewById(R.id.btnResetPass);
+        btnotpverify = findViewById(R.id.btnotpverify);
 
         edtLoginPassword = findViewById (R.id.edtLoginPassword);
         edtLoginMobile = findViewById (R.id.edtLoginMobile);
@@ -89,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         edtotp = findViewById (R.id.edtotp);
         txtmobileno = findViewById (R.id.txtmobileno);
         edtResetPass = findViewById (R.id.edtResetPass);
-        edtResetCPass = findViewById (R.id.edtResetCPass);
+        edtResetCPass = findViewById(R.id.edtResetCPass);
+        tvPrivacy = findViewById(R.id.tvPrivacy);
 
         //layouts
         lytlogin = findViewById (R.id.lytlogin);
@@ -141,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
                 lytResetPass.setVisibility (View.GONE);
                 lyt_update_password.setVisibility (View.VISIBLE);
 
-                getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
                 setSnackBar (activity, getString (R.string.change_password_msg), getString (R.string.ok), Color.YELLOW);
             } else if (from.equals ("lytforgot")) {
 
@@ -164,16 +170,18 @@ public class LoginActivity extends AppCompatActivity {
                 lytlogin.setVisibility (View.GONE);
                 lytforgot.setVisibility (View.GONE);
                 lytotp.setVisibility (View.GONE);
-                lytResetPass.setVisibility (View.VISIBLE);
-                lyt_update_password.setVisibility (View.GONE);
+                lytResetPass.setVisibility(View.VISIBLE);
+                lyt_update_password.setVisibility(View.GONE);
 
-            } else if (from.equals ("login")) {
-                lytlogin.setVisibility (View.VISIBLE);
-                lytforgot.setVisibility (View.GONE);
-                lytotp.setVisibility (View.GONE);
-                lytResetPass.setVisibility (View.GONE);
-                lyt_update_password.setVisibility (View.GONE);
+            } else if (from.equals("login")) {
+                lytlogin.setVisibility(View.VISIBLE);
+                lytforgot.setVisibility(View.GONE);
+                lytotp.setVisibility(View.GONE);
+                lytResetPass.setVisibility(View.GONE);
+                lyt_update_password.setVisibility(View.GONE);
             }
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         } else {
 
             lytlogin.setVisibility (View.VISIBLE);
@@ -194,7 +202,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        StartFirebaseLogin ();
+        StartFirebaseLogin();
+        PrivacyPolicy();
     }
 
 
@@ -234,8 +243,8 @@ public class LoginActivity extends AppCompatActivity {
                                     try {
                                         JSONObject jsonObject = new JSONObject (response);
                                         if (! jsonObject.getBoolean (Constant.ERROR)) {
-                                            StartMainActivity (jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
-                                            startActivity (new Intent (activity, MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                                            StartMainActivity(jsonObject.getJSONArray(Constant.DATA).getJSONObject(0));
+                                            startActivity(new Intent(activity, MainActivity.class));
                                         } else {
                                             setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                                         }
@@ -300,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
                     }, activity, Constant.MAIN_URL, params, true);
                 }
             } else if (id == R.id.tvForgotPass) {
-                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytforgot").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                startActivity(new Intent(activity, LoginActivity.class).putExtra(Constant.FROM, "lytforgot"));
             } else if (id == R.id.btnrecover) {
 
                 RecoverPassword ();
@@ -346,9 +355,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful ()) {
                             //verification successful we will start the profile activity
                             ApiConfig.disableButton (activity, btnotpverify);
-                            session.setData (Constant.MOBILE, mobile);
-                            startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lytResetPass").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
-                            edtotp.setError (null);
+                            session.setData(Constant.MOBILE, mobile);
+                            startActivity(new Intent(activity, LoginActivity.class).putExtra(Constant.FROM, "lytResetPass"));
+                            edtotp.setError(null);
                         } else {
 
                             //verification unsuccessful.. display an error message
@@ -381,11 +390,11 @@ public class LoginActivity extends AppCompatActivity {
                 super.onCodeSent (s, forceResendingToken);
                 Constant.verificationCode = s;
                 String mobileno = "";
-                mobileno = edtforgotmobile.getText ().toString ();
-                startActivity (new Intent (activity, LoginActivity.class)
-                        .putExtra ("from", "lytotp")
-                        .putExtra ("txtmobile", mobileno)
-                        .putExtra ("OTP", s).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                mobileno = edtforgotmobile.getText().toString();
+                startActivity(new Intent(activity, LoginActivity.class)
+                        .putExtra("from", "lytotp")
+                        .putExtra("txtmobile", mobileno)
+                        .putExtra("OTP", s));
             }
         };
     }
@@ -417,19 +426,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed ();
-        return super.onSupportNavigateUp ();
-    }
-
     public void setSnackBar(final Activity activity, String message, String action, int color) {
         final Snackbar snackbar = Snackbar.make (findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction (action, new View.OnClickListener () {
             @Override
             public void onClick(View view) {
-                snackbar.dismiss ();
-                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "login").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                snackbar.dismiss();
+                startActivity(new Intent(activity, LoginActivity.class).putExtra(Constant.FROM, "login"));
             }
         });
         snackbar.setActionTextColor (color);
@@ -456,7 +459,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject object = new JSONObject (response);
 
                             if (! object.getBoolean (Constant.ERROR)) {
-                                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "login").addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                                startActivity(new Intent(activity, LoginActivity.class).putExtra(Constant.FROM, "login"));
                             } else {
                                 setSnackBar (activity, object.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
                             }
@@ -471,7 +474,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
 
     public void RecoverPassword() {
         ApiConfig.disableButton (activity, btnrecover);
@@ -503,7 +505,7 @@ public class LoginActivity extends AppCompatActivity {
                                 setSnackBar (activity, getString (R.string.non_user_msg) + getString (R.string.app_name) + getString (R.string.contact_person), getString (R.string.ok), Color.RED);
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace ();
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -511,5 +513,55 @@ public class LoginActivity extends AppCompatActivity {
 
 
         }
+    }
+
+
+    public void PrivacyPolicy() {
+        tvPrivacy.setClickable(true);
+        tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
+
+        String message = getString(R.string.msg_privacy_terms);
+        String s2 = getString(R.string.terms_conditions);
+        String s1 = getString(R.string.privacy_policy);
+
+        final Spannable wordtoSpan = new SpannableString(message);
+
+        wordtoSpan.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                Intent privacy = new Intent(LoginActivity.this, WebViewActivity.class);
+                privacy.putExtra("link", Constant.DELIVERY_BOY_POLICY);
+                startActivity(privacy);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                ds.isUnderlineText();
+            }
+        }, message.indexOf(s1), message.indexOf(s1) + s1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                Intent terms = new Intent(LoginActivity.this, WebViewActivity.class);
+                terms.putExtra("link", Constant.DELIVERY_BOY_TERMS);
+                startActivity(terms);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+                ds.isUnderlineText();
+            }
+        }, message.indexOf(s2), message.indexOf(s2) + s2.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvPrivacy.setText(wordtoSpan);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }

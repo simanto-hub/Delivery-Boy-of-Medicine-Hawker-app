@@ -7,33 +7,29 @@
     <string name="mobile">Mobile Number</string>
     <string name="password">Password</string>
 
+
+    <string name="msg_privacy_terms">By Logging in, you agree to our Terms &amp; Conditions and Privacy Policy</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
+
     <string name="forgottext">Forgot password ?</string>S
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="notification">Notification</string>
     <string name="logout">Logout</string>
-    <string name="refresh">Refresh</string>
     <string name="wallet_balance">Wallet Balance</string>
     <string name="is_login">Login ?</string>
     <string name="notifications">Notification</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="orders">Orders</string>
-    <string name="products">Products</string>
     <string name="balance">Balance</string>
     <string name="bonus">Bonus %</string>
-    <string name="currency_symbol">₹</string>
-    <string name="_0_00">0.00</string>
     <string name="customer_name">Customer Name</string>
-    <string name="customer_address">Customer Address</string>
     <string name="mobile_no">Mobile No</string>
-    <string name="order_amount">Order Amount</string>
     <string name="order_no">Order No</string>
     <string name="order_date">Order Date</string>
-    <string name="balance_amount">Balance Amount</string>
-    <string name="bonus_amount">Bonus Amount</string>
     <string name="status">Delivered</string>
-    <string name="item_qty">Qty</string>
     <string name="order_method">Order Method</string>
     <string name="name">Name</string>
     <string name="address">Address</string>
@@ -42,7 +38,6 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="please_click_back_again_to_exit">Please click BACK again to exit</string>
-    <string name="change_profile_warning">*If you are change password, You have to re-login with updated credentials.</string>
     <string name="name_required">Name is required!</string>
     <string name="address_required">Address is required!</string>
     <string name="changepsw">Change password ?</string>
@@ -55,7 +50,6 @@
     <string name="enter_mobile_number">Enter Mobile Number</string>
     <string name="wallet_history">Wallet History</string>
     <string name="get_direction">\u0020\u0020Get Direction\u0020\u0020</string>
-    <string name="update_order_status">Update Order Status</string>
     <string name="product_detail">Order No. :\u0020</string>
 
     <string name="items">Items Amount :</string>
@@ -71,7 +65,6 @@
     <string name="subtotal">Subtotal</string>
     <string name="qty">Qty</string>
     <string name="price">Price</string>
-    <string name="alert">Alert\u0020!</string>
     <string name="logout_msg">Are you sure, You want to logout?</string>
     <string name="change_order_status_msg">Are you sure, You want to change order status?</string>
     <string name="yes">Yes</string>
@@ -84,22 +77,16 @@
     <string name="order_number">Order No. :\u0020</string>
     <string name="order_on">Ordered\u0020on\u0020</string>
     <string name="_name">Name\u0020:\u0020</string>
-    <string name="_mobile">Mobile\u0020:\u0020</string>
     <string name="at">At\u0020</string>
     <string name="delivery_by">Delivery\u0020by\u0020:\u0020</string>
     <string name="via">Via\u0020</string>
-    <string name="tx_number">Transaction No. :\u0020</string>
-    <string name="tx_date_and_time">Tx\u0020Date\u0020&amp;\u0020Time\u0020:\u0020</string>
-    <string name="message">Message\u0020:\u0020</string>
     <string name="tx_id">Tx ID</string>
-    <string name="txdateandtime">TxDateAndTime</string>
     <string name="tx_message">Message</string>
     <string name="transaction_date_and_time">Date and Time</string>
     <string name="no_internet_message">No internet connection !</string>
     <string name="retry">Retry</string>
     <string name="transaction">Transaction No. :\u0020</string>
     <string name="amount_title">Amount\u0020:\u0020</string>
-    <string name="notificatoin">Notification</string>
     <string name="change_password_msg">You have to login again with updated credentials, if you are changin password.</string>
     <string name="code">00</string>
     <string name="forgot_message_hint">Enter registered mobile number</string>
@@ -111,14 +98,11 @@
     <string name="otp">OTP</string>
     <string name="verify">Verify</string>
     <string name="reset_pass_text">Reset Your Password</string>
-    <string name="confirm_pass">Confirm Password</string>
-    <string name="ordered_on">"Ordered\u0020on\u0020"</string>
     <string name="show_more">Show More</string>
-    <string name="show_less">Show Less</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="non_user_msg">Mobile number is not registered, Please contact to\u0020</string>
     <string name="contact_person">\u0020contact person.</string>
     <string name="call_to_customer">Call To Customer</string>
-    <string name="mobiletitle">Mobile :</string>
+    <string name="mobiletitle">Mobile\u0020:\u0020</string>
 
 </resources>
