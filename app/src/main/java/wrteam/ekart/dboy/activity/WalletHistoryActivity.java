@@ -53,7 +53,7 @@ public class WalletHistoryActivity extends AppCompatActivity {
     private NestedScrollView scrollView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_wallet_history);
 
@@ -75,7 +75,7 @@ public class WalletHistoryActivity extends AppCompatActivity {
         if (AppController.isConnected (activity)) {
             getWalletHistory (0);
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
         }
 
         lyt_wallet_history_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
@@ -83,42 +83,42 @@ public class WalletHistoryActivity extends AppCompatActivity {
         lyt_wallet_history_activity_swipe_refresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
 
             @Override
-            public void onRefresh() {
+            public void onRefresh ( ) {
                 if (AppController.isConnected (activity)) {
-                    session.setData (Constant.OFFSET_WALLET, "" + 0);
+                    session.setData (Constant.OFFSET_WALLET,"" + 0);
                     getWalletHistory (0);
                     lyt_wallet_history_activity_swipe_refresh.setRefreshing (false);
                     disableSwipe (lyt_wallet_history_activity_swipe_refresh);
                 } else {
-                    setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+                    setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
                 }
             }
         });
     }
 
-    private void getWalletHistory(final int startoffset) {
+    private void getWalletHistory ( final int startoffset ) {
         walletHistories = new ArrayList<> ();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
         recyclerViewWalletHistory.setLayoutManager (linearLayoutManager);
 
-        Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.ID, session.getData (Constant.ID));
-        params.put (Constant.GET_FUND_TRANSFERS, Constant.GetVal);
-        params.put (Constant.OFFSET, session.getData (Constant.OFFSET_WALLET));
-        params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
+        Map<String,String> params = new HashMap<String,String> ();
+        params.put (Constant.ID,session.getData (Constant.ID));
+        params.put (Constant.GET_FUND_TRANSFERS,Constant.GetVal);
+        params.put (Constant.OFFSET,session.getData (Constant.OFFSET_WALLET));
+        params.put (Constant.LIMIT,Constant.PRODUCT_LOAD_LIMIT);
 
 
 //        System.out.println("====params " + params.toString());
         ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
-            public void onSuccess(boolean result, String response) {
+            public void onSuccess ( boolean result,String response ) {
                 if (result) {
                     try {
                         //System.out.println("====product  " + response);
                         JSONObject objectbject = new JSONObject (response);
                         if (! objectbject.getBoolean (Constant.ERROR)) {
                             total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
-                            session.setData (Constant.TOTAL, String.valueOf (total));
+                            session.setData (Constant.TOTAL,String.valueOf (total));
 
                             JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
@@ -129,7 +129,7 @@ public class WalletHistoryActivity extends AppCompatActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                 if (jsonObject1 != null) {
-                                    WalletHistory notification = g.fromJson (jsonObject1.toString (), WalletHistory.class);
+                                    WalletHistory notification = g.fromJson (jsonObject1.toString (),WalletHistory.class);
                                     walletHistories.add (notification);
                                 } else {
                                     break;
@@ -137,16 +137,16 @@ public class WalletHistoryActivity extends AppCompatActivity {
 
                             }
                             if (startoffset == 0) {
-                                walletHistoryAdapter = new WalletHistoryAdapter (activity, walletHistories);
+                                walletHistoryAdapter = new WalletHistoryAdapter (activity,walletHistories);
                                 walletHistoryAdapter.setHasStableIds (true);
                                 recyclerViewWalletHistory.setAdapter (walletHistoryAdapter);
                                 scrollView.setOnScrollChangeListener (new NestedScrollView.OnScrollChangeListener () {
                                     @Override
-                                    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                                    public void onScrollChange ( NestedScrollView v,int scrollX,int scrollY,int oldScrollX,int oldScrollY ) {
 
                                         // if (diff == 0) {
-                                        if (scrollY == (v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight ())) {
-                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerViewWalletHistory.getLayoutManager ();
+                                        if (scrollY == ( v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight () )) {
+                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerViewWalletHistory.getLayoutManager ();
                                             if (walletHistories.size () < total) {
                                                 if (! isLoadMore) {
                                                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition () == walletHistories.size () - 1) {
@@ -155,19 +155,19 @@ public class WalletHistoryActivity extends AppCompatActivity {
                                                         walletHistoryAdapter.notifyItemInserted (walletHistories.size () - 1);
                                                         new Handler ().postDelayed (new Runnable () {
                                                             @Override
-                                                            public void run() {
+                                                            public void run ( ) {
 
-                                                                session.setData (Constant.OFFSET_WALLET, Integer.parseInt (session.getData (Constant.OFFSET_WALLET)) + Constant.LOAD_ITEM_LIMIT);
-                                                                Map<String, String> params = new HashMap<> ();
-                                                                params.put (Constant.ID, session.getData (Constant.ID));
-                                                                params.put (Constant.GET_FUND_TRANSFERS, Constant.GetVal);
-                                                                params.put (Constant.OFFSET, session.getData (Constant.OFFSET_WALLET));
-                                                                params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
+                                                                session.setData (Constant.OFFSET_WALLET,Integer.parseInt (session.getData (Constant.OFFSET_WALLET)) + Constant.LOAD_ITEM_LIMIT);
+                                                                Map<String,String> params = new HashMap<> ();
+                                                                params.put (Constant.ID,session.getData (Constant.ID));
+                                                                params.put (Constant.GET_FUND_TRANSFERS,Constant.GetVal);
+                                                                params.put (Constant.OFFSET,session.getData (Constant.OFFSET_WALLET));
+                                                                params.put (Constant.LIMIT,Constant.PRODUCT_LOAD_LIMIT);
 
 
                                                                 ApiConfig.RequestToVolley (new VolleyCallback () {
                                                                     @Override
-                                                                    public void onSuccess(boolean result, String response) {
+                                                                    public void onSuccess ( boolean result,String response ) {
 
                                                                         if (result) {
                                                                             try {
@@ -175,7 +175,7 @@ public class WalletHistoryActivity extends AppCompatActivity {
                                                                                 JSONObject objectbject1 = new JSONObject (response);
                                                                                 if (! objectbject1.getBoolean (Constant.ERROR)) {
 
-                                                                                    session.setData (Constant.TOTAL, objectbject1.getString (Constant.TOTAL));
+                                                                                    session.setData (Constant.TOTAL,objectbject1.getString (Constant.TOTAL));
 
                                                                                     walletHistories.remove (walletHistories.size () - 1);
                                                                                     walletHistoryAdapter.notifyItemRemoved (walletHistories.size ());
@@ -190,7 +190,7 @@ public class WalletHistoryActivity extends AppCompatActivity {
                                                                                         JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                                                                         if (jsonObject1 != null) {
-                                                                                            WalletHistory notification = g.fromJson (jsonObject1.toString (), WalletHistory.class);
+                                                                                            WalletHistory notification = g.fromJson (jsonObject1.toString (),WalletHistory.class);
                                                                                             walletHistories.add (notification);
                                                                                         } else {
                                                                                             break;
@@ -206,10 +206,10 @@ public class WalletHistoryActivity extends AppCompatActivity {
                                                                             }
                                                                         }
                                                                     }
-                                                                }, activity, Constant.MAIN_URL, params, false);
+                                                                },activity,Constant.MAIN_URL,params,false);
 
                                                             }
-                                                        }, 0);
+                                                        },0);
                                                         isLoadMore = true;
                                                     }
 
@@ -225,26 +225,26 @@ public class WalletHistoryActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, activity, Constant.MAIN_URL, params, true);
+        },activity,Constant.MAIN_URL,params,true);
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp ( ) {
         onBackPressed ();
         return true;
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed ( ) {
         super.onBackPressed ();
 
     }
 
-    public void setSnackBar(final Activity activity, String message, String action) {
-        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction (action, new View.OnClickListener () {
+    public void setSnackBar ( final Activity activity,String message,String action ) {
+        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction (action,new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
                 getWalletHistory (0);
                 snackbar.dismiss ();
             }

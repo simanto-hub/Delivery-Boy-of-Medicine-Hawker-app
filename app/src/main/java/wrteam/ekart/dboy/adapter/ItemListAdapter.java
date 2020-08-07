@@ -22,22 +22,22 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Holder
     Activity activity;
     ArrayList<Items> items;
 
-    public ItemListAdapter(Activity activity, ArrayList<Items> items) {
+    public ItemListAdapter ( Activity activity,ArrayList<Items> items ) {
         this.activity = activity;
         this.items = items;
     }
 
     @NonNull
     @Override
-    public HolderItems onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from (parent.getContext ()).inflate (R.layout.lyt_order_item_list, null);
+    public HolderItems onCreateViewHolder ( @NonNull ViewGroup parent,int viewType ) {
+        View v = LayoutInflater.from (parent.getContext ()).inflate (R.layout.lyt_order_item_list,null);
         ItemListAdapter.HolderItems holderItems = new ItemListAdapter.HolderItems (v);
         return holderItems;
     }
 
-    @SuppressLint ("SetTextI18n")
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull HolderItems holder, int position) {
+    public void onBindViewHolder ( @NonNull HolderItems holder,int position ) {
         Items items1 = items.get (position);
 
         holder.tvProductListName.setText (items1.getName ());
@@ -46,12 +46,12 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Holder
         holder.tvProductListSubTotal.setText (items1.getSubtotal ());
         holder.imgProduct.setDefaultImageResId (R.drawable.placeholder);
         holder.imgProduct.setErrorImageResId (R.drawable.placeholder);
-        holder.imgProduct.setImageUrl (items1.getProduct_image (), Constant.imageLoader);
+        holder.imgProduct.setImageUrl (items1.getProduct_image (),Constant.imageLoader);
 
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount ( ) {
         return items.size ();
     }
 
@@ -59,7 +59,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.Holder
         TextView tvProductListName, tvProductListPrice, tvProductListQty, tvProductListSubTotal;
         NetworkImageView imgProduct;
 
-        public HolderItems(@NonNull View itemView) {
+        public HolderItems ( @NonNull View itemView ) {
             super (itemView);
             tvProductListName = itemView.findViewById (R.id.tvProductListName);
             tvProductListPrice = itemView.findViewById (R.id.tvProductListPrice);

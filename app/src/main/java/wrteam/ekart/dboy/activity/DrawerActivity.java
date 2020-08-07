@@ -33,7 +33,7 @@ public class DrawerActivity extends AppCompatActivity {
     Activity activity;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
         // ApiConfig.transparentStatusAndNavigation(DrawerActivity.this);
         setContentView (R.layout.activity_drawer);
@@ -56,7 +56,7 @@ public class DrawerActivity extends AppCompatActivity {
             tvName.setText (session.getData (Session.KEY_NAME));
             tvMobile.setText (session.getData (Session.KEY_MOBILE));
             lytWallet.setVisibility (View.VISIBLE);
-            tvWallet.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_wallet_white, 0, 0, 0);
+            tvWallet.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_wallet_white,0,0,0);
             DrawerActivity.tvWallet.setText (getString (R.string.wallet_balance) + "\t:\t" + Constant.SETTING_CURRENCY_SYMBOL + session.getData (Constant.BALANCE));
 
         } else {
@@ -66,48 +66,48 @@ public class DrawerActivity extends AppCompatActivity {
 
         lytProfile.setOnClickListener (new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
-                startActivity (new Intent (getApplicationContext (), ProfileActivity.class));
+            public void onClick ( View view ) {
+                startActivity (new Intent (getApplicationContext (),ProfileActivity.class));
             }
         });
         setupNavigationDrawer ();
     }
 
 
-    private void setupNavigationDrawer() {
+    private void setupNavigationDrawer ( ) {
         navigationView.setNavigationItemSelectedListener (new NavigationView.OnNavigationItemSelectedListener () {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected ( MenuItem menuItem ) {
                 drawer.closeDrawers ();
 
                 switch (menuItem.getItemId ()) {
                     case R.id.menu_home:
-                        session.setData (Constant.OFFSET, "" + 0);
-                        startActivity (new Intent (getApplicationContext (), MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
+                        session.setData (Constant.OFFSET,"" + 0);
+                        startActivity (new Intent (getApplicationContext (),MainActivity.class).addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags (Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case R.id.menu_notifications:
-                        session.setData(Constant.OFFSET_NOTIFICATION, "" + 0);
-                        startActivity(new Intent(getApplicationContext(), NotificationListActivity.class));
+                        session.setData (Constant.OFFSET_NOTIFICATION,"" + 0);
+                        startActivity (new Intent (getApplicationContext (),NotificationListActivity.class));
                         break;
                     case R.id.menu_profile:
-                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        startActivity (new Intent (getApplicationContext (),ProfileActivity.class));
                         break;
                     case R.id.menu_wallet_history:
-                        session.setData(Constant.OFFSET_WALLET, "" + 0);
-                        startActivity(new Intent(getApplicationContext(), WalletHistoryActivity.class));
+                        session.setData (Constant.OFFSET_WALLET,"" + 0);
+                        startActivity (new Intent (getApplicationContext (),WalletHistoryActivity.class));
                         break;
                     case R.id.menu_policy:
-                        Intent policy = new Intent(DrawerActivity.this, WebViewActivity.class);
-                        policy.putExtra("link", Constant.DELIVERY_BOY_POLICY);
-                        startActivity(policy);
+                        Intent policy = new Intent (DrawerActivity.this,WebViewActivity.class);
+                        policy.putExtra ("link",Constant.DELIVERY_BOY_POLICY);
+                        startActivity (policy);
                         break;
                     case R.id.menu_terms:
-                        Intent terms = new Intent(DrawerActivity.this, WebViewActivity.class);
-                        terms.putExtra("link", Constant.DELIVERY_BOY_TERMS);
-                        startActivity(terms);
+                        Intent terms = new Intent (DrawerActivity.this,WebViewActivity.class);
+                        terms.putExtra ("link",Constant.DELIVERY_BOY_TERMS);
+                        startActivity (terms);
                         break;
                     case R.id.menu_logout:
-                        session.logoutUserConfirmation(activity);
+                        session.logoutUserConfirmation (activity);
                         break;
                 }
                 return true;
@@ -116,7 +116,7 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate ( Bundle savedInstanceState ) {
         super.onPostCreate (savedInstanceState);
         //Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState ();

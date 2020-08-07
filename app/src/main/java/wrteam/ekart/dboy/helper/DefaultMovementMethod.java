@@ -12,10 +12,10 @@ public class DefaultMovementMethod implements MovementMethod {
 
     private static DefaultMovementMethod sInstance;
 
-    private DefaultMovementMethod() {
+    private DefaultMovementMethod ( ) {
     }
 
-    public static MovementMethod getInstance() {
+    public static MovementMethod getInstance ( ) {
         if (sInstance == null) {
             sInstance = new DefaultMovementMethod ();
         }
@@ -24,48 +24,48 @@ public class DefaultMovementMethod implements MovementMethod {
     }
 
     @Override
-    public void initialize(TextView widget, Spannable text) {
+    public void initialize ( TextView widget,Spannable text ) {
         // It will mark the IMM as openable
-        Selection.setSelection (text, 0);
+        Selection.setSelection (text,0);
     }
 
     @Override
-    public boolean onKeyDown(TextView widget, Spannable text, int keyCode, KeyEvent event) {
+    public boolean onKeyDown ( TextView widget,Spannable text,int keyCode,KeyEvent event ) {
         return false;
     }
 
     @Override
-    public boolean onKeyUp(TextView widget, Spannable text, int keyCode, KeyEvent event) {
+    public boolean onKeyUp ( TextView widget,Spannable text,int keyCode,KeyEvent event ) {
         return false;
     }
 
     @Override
-    public boolean onKeyOther(TextView view, Spannable text, KeyEvent event) {
+    public boolean onKeyOther ( TextView view,Spannable text,KeyEvent event ) {
         return false;
     }
 
     @Override
-    public void onTakeFocus(TextView widget, Spannable text, int direction) {
+    public void onTakeFocus ( TextView widget,Spannable text,int direction ) {
 
     }
 
     @Override
-    public boolean onTrackballEvent(TextView widget, Spannable text, MotionEvent event) {
+    public boolean onTrackballEvent ( TextView widget,Spannable text,MotionEvent event ) {
         return false;
     }
 
     @Override
-    public boolean onTouchEvent(TextView widget, Spannable text, MotionEvent event) {
+    public boolean onTouchEvent ( TextView widget,Spannable text,MotionEvent event ) {
         return false;
     }
 
     @Override
-    public boolean onGenericMotionEvent(TextView widget, Spannable text, MotionEvent event) {
+    public boolean onGenericMotionEvent ( TextView widget,Spannable text,MotionEvent event ) {
         return false;
     }
 
     @Override
-    public boolean canSelectArbitrarily() {
+    public boolean canSelectArbitrarily ( ) {
         return false;
     }
 }

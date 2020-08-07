@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_profile);
 
@@ -65,14 +65,14 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar ().setTitle (getResources ().getString (R.string.profile));
         getSupportActionBar ().setDisplayHomeAsUpEnabled (true);
 
-        edtname.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_profile, 0, 0, 0);
-        tvMobile.setCompoundDrawablesWithIntrinsicBounds (0, 0, 0, 0);
-        edtaddress.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_edt_home, 0, 0, 0);
+        edtname.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_profile,0,0,0);
+        tvMobile.setCompoundDrawablesWithIntrinsicBounds (0,0,0,0);
+        edtaddress.setCompoundDrawablesWithIntrinsicBounds (R.drawable.ic_edt_home,0,0,0);
 
         lyt_profile_activity_swipe_refresh.setColorSchemeResources (R.color.colorPrimary);
         lyt_profile_activity_swipe_refresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
-            public void onRefresh() {
+            public void onRefresh ( ) {
                 if (AppController.isConnected (activity)) {
                     edtname.setText (session.getData (Constant.NAME));
                     tvMobile.setText (session.getData (Constant.MOBILE));
@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
                     disableSwipe (lyt_profile_activity_swipe_refresh);
 
                 } else {
-                    setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+                    setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
                 }
                 lyt_profile_activity_swipe_refresh.setRefreshing (false);
             }
@@ -92,28 +92,28 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void updateUserData() {
-        Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.ID, session.getData (Constant.ID));
-        params.put (Constant.NAME, edtname.getText ().toString ().trim ());
-        params.put (Constant.ADDRESS, edtaddress.getText ().toString ().trim ());
-        params.put (Constant.UPDATE_DELIVERY_BOY_PROFILE, Constant.GetVal);
+    public void updateUserData ( ) {
+        Map<String,String> params = new HashMap<String,String> ();
+        params.put (Constant.ID,session.getData (Constant.ID));
+        params.put (Constant.NAME,edtname.getText ().toString ().trim ());
+        params.put (Constant.ADDRESS,edtaddress.getText ().toString ().trim ());
+        params.put (Constant.UPDATE_DELIVERY_BOY_PROFILE,Constant.GetVal);
 
         ApiConfig.RequestToVolley (new VolleyCallback () {
-            @RequiresApi (api = Build.VERSION_CODES.M)
-            @SuppressLint ("SetTextI18n")
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onSuccess(boolean result, String response) {
+            public void onSuccess ( boolean result,String response ) {
                 if (result) {
                     try {
                         JSONObject jsonObject = new JSONObject (response);
                         if (! jsonObject.getBoolean (Constant.ERROR)) {
-                            setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.GREEN);
+                            setSnackBar (activity,jsonObject.getString (Constant.MESSAGE),getString (R.string.ok),Color.GREEN);
                             getDeliveryBoyData (activity);
 
                         } else {
 
-                            setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
+                            setSnackBar (activity,jsonObject.getString (Constant.MESSAGE),getString (R.string.ok),Color.RED);
                         }
 
                     } catch (JSONException e) {
@@ -122,10 +122,10 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, activity, Constant.MAIN_URL, params, false);
+        },activity,Constant.MAIN_URL,params,false);
     }
 
-    public void OnClick(View view) {
+    public void OnClick ( View view ) {
 
         if (AppController.isConnected (activity)) {
             int id = view.getId ();
@@ -133,7 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (id == R.id.imglogout) {
                 session.logoutUserConfirmation (activity);
             } else if (id == R.id.tvChangePassword) {
-                startActivity (new Intent (activity, LoginActivity.class).putExtra (Constant.FROM, "lyt_update_password"));
+                startActivity (new Intent (activity,LoginActivity.class).putExtra (Constant.FROM,"lyt_update_password"));
             } else if (id == R.id.btnsubmit) {
 
                 String name, address;
@@ -141,52 +141,52 @@ public class ProfileActivity extends AppCompatActivity {
                 address = edtaddress.getText ().toString ();
                 name = edtname.getText ().toString ();
 
-                if (ApiConfig.CheckValidation (name, false, false)) {
+                if (ApiConfig.CheckValidation (name,false,false)) {
                     edtname.setError (getString (R.string.name_required));
-                } else if (ApiConfig.CheckValidation (address, false, false)) {
+                } else if (ApiConfig.CheckValidation (address,false,false)) {
                     edtaddress.setError (getString (R.string.address_required));
                 } else {
                     updateUserData ();
-                    ApiConfig.disableButton (activity, btnsubmit);
+                    ApiConfig.disableButton (activity,btnsubmit);
                 }
             }
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
 
     }
 
 
-    public void getDeliveryBoyData(final Activity activity) {
+    public void getDeliveryBoyData ( final Activity activity ) {
         if (AppController.isConnected (activity)) {
 
-            Map<String, String> params = new HashMap<String, String> ();
-            params.put (Constant.ID, session.getData (Constant.ID));
-            params.put (Constant.GET_DELIVERY_BOY_BY_ID, Constant.GetVal);
+            Map<String,String> params = new HashMap<String,String> ();
+            params.put (Constant.ID,session.getData (Constant.ID));
+            params.put (Constant.GET_DELIVERY_BOY_BY_ID,Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
                 @Override
-                public void onSuccess(boolean result, String response) {
+                public void onSuccess ( boolean result,String response ) {
                     //  System.out.println("============" + response);
                     if (result) {
                         try {
                             JSONObject jsonObject = new JSONObject (response);
                             if (! jsonObject.getBoolean (Constant.ERROR)) {
-                                StartMainActivity (activity, jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
+                                StartMainActivity (activity,jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace ();
                         }
                     }
                 }
-            }, activity, Constant.MAIN_URL, params, true);
+            },activity,Constant.MAIN_URL,params,true);
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
     }
 
-    @SuppressLint ("SetTextI18n")
-    public void StartMainActivity(Activity activity, JSONObject jsonObject) {
+    @SuppressLint("SetTextI18n")
+    public void StartMainActivity ( Activity activity,JSONObject jsonObject ) {
         if (AppController.isConnected (activity)) {
             try {
                 new Session (activity).createUserLoginSession (
@@ -210,28 +210,28 @@ public class ProfileActivity extends AppCompatActivity {
                 e.printStackTrace ();
             }
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp ( ) {
         onBackPressed ();
         return true;
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed ( ) {
         super.onBackPressed ();
 
     }
 
 
-    public void setSnackBar(final Activity activity, String message, String action, int color) {
-        final Snackbar snackbar = Snackbar.make (findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction (action, new View.OnClickListener () {
+    public void setSnackBar ( final Activity activity,String message,String action,int color ) {
+        final Snackbar snackbar = Snackbar.make (findViewById (android.R.id.content),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction (action,new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
                 snackbar.dismiss ();
             }
         });

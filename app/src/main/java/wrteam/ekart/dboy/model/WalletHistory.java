@@ -4,10 +4,10 @@ public class WalletHistory {
 
     String id, name, mobile, address, delivery_boy_id, type, opening_balance, amount, closing_balance, status, message, date_created;
 
-    public WalletHistory() {
+    public WalletHistory ( ) {
     }
 
-    public WalletHistory(String id, String name, String mobile, String address, String delivery_boy_id, String type, String opening_balance, String amount, String closing_balance, String status, String message, String date_created) {
+    public WalletHistory ( String id,String name,String mobile,String address,String delivery_boy_id,String type,String opening_balance,String amount,String closing_balance,String status,String message,String date_created ) {
         this.id = id;
         this.name = name;
         this.mobile = mobile;
@@ -22,99 +22,99 @@ public class WalletHistory {
         this.date_created = date_created;
     }
 
-    public String getId() {
+    public String getId ( ) {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId ( String id ) {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName ( ) {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName ( String name ) {
         this.name = name;
     }
 
-    public String getMobile() {
+    public String getMobile ( ) {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile ( String mobile ) {
         this.mobile = mobile;
     }
 
-    public String getAddress() {
+    public String getAddress ( ) {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress ( String address ) {
         this.address = address;
     }
 
-    public String getDelivery_boy_id() {
+    public String getDelivery_boy_id ( ) {
         return delivery_boy_id;
     }
 
-    public void setDelivery_boy_id(String delivery_boy_id) {
+    public void setDelivery_boy_id ( String delivery_boy_id ) {
         this.delivery_boy_id = delivery_boy_id;
     }
 
-    public String getType() {
+    public String getType ( ) {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType ( String type ) {
         this.type = type;
     }
 
-    public String getOpening_balance() {
+    public String getOpening_balance ( ) {
         return opening_balance;
     }
 
-    public void setOpening_balance(String opening_balance) {
+    public void setOpening_balance ( String opening_balance ) {
         this.opening_balance = opening_balance;
     }
 
-    public String getAmount() {
+    public String getAmount ( ) {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount ( String amount ) {
         this.amount = amount;
     }
 
-    public String getClosing_balance() {
+    public String getClosing_balance ( ) {
         return closing_balance;
     }
 
-    public void setClosing_balance(String closing_balance) {
+    public void setClosing_balance ( String closing_balance ) {
         this.closing_balance = closing_balance;
     }
 
-    public String getStatus() {
+    public String getStatus ( ) {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus ( String status ) {
         this.status = status;
     }
 
-    public String getMessage() {
+    public String getMessage ( ) {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage ( String message ) {
         this.message = message;
     }
 
-    public String getDate_created() {
+    public String getDate_created ( ) {
         return date_created;
     }
 
-    public void setDate_created(String date_created) {
+    public void setDate_created ( String date_created ) {
         this.date_created = date_created;
     }
 }

@@ -12,12 +12,12 @@ public class ProgressDisplay {
 
     static ProgressBar mProgressBar;
 
-    public ProgressDisplay(Context context) {
+    public ProgressDisplay ( Context context ) {
 
-        ViewGroup layout = (ViewGroup) ((Activity) context).findViewById (android.R.id.content)
+        ViewGroup layout = (ViewGroup)( (Activity)context ).findViewById (android.R.id.content)
                 .getRootView ();
 
-        mProgressBar = new ProgressBar (context, null, android.R.attr.progressBarStyle);
+        mProgressBar = new ProgressBar (context,null,android.R.attr.progressBarStyle);
         mProgressBar.setIndeterminate (true);
 
         RelativeLayout.LayoutParams params = new
@@ -27,18 +27,18 @@ public class ProgressDisplay {
         RelativeLayout rl = new RelativeLayout (context);
         rl.setGravity (Gravity.CENTER);
         rl.addView (mProgressBar);
-        layout.addView (rl, params);
+        layout.addView (rl,params);
         hideProgress ();
     }
 
 
-    public void showProgress() {
-        if (! (mProgressBar.getVisibility () == View.VISIBLE)) {
+    public void showProgress ( ) {
+        if (! ( mProgressBar.getVisibility () == View.VISIBLE )) {
             mProgressBar.setVisibility (View.VISIBLE);
         }
     }
 
-    public void hideProgress() {
+    public void hideProgress ( ) {
         mProgressBar.setVisibility (View.GONE);
     }
 }

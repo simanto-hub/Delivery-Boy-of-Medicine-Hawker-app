@@ -34,29 +34,29 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     ArrayList<OrderList> orderLists;
     String id = "0";
 
-    public OrderListAdapter(Activity activity, ArrayList<OrderList> orderLists) {
+    public OrderListAdapter ( Activity activity,ArrayList<OrderList> orderLists ) {
         this.activity = activity;
         this.orderLists = orderLists;
     }
 
-    public void add(int position, OrderList item) {
-        orderLists.add (position, item);
+    public void add ( int position,OrderList item ) {
+        orderLists.add (position,item);
         notifyItemInserted (position);
     }
 
-    public void setLoaded() {
+    public void setLoaded ( ) {
         isLoading = false;
     }
 
 
     // Create new views (invoked by the layout manager)
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder ( ViewGroup parent,final int viewType ) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from (activity).inflate (R.layout.lyt_order_list, parent, false);
+            View view = LayoutInflater.from (activity).inflate (R.layout.lyt_order_list,parent,false);
             return new OrderHolderItems (view);
         } else if (viewType == VIEW_TYPE_LOADING) {
-            View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar, parent, false);
+            View view = LayoutInflater.from (activity).inflate (R.layout.item_progressbar,parent,false);
             return new ViewHolderLoading (view);
         }
 
@@ -64,13 +64,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    @RequiresApi (api = Build.VERSION_CODES.M)
-    @SuppressLint ("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holderparent, final int position) {
+    public void onBindViewHolder ( RecyclerView.ViewHolder holderparent,final int position ) {
 
         if (holderparent instanceof OrderHolderItems) {
-            OrderHolderItems holder = (OrderHolderItems) holderparent;
+            OrderHolderItems holder = (OrderHolderItems)holderparent;
             final OrderList orderList = orderLists.get (position);
             id = orderList.getId ();
 
@@ -103,13 +103,13 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             holder.lytOrderList.setOnClickListener (new View.OnClickListener () {
                 @Override
-                public void onClick(View view) {
+                public void onClick ( View view ) {
                     Constant.Position_Value = position;
-                    activity.startActivity (new Intent (activity, OrderDetailActivity.class).putExtra (Constant.ORDER_ID, orderList.getId ()));
+                    activity.startActivity (new Intent (activity,OrderDetailActivity.class).putExtra (Constant.ORDER_ID,orderList.getId ()));
                 }
             });
         } else if (holderparent instanceof ViewHolderLoading) {
-            ViewHolderLoading loadingViewHolder = (ViewHolderLoading) holderparent;
+            ViewHolderLoading loadingViewHolder = (ViewHolderLoading)holderparent;
             loadingViewHolder.progressBar.setIndeterminate (true);
         }
 
@@ -117,17 +117,17 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount ( ) {
         return orderLists.size ();
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType ( int position ) {
         return orderLists.get (position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
-    public long getItemId(int position) {
+    public long getItemId ( int position ) {
         OrderList product = orderLists.get (position);
         if (product != null)
             return Integer.parseInt (product.getId ());
@@ -138,7 +138,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolderLoading extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;
 
-        public ViewHolderLoading(View view) {
+        public ViewHolderLoading ( View view ) {
             super (view);
             progressBar = view.findViewById (R.id.itemProgressbar);
         }
@@ -150,7 +150,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         CardView card_view_status;
         RelativeLayout lytOrderList;
 
-        public OrderHolderItems(@NonNull View itemView) {
+        public OrderHolderItems ( @NonNull View itemView ) {
             super (itemView);
 
             tvCustomerOrderNo = itemView.findViewById (R.id.tvCustomerOrderNo);

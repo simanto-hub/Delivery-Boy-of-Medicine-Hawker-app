@@ -65,7 +65,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private Session session;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_order_detail);
 
@@ -108,20 +108,20 @@ public class OrderDetailActivity extends AppCompatActivity {
         if (AppController.isConnected (activity)) {
             getOrderData (activity);
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
 
         SwipeRefresh.setColorSchemeResources (R.color.colorPrimary);
 
         SwipeRefresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
-            public void onRefresh() {
+            public void onRefresh ( ) {
                 if (AppController.isConnected (activity)) {
                     getOrderData (activity);
                     SwipeRefresh.setRefreshing (false);
                     disableSwipe (SwipeRefresh);
                 } else {
-                    setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+                    setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
                 }
                 SwipeRefresh.setRefreshing (false);
             }
@@ -129,18 +129,18 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     }
 
-    public void getOrderData(final Activity activity) {
+    public void getOrderData ( final Activity activity ) {
         if (AppController.isConnected (activity)) {
 
-            Map<String, String> params = new HashMap<String, String> ();
-            params.put (Constant.ID, session.getData (Constant.ID));
-            params.put (Constant.ORDER_ID, orderID);
-            params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
+            Map<String,String> params = new HashMap<String,String> ();
+            params.put (Constant.ID,session.getData (Constant.ID));
+            params.put (Constant.ORDER_ID,orderID);
+            params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID,Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
-                @SuppressLint ("SetTextI18n")
+                @SuppressLint("SetTextI18n")
                 @Override
-                public void onSuccess(boolean result, String response) {
+                public void onSuccess ( boolean result,String response ) {
                     if (result) {
                         try {
                             JSONObject jsonObject = new JSONObject (response);
@@ -180,36 +180,36 @@ public class OrderDetailActivity extends AppCompatActivity {
 
                                 for (int i = 0; i < jsonArrayItems.length (); i++) {
                                     JSONObject itemsObject = jsonArrayItems.getJSONObject (i);
-                                    Items items = g.fromJson (itemsObject.toString (), Items.class);
+                                    Items items = g.fromJson (itemsObject.toString (),Items.class);
                                     itemArrayList.add (items);
 
                                 }
-                                itemListAdapter = new ItemListAdapter (activity, itemArrayList);
+                                itemListAdapter = new ItemListAdapter (activity,itemArrayList);
                                 recyclerViewItems.setAdapter (itemListAdapter);
 
 
                                 lyt_order_detail.setVisibility (View.VISIBLE);
 
                             } else {
-                                setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
+                                setSnackBar (activity,jsonObject.getString (Constant.MESSAGE),getString (R.string.ok),Color.RED);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace ();
                         }
                     }
                 }
-            }, activity, Constant.MAIN_URL, params, true);
+            },activity,Constant.MAIN_URL,params,true);
 
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
     }
 
-    private boolean appInstalledOrNot(String uri) {
+    private boolean appInstalledOrNot ( String uri ) {
         PackageManager pm = getPackageManager ();
         boolean app_installed = false;
         try {
-            pm.getPackageInfo (uri, PackageManager.GET_ACTIVITIES);
+            pm.getPackageInfo (uri,PackageManager.GET_ACTIVITIES);
             app_installed = true;
         } catch (PackageManager.NameNotFoundException e) {
             app_installed = false;
@@ -217,15 +217,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         return app_installed;
     }
 
-    public void OnBtnClick(View view) {
+    public void OnBtnClick ( View view ) {
 
         if (AppController.isConnected (activity)) {
             int id = view.getId ();
             if (id == R.id.btnCallCustomer) {
                 try {
                     Intent callIntent = new Intent (Intent.ACTION_CALL);
-                    if (ContextCompat.checkSelfPermission (OrderDetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions (OrderDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                    if (ContextCompat.checkSelfPermission (OrderDetailActivity.this,Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions (OrderDetailActivity.this,new String[]{Manifest.permission.CALL_PHONE},1);
                     } else {
                         callIntent.setData (Uri.parse ("tel:" + tvPhone.getText ().toString ().trim ()));
                         startActivity (callIntent);
@@ -242,11 +242,11 @@ public class OrderDetailActivity extends AppCompatActivity {
                 builder1.setPositiveButton (
                         getString (R.string.yes),
                         new DialogInterface.OnClickListener () {
-                            public void onClick(DialogInterface dialog, int id) {
+                            public void onClick ( DialogInterface dialog,int id ) {
 //                                com.google.android.apps.maps
                                 if (appInstalledOrNot ("com.google.android.apps.maps")) {
                                     Uri googleMapIntentUri = Uri.parse ("google.navigation:q=" + latitude + "," + longitude + "");
-                                    Intent mapIntent = new Intent (Intent.ACTION_VIEW, googleMapIntentUri);
+                                    Intent mapIntent = new Intent (Intent.ACTION_VIEW,googleMapIntentUri);
                                     mapIntent.setPackage ("com.google.android.apps.maps");
                                     activity.startActivity (mapIntent);
                                 } else {
@@ -257,7 +257,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     builder1.setPositiveButton (
                                             getString (R.string.ok),
                                             new DialogInterface.OnClickListener () {
-                                                public void onClick(DialogInterface dialog, int id) {
+                                                public void onClick ( DialogInterface dialog,int id ) {
                                                     dialog.cancel ();
                                                 }
                                             });
@@ -271,7 +271,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 builder1.setNegativeButton (
                         getString (R.string.no),
                         new DialogInterface.OnClickListener () {
-                            public void onClick(DialogInterface dialog, int id) {
+                            public void onClick ( DialogInterface dialog,int id ) {
                                 dialog.cancel ();
                             }
                         });
@@ -288,7 +288,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 builder.setTitle (R.string.update_status);// add a radio button list
 
                 int checkedItem = 0;
-                final String[] status = {Constant.RECEIVED, Constant.PROCESSED, Constant.SHIPPED, Constant.DELIVERED, Constant.CANCELLED, Constant.RETURNED};
+                final String[] status = {Constant.RECEIVED,Constant.PROCESSED,Constant.SHIPPED,Constant.DELIVERED,Constant.CANCELLED,Constant.RETURNED};
 
                 switch (btnDeliveryStatus.getText ().toString ()) {
                     case Constant.RECEIVED:
@@ -311,15 +311,15 @@ public class OrderDetailActivity extends AppCompatActivity {
                         break;
                 }
 
-                builder.setSingleChoiceItems (status, checkedItem, new DialogInterface.OnClickListener () {
+                builder.setSingleChoiceItems (status,checkedItem,new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick ( DialogInterface dialog,int which ) {
                         updatedStatus[0] = status[which];
                     }
                 });
-                builder.setPositiveButton (R.string.ok, new DialogInterface.OnClickListener () {
+                builder.setPositiveButton (R.string.ok,new DialogInterface.OnClickListener () {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick ( DialogInterface dialog,int which ) {
                         Constant.CLICK = true;
 
                         final androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder (activity);
@@ -329,14 +329,14 @@ public class OrderDetailActivity extends AppCompatActivity {
                         final androidx.appcompat.app.AlertDialog alertDialog1 = alertDialog.create ();
 
                         // Setting OK Button
-                        alertDialog.setPositiveButton (R.string.yes, new DialogInterface.OnClickListener () {
-                            public void onClick(DialogInterface dialog, int which) {
-                                ChangeOrderStatus (activity, (updatedStatus[0].toLowerCase ()));
+                        alertDialog.setPositiveButton (R.string.yes,new DialogInterface.OnClickListener () {
+                            public void onClick ( DialogInterface dialog,int which ) {
+                                ChangeOrderStatus (activity,( updatedStatus[0].toLowerCase () ));
                                 btnDeliveryStatus.setText (AppController.toTitleCase (updatedStatus[0]));
                             }
                         });
-                        alertDialog.setNegativeButton (R.string.no, new DialogInterface.OnClickListener () {
-                            public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.setNegativeButton (R.string.no,new DialogInterface.OnClickListener () {
+                            public void onClick ( DialogInterface dialog,int which ) {
                                 alertDialog1.dismiss ();
                             }
                         });
@@ -346,71 +346,71 @@ public class OrderDetailActivity extends AppCompatActivity {
                     }
                 });
 
-                builder.setNegativeButton (R.string.cancel, null);// create and show the alert dialog
+                builder.setNegativeButton (R.string.cancel,null);// create and show the alert dialog
                 AlertDialog dialog = builder.create ();
                 dialog.show ();
             }
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
 
     }
 
-    public void ChangeOrderStatus(final Activity activity, final String status) {
+    public void ChangeOrderStatus ( final Activity activity,final String status ) {
 
         if (AppController.isConnected (activity)) {
 
-            Map<String, String> params = new HashMap<String, String> ();
-            params.put (Constant.DELIVERY_BOY_ID, session.getData (Constant.ID));
-            params.put (Constant.ID, orderID);
-            params.put (Constant.STATUS, status);
-            params.put (Constant.UPDATE_ORDER_STATUS, Constant.GetVal);
+            Map<String,String> params = new HashMap<String,String> ();
+            params.put (Constant.DELIVERY_BOY_ID,session.getData (Constant.ID));
+            params.put (Constant.ID,orderID);
+            params.put (Constant.STATUS,status);
+            params.put (Constant.UPDATE_ORDER_STATUS,Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
-                @RequiresApi (api = Build.VERSION_CODES.M)
-                @SuppressLint ("SetTextI18n")
+                @RequiresApi(api = Build.VERSION_CODES.M)
+                @SuppressLint("SetTextI18n")
                 @Override
-                public void onSuccess(boolean result, String response) {
+                public void onSuccess ( boolean result,String response ) {
                     if (result) {
                         try {
                             JSONObject jsonObject = new JSONObject (response);
                             if (! jsonObject.getBoolean (Constant.ERROR)) {
-                                setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.GREEN);
+                                setSnackBar (activity,jsonObject.getString (Constant.MESSAGE),getString (R.string.ok),Color.GREEN);
                                 OrderList category = MainActivity.orderListArrayList.get (Constant.Position_Value);
                                 category.setActive_status (status);
                                 //orderList.getActive_status ()
                                 Constant.CLICK = true;
                             } else {
-                                setSnackBar (activity, jsonObject.getString (Constant.MESSAGE), getString (R.string.ok), Color.RED);
+                                setSnackBar (activity,jsonObject.getString (Constant.MESSAGE),getString (R.string.ok),Color.RED);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace ();
                         }
                     }
                 }
-            }, activity, Constant.MAIN_URL, params, true);
+            },activity,Constant.MAIN_URL,params,true);
 
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry),Color.RED);
         }
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed ( ) {
         super.onBackPressed ();
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp ( ) {
         onBackPressed ();
         return super.onSupportNavigateUp ();
     }
 
-    public void setSnackBar(final Activity activity, String message, String action, int color) {
-        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction (action, new View.OnClickListener () {
+    public void setSnackBar ( final Activity activity,String message,String action,int color ) {
+        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction (action,new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
                 getOrderData (activity);
                 snackbar.dismiss ();
             }

@@ -100,16 +100,16 @@ public class PinView extends AppCompatEditText {
 
     private boolean mHideLineWhenFilled;
 
-    public PinView(Context context) {
-        this (context, null);
+    public PinView ( Context context ) {
+        this (context,null);
     }
 
-    public PinView(Context context, @Nullable AttributeSet attrs) {
-        this (context, attrs, R.attr.pinViewStyle);
+    public PinView ( Context context,@Nullable AttributeSet attrs ) {
+        this (context,attrs,R.attr.pinViewStyle);
     }
 
-    public PinView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super (context, attrs, defStyleAttr);
+    public PinView ( Context context,@Nullable AttributeSet attrs,int defStyleAttr ) {
+        super (context,attrs,defStyleAttr);
 
         final Resources res = getResources ();
 
@@ -120,27 +120,27 @@ public class PinView extends AppCompatEditText {
 
         final Resources.Theme theme = context.getTheme ();
 
-        TypedArray a = theme.obtainStyledAttributes (attrs, R.styleable.PinView, defStyleAttr, 0);
+        TypedArray a = theme.obtainStyledAttributes (attrs,R.styleable.PinView,defStyleAttr,0);
 
-        mViewType = a.getInt (R.styleable.PinView_viewType, VIEW_TYPE_RECTANGLE);
-        mPinItemCount = a.getInt (R.styleable.PinView_itemCount, DEFAULT_COUNT);
-        mPinItemHeight = (int) a.getDimension (R.styleable.PinView_itemHeight,
+        mViewType = a.getInt (R.styleable.PinView_viewType,VIEW_TYPE_RECTANGLE);
+        mPinItemCount = a.getInt (R.styleable.PinView_itemCount,DEFAULT_COUNT);
+        mPinItemHeight = (int)a.getDimension (R.styleable.PinView_itemHeight,
                 res.getDimensionPixelSize (R.dimen.pv_pin_view_item_size));
-        mPinItemWidth = (int) a.getDimension (R.styleable.PinView_itemWidth,
+        mPinItemWidth = (int)a.getDimension (R.styleable.PinView_itemWidth,
                 res.getDimensionPixelSize (R.dimen.pv_pin_view_item_size));
         mPinItemSpacing = a.getDimensionPixelSize (R.styleable.PinView_itemSpacing,
                 res.getDimensionPixelSize (R.dimen.pv_pin_view_item_spacing));
-        mPinItemRadius = (int) a.getDimension (R.styleable.PinView_itemRadius, 0);
-        mLineWidth = (int) a.getDimension (R.styleable.PinView_lineWidth,
+        mPinItemRadius = (int)a.getDimension (R.styleable.PinView_itemRadius,0);
+        mLineWidth = (int)a.getDimension (R.styleable.PinView_lineWidth,
                 res.getDimensionPixelSize (R.dimen.pv_pin_view_item_line_width));
         mLineColor = a.getColorStateList (R.styleable.PinView_lineColor);
-        isCursorVisible = a.getBoolean (R.styleable.PinView_android_cursorVisible, true);
-        mCursorColor = a.getColor (R.styleable.PinView_cursorColor, getCurrentTextColor ());
+        isCursorVisible = a.getBoolean (R.styleable.PinView_android_cursorVisible,true);
+        mCursorColor = a.getColor (R.styleable.PinView_cursorColor,getCurrentTextColor ());
         mCursorWidth = a.getDimensionPixelSize (R.styleable.PinView_cursorWidth,
                 res.getDimensionPixelSize (R.dimen.pv_pin_view_cursor_width));
 
         mItemBackground = a.getDrawable (R.styleable.PinView_android_itemBackground);
-        mHideLineWhenFilled = a.getBoolean (R.styleable.PinView_hideLineWhenFilled, false);
+        mHideLineWhenFilled = a.getBoolean (R.styleable.PinView_hideLineWhenFilled,false);
 
         a.recycle ();
 
@@ -159,31 +159,31 @@ public class PinView extends AppCompatEditText {
         setTextIsSelectable (false);
     }
 
-    private static boolean isPasswordInputType(int inputType) {
+    private static boolean isPasswordInputType ( int inputType ) {
         final int variation =
-                inputType & (EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION);
+                inputType & ( EditorInfo.TYPE_MASK_CLASS | EditorInfo.TYPE_MASK_VARIATION );
         return variation
-                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD)
+                == ( EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_PASSWORD )
                 || variation
-                == (EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)
+                == ( EditorInfo.TYPE_CLASS_TEXT | EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD )
                 || variation
-                == (EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD);
+                == ( EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_VARIATION_PASSWORD );
     }
 
     @Override
-    public void setTypeface(Typeface tf, int style) {
-        super.setTypeface (tf, style);
+    public void setTypeface ( Typeface tf,int style ) {
+        super.setTypeface (tf,style);
     }
 
     @Override
-    public void setTypeface(Typeface tf) {
+    public void setTypeface ( Typeface tf ) {
         super.setTypeface (tf);
         if (mAnimatorTextPaint != null) {
             mAnimatorTextPaint.set (getPaint ());
         }
     }
 
-    private void setMaxLength(int maxLength) {
+    private void setMaxLength ( int maxLength ) {
         if (maxLength >= 0) {
             setFilters (new InputFilter[]{new InputFilter.LengthFilter (maxLength)});
         } else {
@@ -191,15 +191,15 @@ public class PinView extends AppCompatEditText {
         }
     }
 
-    private void setupAnimator() {
-        mDefaultAddAnimator = ValueAnimator.ofFloat (0.5f, 1f);
+    private void setupAnimator ( ) {
+        mDefaultAddAnimator = ValueAnimator.ofFloat (0.5f,1f);
         mDefaultAddAnimator.setDuration (150);
         mDefaultAddAnimator.setInterpolator (new DecelerateInterpolator ());
         mDefaultAddAnimator.addUpdateListener (new ValueAnimator.AnimatorUpdateListener () {
             @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float scale = (float) animation.getAnimatedValue ();
-                int alpha = (int) (255 * scale);
+            public void onAnimationUpdate ( ValueAnimator animation ) {
+                float scale = (float)animation.getAnimatedValue ();
+                int alpha = (int)( 255 * scale );
                 mAnimatorTextPaint.setTextSize (getTextSize () * scale);
                 mAnimatorTextPaint.setAlpha (alpha);
                 postInvalidate ();
@@ -207,14 +207,14 @@ public class PinView extends AppCompatEditText {
         });
     }
 
-    private void checkItemRadius() {
+    private void checkItemRadius ( ) {
         if (mViewType == VIEW_TYPE_LINE) {
-            float halfOfLineWidth = ((float) mLineWidth) / 2;
+            float halfOfLineWidth = ( (float)mLineWidth ) / 2;
             if (mPinItemRadius > halfOfLineWidth) {
                 throw new IllegalArgumentException ("The itemRadius can not be greater than lineWidth when viewType is line");
             }
         } else if (mViewType == VIEW_TYPE_RECTANGLE) {
-            float halfOfItemWidth = ((float) mPinItemWidth) / 2;
+            float halfOfItemWidth = ( (float)mPinItemWidth ) / 2;
             if (mPinItemRadius > halfOfItemWidth) {
                 throw new IllegalArgumentException ("The itemRadius can not be greater than itemWidth");
             }
@@ -222,7 +222,7 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure ( int widthMeasureSpec,int heightMeasureSpec ) {
         int widthMode = View.MeasureSpec.getMode (widthMeasureSpec);
         int heightMode = View.MeasureSpec.getMode (heightMeasureSpec);
         int widthSize = View.MeasureSpec.getSize (widthMeasureSpec);
@@ -237,10 +237,10 @@ public class PinView extends AppCompatEditText {
             // Parent has told us how big to be. So be it.
             width = widthSize;
         } else {
-            int boxesWidth = (mPinItemCount - 1) * mPinItemSpacing + mPinItemCount * mPinItemWidth;
+            int boxesWidth = ( mPinItemCount - 1 ) * mPinItemSpacing + mPinItemCount * mPinItemWidth;
             width = boxesWidth + ViewCompat.getPaddingEnd (this) + ViewCompat.getPaddingStart (this);
             if (mPinItemSpacing == 0) {
-                width -= (mPinItemCount - 1) * mLineWidth;
+                width -= ( mPinItemCount - 1 ) * mLineWidth;
             }
         }
 
@@ -251,11 +251,11 @@ public class PinView extends AppCompatEditText {
             height = boxHeight + getPaddingTop () + getPaddingBottom ();
         }
 
-        setMeasuredDimension (width, height);
+        setMeasuredDimension (width,height);
     }
 
     @Override
-    protected void onTextChanged(CharSequence text, int start, int lengthBefore, int lengthAfter) {
+    protected void onTextChanged ( CharSequence text,int start,int lengthBefore,int lengthAfter ) {
         if (start != text.length ()) {
             moveSelectionToEnd ();
         }
@@ -274,8 +274,8 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
-        super.onFocusChanged (focused, direction, previouslyFocusedRect);
+    protected void onFocusChanged ( boolean focused,int direction,Rect previouslyFocusedRect ) {
+        super.onFocusChanged (focused,direction,previouslyFocusedRect);
 
         if (focused) {
             moveSelectionToEnd ();
@@ -284,20 +284,20 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    protected void onSelectionChanged(int selStart, int selEnd) {
-        super.onSelectionChanged (selStart, selEnd);
+    protected void onSelectionChanged ( int selStart,int selEnd ) {
+        super.onSelectionChanged (selStart,selEnd);
 
         if (selEnd != getText ().length ()) {
             moveSelectionToEnd ();
         }
     }
 
-    private void moveSelectionToEnd() {
+    private void moveSelectionToEnd ( ) {
         setSelection (getText ().length ());
     }
 
     @Override
-    protected void drawableStateChanged() {
+    protected void drawableStateChanged ( ) {
         super.drawableStateChanged ();
 
         if (mLineColor == null || mLineColor.isStateful ()) {
@@ -306,7 +306,7 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw ( Canvas canvas ) {
         canvas.save ();
 
         updatePaints ();
@@ -315,14 +315,14 @@ public class PinView extends AppCompatEditText {
         canvas.restore ();
     }
 
-    private void updatePaints() {
+    private void updatePaints ( ) {
         mPaint.setColor (mCurLineColor);
         mPaint.setStyle (Paint.Style.STROKE);
         mPaint.setStrokeWidth (mLineWidth);
         getPaint ().setColor (getCurrentTextColor ());
     }
 
-    private void drawPinView(Canvas canvas) {
+    private void drawPinView ( Canvas canvas ) {
         int highlightIdx = getText ().length ();
         for (int i = 0; i < mPinItemCount; i++) {
             boolean highlight = isFocused () && highlightIdx == i;
@@ -336,7 +336,7 @@ public class PinView extends AppCompatEditText {
                 updatePinBoxPath (i);
                 canvas.clipPath (mPath);
             }
-            drawItemBackground (canvas, highlight);
+            drawItemBackground (canvas,highlight);
             canvas.restore ();
 
             if (highlight) {
@@ -344,9 +344,9 @@ public class PinView extends AppCompatEditText {
             }
 
             if (mViewType == VIEW_TYPE_RECTANGLE) {
-                drawPinBox (canvas, i);
+                drawPinBox (canvas,i);
             } else if (mViewType == VIEW_TYPE_LINE) {
-                drawPinLine (canvas, i);
+                drawPinLine (canvas,i);
             }
 
             if (DBG) {
@@ -355,12 +355,12 @@ public class PinView extends AppCompatEditText {
 
             if (getText ().length () > i) {
                 if (isPasswordInputType (getInputType ())) {
-                    drawCircle (canvas, i);
+                    drawCircle (canvas,i);
                 } else {
-                    drawText (canvas, i);
+                    drawText (canvas,i);
                 }
             } else if (! TextUtils.isEmpty (getHint ()) && getHint ().length () == mPinItemCount) {
-                drawHint (canvas, i);
+                drawHint (canvas,i);
             }
         }
 
@@ -371,30 +371,30 @@ public class PinView extends AppCompatEditText {
             updateCenterPoint ();
             updatePinBoxPath (index);
             mPaint.setColor (getLineColorForState (HIGHLIGHT_STATES));
-            drawPinBox (canvas, index);
+            drawPinBox (canvas,index);
         }
     }
 
-    private int getLineColorForState(int... states) {
-        return mLineColor != null ? mLineColor.getColorForState (states, mCurLineColor) : mCurLineColor;
+    private int getLineColorForState ( int... states ) {
+        return mLineColor != null ? mLineColor.getColorForState (states,mCurLineColor) : mCurLineColor;
     }
 
-    private void drawItemBackground(Canvas canvas, boolean highlight) {
+    private void drawItemBackground ( Canvas canvas,boolean highlight ) {
         if (mItemBackground == null) {
             return;
         }
-        float delta = (float) mLineWidth / 2;
+        float delta = (float)mLineWidth / 2;
         int left = Math.round (mItemBorderRect.left - delta);
         int top = Math.round (mItemBorderRect.top - delta);
         int right = Math.round (mItemBorderRect.right + delta);
         int bottom = Math.round (mItemBorderRect.bottom + delta);
 
-        mItemBackground.setBounds (left, top, right, bottom);
+        mItemBackground.setBounds (left,top,right,bottom);
         mItemBackground.setState (highlight ? HIGHLIGHT_STATES : getDrawableState ());
         mItemBackground.draw (canvas);
     }
 
-    private void updatePinBoxPath(int i) {
+    private void updatePinBoxPath ( int i ) {
         boolean drawRightCorner = false;
         boolean drawLeftCorner = false;
         if (mPinItemSpacing != 0) {
@@ -407,17 +407,17 @@ public class PinView extends AppCompatEditText {
                 drawRightCorner = true;
             }
         }
-        updateRoundRectPath (mItemBorderRect, mPinItemRadius, mPinItemRadius, drawLeftCorner, drawRightCorner);
+        updateRoundRectPath (mItemBorderRect,mPinItemRadius,mPinItemRadius,drawLeftCorner,drawRightCorner);
     }
 
-    private void drawPinBox(Canvas canvas, int i) {
+    private void drawPinBox ( Canvas canvas,int i ) {
         if (mHideLineWhenFilled && i < getText ().length ()) {
             return;
         }
-        canvas.drawPath (mPath, mPaint);
+        canvas.drawPath (mPath,mPaint);
     }
 
-    private void drawPinLine(Canvas canvas, int i) {
+    private void drawPinLine ( Canvas canvas,int i ) {
         if (mHideLineWhenFilled && i < getText ().length ()) {
             return;
         }
@@ -436,22 +436,22 @@ public class PinView extends AppCompatEditText {
             }
         }
         mPaint.setStyle (Paint.Style.FILL);
-        mPaint.setStrokeWidth (((float) mLineWidth) / 10);
-        float halfLineWidth = ((float) mLineWidth) / 2;
+        mPaint.setStrokeWidth (( (float)mLineWidth ) / 10);
+        float halfLineWidth = ( (float)mLineWidth ) / 2;
         mItemLineRect.set (
                 mItemBorderRect.left - halfLineWidth,
                 mItemBorderRect.bottom - halfLineWidth,
                 mItemBorderRect.right + halfLineWidth,
                 mItemBorderRect.bottom + halfLineWidth);
 
-        updateRoundRectPath (mItemLineRect, mPinItemRadius, mPinItemRadius, l, r);
+        updateRoundRectPath (mItemLineRect,mPinItemRadius,mPinItemRadius,l,r);
 
-        canvas.drawPath (mPath, mPaint);
+        canvas.drawPath (mPath,mPaint);
 
 
     }
 
-    private void drawCursor(Canvas canvas) {
+    private void drawCursor ( Canvas canvas ) {
         if (drawCursor) {
             float cx = mItemCenterPoint.x;
             float cy = mItemCenterPoint.y;
@@ -463,19 +463,19 @@ public class PinView extends AppCompatEditText {
             mPaint.setColor (mCursorColor);
             mPaint.setStrokeWidth (mCursorWidth);
 
-            canvas.drawLine (x, y, x, y + mCursorHeight, mPaint);
+            canvas.drawLine (x,y,x,y + mCursorHeight,mPaint);
 
             mPaint.setColor (color);
             mPaint.setStrokeWidth (width);
         }
     }
 
-    private void updateRoundRectPath(RectF rectF, float rx, float ry, boolean l, boolean r) {
-        updateRoundRectPath (rectF, rx, ry, l, r, r, l);
+    private void updateRoundRectPath ( RectF rectF,float rx,float ry,boolean l,boolean r ) {
+        updateRoundRectPath (rectF,rx,ry,l,r,r,l);
     }
 
-    private void updateRoundRectPath(RectF rectF, float rx, float ry,
-                                     boolean tl, boolean tr, boolean br, boolean bl) {
+    private void updateRoundRectPath ( RectF rectF,float rx,float ry,
+                                       boolean tl,boolean tr,boolean br,boolean bl ) {
         mPath.reset ();
 
         float l = rectF.left;
@@ -489,61 +489,61 @@ public class PinView extends AppCompatEditText {
         float lw = w - 2 * rx;// line width
         float lh = h - 2 * ry;// line height
 
-        mPath.moveTo (l, t + ry);
+        mPath.moveTo (l,t + ry);
 
         if (tl) {
-            mPath.rQuadTo (0, - ry, rx, - ry);// top-left corner
+            mPath.rQuadTo (0,- ry,rx,- ry);// top-left corner
         } else {
-            mPath.rLineTo (0, - ry);
-            mPath.rLineTo (rx, 0);
+            mPath.rLineTo (0,- ry);
+            mPath.rLineTo (rx,0);
         }
 
-        mPath.rLineTo (lw, 0);
+        mPath.rLineTo (lw,0);
 
         if (tr) {
-            mPath.rQuadTo (rx, 0, rx, ry);// top-right corner
+            mPath.rQuadTo (rx,0,rx,ry);// top-right corner
         } else {
-            mPath.rLineTo (rx, 0);
-            mPath.rLineTo (0, ry);
+            mPath.rLineTo (rx,0);
+            mPath.rLineTo (0,ry);
         }
 
-        mPath.rLineTo (0, lh);
+        mPath.rLineTo (0,lh);
 
         if (br) {
-            mPath.rQuadTo (0, ry, - rx, ry);// bottom-right corner
+            mPath.rQuadTo (0,ry,- rx,ry);// bottom-right corner
         } else {
-            mPath.rLineTo (0, ry);
-            mPath.rLineTo (- rx, 0);
+            mPath.rLineTo (0,ry);
+            mPath.rLineTo (- rx,0);
         }
 
-        mPath.rLineTo (- lw, 0);
+        mPath.rLineTo (- lw,0);
 
         if (bl) {
-            mPath.rQuadTo (- rx, 0, - rx, - ry);// bottom-left corner
+            mPath.rQuadTo (- rx,0,- rx,- ry);// bottom-left corner
         } else {
-            mPath.rLineTo (- rx, 0);
-            mPath.rLineTo (0, - ry);
+            mPath.rLineTo (- rx,0);
+            mPath.rLineTo (0,- ry);
         }
 
-        mPath.rLineTo (0, - lh);
+        mPath.rLineTo (0,- lh);
 
         mPath.close ();
     }
 
-    private void updateItemRectF(int i) {
-        float halfLineWidth = ((float) mLineWidth) / 2;
-        float left = getScrollX () + ViewCompat.getPaddingStart (this) + i * (mPinItemSpacing + mPinItemWidth) + halfLineWidth;
+    private void updateItemRectF ( int i ) {
+        float halfLineWidth = ( (float)mLineWidth ) / 2;
+        float left = getScrollX () + ViewCompat.getPaddingStart (this) + i * ( mPinItemSpacing + mPinItemWidth ) + halfLineWidth;
         if (mPinItemSpacing == 0 && i > 0) {
-            left = left - (mLineWidth) * i;
+            left = left - ( mLineWidth ) * i;
         }
         float right = left + mPinItemWidth - mLineWidth;
         float top = getScrollY () + getPaddingTop () + halfLineWidth;
         float bottom = top + mPinItemHeight - mLineWidth;
 
-        mItemBorderRect.set (left, top, right, bottom);
+        mItemBorderRect.set (left,top,right,bottom);
     }
 
-    private void drawText(Canvas canvas, int i) {
+    private void drawText ( Canvas canvas,int i ) {
         Paint paint = getPaintByIndex (i);
         // 1, Rect(4, -39, 20, 0)
         // 您, Rect(2, -47, 51, 3)
@@ -551,32 +551,32 @@ public class PinView extends AppCompatEditText {
         // =, Rect(4, -26, 26, -10)
         // -, Rect(1, -19, 14, -14)
         // +, Rect(2, -32, 29, -3)
-        drawTextAtBox (canvas, paint, getText (), i);
+        drawTextAtBox (canvas,paint,getText (),i);
     }
 
-    private void drawHint(Canvas canvas, int i) {
+    private void drawHint ( Canvas canvas,int i ) {
         Paint paint = getPaintByIndex (i);
         paint.setColor (getCurrentHintTextColor ());
-        drawTextAtBox (canvas, paint, getHint (), i);
+        drawTextAtBox (canvas,paint,getHint (),i);
     }
 
-    private void drawTextAtBox(Canvas canvas, Paint paint, CharSequence text, int charAt) {
-        paint.getTextBounds (text.toString (), charAt, charAt + 1, mTextRect);
+    private void drawTextAtBox ( Canvas canvas,Paint paint,CharSequence text,int charAt ) {
+        paint.getTextBounds (text.toString (),charAt,charAt + 1,mTextRect);
         float cx = mItemCenterPoint.x;
         float cy = mItemCenterPoint.y;
-        float x = cx - Math.abs ((float) mTextRect.width ()) / 2 - mTextRect.left;
-        float y = cy + Math.abs ((float) mTextRect.height ()) / 2 - mTextRect.bottom;// always center vertical
-        canvas.drawText (text, charAt, charAt + 1, x, y, paint);
+        float x = cx - Math.abs ((float)mTextRect.width ()) / 2 - mTextRect.left;
+        float y = cy + Math.abs ((float)mTextRect.height ()) / 2 - mTextRect.bottom;// always center vertical
+        canvas.drawText (text,charAt,charAt + 1,x,y,paint);
     }
 
-    private void drawCircle(Canvas canvas, int i) {
+    private void drawCircle ( Canvas canvas,int i ) {
         Paint paint = getPaintByIndex (i);
         float cx = mItemCenterPoint.x;
         float cy = mItemCenterPoint.y;
-        canvas.drawCircle (cx, cy, paint.getTextSize () / 2, paint);
+        canvas.drawCircle (cx,cy,paint.getTextSize () / 2,paint);
     }
 
-    private Paint getPaintByIndex(int i) {
+    private Paint getPaintByIndex ( int i ) {
         if (isAnimationEnable && i == getText ().length () - 1) {
             mAnimatorTextPaint.setColor (getPaint ().getColor ());
             return mAnimatorTextPaint;
@@ -588,7 +588,7 @@ public class PinView extends AppCompatEditText {
     /**
      * For seeing the font position
      */
-    private void drawAnchorLine(Canvas canvas) {
+    private void drawAnchorLine ( Canvas canvas ) {
         float cx = mItemCenterPoint.x;
         float cy = mItemCenterPoint.y;
         mPaint.setStrokeWidth (1);
@@ -596,26 +596,26 @@ public class PinView extends AppCompatEditText {
         cy -= mPaint.getStrokeWidth () / 2;
 
         mPath.reset ();
-        mPath.moveTo (cx, mItemBorderRect.top);
-        mPath.lineTo (cx, mItemBorderRect.top + Math.abs (mItemBorderRect.height ()));
-        canvas.drawPath (mPath, mPaint);
+        mPath.moveTo (cx,mItemBorderRect.top);
+        mPath.lineTo (cx,mItemBorderRect.top + Math.abs (mItemBorderRect.height ()));
+        canvas.drawPath (mPath,mPaint);
 
         mPath.reset ();
-        mPath.moveTo (mItemBorderRect.left, cy);
-        mPath.lineTo (mItemBorderRect.left + Math.abs (mItemBorderRect.width ()), cy);
-        canvas.drawPath (mPath, mPaint);
+        mPath.moveTo (mItemBorderRect.left,cy);
+        mPath.lineTo (mItemBorderRect.left + Math.abs (mItemBorderRect.width ()),cy);
+        canvas.drawPath (mPath,mPaint);
 
         mPath.reset ();
 
         mPaint.setStrokeWidth (mLineWidth);
     }
 
-    private void updateColors() {
+    private void updateColors ( ) {
         boolean inval = false;
 
         int color;
         if (mLineColor != null) {
-            color = mLineColor.getColorForState (getDrawableState (), 0);
+            color = mLineColor.getColorForState (getDrawableState (),0);
         } else {
             color = getCurrentTextColor ();
         }
@@ -630,19 +630,19 @@ public class PinView extends AppCompatEditText {
         }
     }
 
-    private void updateCenterPoint() {
+    private void updateCenterPoint ( ) {
         float cx = mItemBorderRect.left + Math.abs (mItemBorderRect.width ()) / 2;
         float cy = mItemBorderRect.top + Math.abs (mItemBorderRect.height ()) / 2;
-        mItemCenterPoint.set (cx, cy);
+        mItemCenterPoint.set (cx,cy);
     }
 
     @Override
-    protected MovementMethod getDefaultMovementMethod() {
+    protected MovementMethod getDefaultMovementMethod ( ) {
         return DefaultMovementMethod.getInstance ();
     }
 
 
-    public void setLineColor(@ColorInt int color) {
+    public void setLineColor ( @ColorInt int color ) {
         mLineColor = ColorStateList.valueOf (color);
         updateColors ();
     }
@@ -654,7 +654,7 @@ public class PinView extends AppCompatEditText {
      * @see #setLineColor(int)
      * @see #getLineColors()
      */
-    public void setLineColor(ColorStateList colors) {
+    public void setLineColor ( ColorStateList colors ) {
         if (colors == null) {
             throw new NullPointerException ();
         }
@@ -670,7 +670,7 @@ public class PinView extends AppCompatEditText {
      * @see #setLineColor(ColorStateList)
      * @see #setLineColor(int)
      */
-    public ColorStateList getLineColors() {
+    public ColorStateList getLineColors ( ) {
         return mLineColor;
     }
 
@@ -680,7 +680,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the current item's line color.
      */
     @ColorInt
-    public int getCurrentLineColor() {
+    public int getCurrentLineColor ( ) {
         return mCurLineColor;
     }
 
@@ -688,7 +688,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the width of the item's line.
      * @see #setLineWidth(int)
      */
-    public int getLineWidth() {
+    public int getLineWidth ( ) {
         return mLineWidth;
     }
 
@@ -698,7 +698,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_lineWidth
      * @see #getLineWidth()
      */
-    public void setLineWidth(@Px int borderWidth) {
+    public void setLineWidth ( @Px int borderWidth ) {
         mLineWidth = borderWidth;
         checkItemRadius ();
         requestLayout ();
@@ -708,7 +708,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the count of items.
      * @see #setItemCount(int)
      */
-    public int getItemCount() {
+    public int getItemCount ( ) {
         return mPinItemCount;
     }
 
@@ -718,7 +718,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_itemCount
      * @see #getItemCount()
      */
-    public void setItemCount(int count) {
+    public void setItemCount ( int count ) {
         mPinItemCount = count;
         setMaxLength (count);
         requestLayout ();
@@ -728,7 +728,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the radius of square.
      * @see #setItemRadius(int)
      */
-    public int getItemRadius() {
+    public int getItemRadius ( ) {
         return mPinItemRadius;
     }
 
@@ -738,7 +738,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_itemRadius
      * @see #getItemRadius()
      */
-    public void setItemRadius(@Px int itemRadius) {
+    public void setItemRadius ( @Px int itemRadius ) {
         mPinItemRadius = itemRadius;
         checkItemRadius ();
         requestLayout ();
@@ -749,7 +749,7 @@ public class PinView extends AppCompatEditText {
      * @see #setItemSpacing(int)
      */
     @Px
-    public int getItemSpacing() {
+    public int getItemSpacing ( ) {
         return mPinItemSpacing;
     }
 
@@ -759,7 +759,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_itemSpacing
      * @see #getItemSpacing()
      */
-    public void setItemSpacing(@Px int itemSpacing) {
+    public void setItemSpacing ( @Px int itemSpacing ) {
         mPinItemSpacing = itemSpacing;
         requestLayout ();
     }
@@ -768,7 +768,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the height of item.
      * @see #setItemHeight(int)
      */
-    public int getItemHeight() {
+    public int getItemHeight ( ) {
         return mPinItemHeight;
     }
 
@@ -778,7 +778,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_itemHeight
      * @see #getItemHeight()
      */
-    public void setItemHeight(@Px int itemHeight) {
+    public void setItemHeight ( @Px int itemHeight ) {
         mPinItemHeight = itemHeight;
         updateCursorHeight ();
         requestLayout ();
@@ -788,7 +788,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the width of item.
      * @see #setItemWidth(int)
      */
-    public int getItemWidth() {
+    public int getItemWidth ( ) {
         return mPinItemWidth;
     }
 
@@ -798,7 +798,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_itemWidth
      * @see #getItemWidth()
      */
-    public void setItemWidth(@Px int itemWidth) {
+    public void setItemWidth ( @Px int itemWidth ) {
         mPinItemWidth = itemWidth;
         checkItemRadius ();
         requestLayout ();
@@ -810,7 +810,7 @@ public class PinView extends AppCompatEditText {
      *
      * @param enable True to start animation when adding text, false to transition immediately
      */
-    public void setAnimationEnable(boolean enable) {
+    public void setAnimationEnable ( boolean enable ) {
         isAnimationEnable = enable;
     }
 
@@ -822,19 +822,19 @@ public class PinView extends AppCompatEditText {
      *                           false to always show line
      * @attr ref R.styleable#PinView_hideLineWhenFilled
      */
-    public void setHideLineWhenFilled(boolean hideLineWhenFilled) {
+    public void setHideLineWhenFilled ( boolean hideLineWhenFilled ) {
         this.mHideLineWhenFilled = hideLineWhenFilled;
     }
 
     @Override
-    public void setTextSize(float size) {
+    public void setTextSize ( float size ) {
         super.setTextSize (size);
         updateCursorHeight ();
     }
 
     @Override
-    public void setTextSize(int unit, float size) {
-        super.setTextSize (unit, size);
+    public void setTextSize ( int unit,float size ) {
+        super.setTextSize (unit,size);
         updateCursorHeight ();
     }
 
@@ -847,11 +847,11 @@ public class PinView extends AppCompatEditText {
      * @param resId The identifier of the resource.
      * @attr ref R.styleable#PinView_android_itemBackground
      */
-    public void setItemBackgroundResources(@DrawableRes int resId) {
+    public void setItemBackgroundResources ( @DrawableRes int resId ) {
         if (resId != 0 && mItemBackgroundResource != resId) {
             return;
         }
-        mItemBackground = ResourcesCompat.getDrawable (getResources (), resId, getContext ().getTheme ());
+        mItemBackground = ResourcesCompat.getDrawable (getResources (),resId,getContext ().getTheme ());
         setItemBackground (mItemBackground);
         mItemBackgroundResource = resId;
     }
@@ -861,9 +861,9 @@ public class PinView extends AppCompatEditText {
      *
      * @param color the color of the item background
      */
-    public void setItemBackgroundColor(@ColorInt int color) {
+    public void setItemBackgroundColor ( @ColorInt int color ) {
         if (mItemBackground instanceof ColorDrawable) {
-            ((ColorDrawable) mItemBackground.mutate ()).setColor (color);
+            ( (ColorDrawable)mItemBackground.mutate () ).setColor (color);
             mItemBackgroundResource = 0;
         } else {
             setItemBackground (new ColorDrawable (color));
@@ -876,7 +876,7 @@ public class PinView extends AppCompatEditText {
      * @param background The Drawable to use as the item background, or null to remove the
      *                   item background
      */
-    public void setItemBackground(Drawable background) {
+    public void setItemBackground ( Drawable background ) {
         mItemBackgroundResource = 0;
         mItemBackground = background;
         invalidate ();
@@ -889,7 +889,7 @@ public class PinView extends AppCompatEditText {
      * @return Returns the width (in pixels) of cursor.
      * @see #setCursorWidth(int)
      */
-    public int getCursorWidth() {
+    public int getCursorWidth ( ) {
         return mCursorWidth;
     }
 
@@ -899,7 +899,7 @@ public class PinView extends AppCompatEditText {
      * @attr ref R.styleable#PinView_cursorWidth
      * @see #getCursorWidth()
      */
-    public void setCursorWidth(@Px int width) {
+    public void setCursorWidth ( @Px int width ) {
         mCursorWidth = width;
         if (isCursorVisible ()) {
             invalidateCursor (true);
@@ -912,11 +912,11 @@ public class PinView extends AppCompatEditText {
      * @return Return current cursor color.
      * @see #setCursorColor(int)
      */
-    public int getCursorColor() {
+    public int getCursorColor ( ) {
         return mCursorColor;
     }
 
-    public void setCursorColor(@ColorInt int color) {
+    public void setCursorColor ( @ColorInt int color ) {
         mCursorColor = color;
         if (isCursorVisible ()) {
             invalidateCursor (true);
@@ -924,12 +924,12 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    public boolean isCursorVisible() {
+    public boolean isCursorVisible ( ) {
         return isCursorVisible;
     }
 
     @Override
-    public void setCursorVisible(boolean visible) {
+    public void setCursorVisible ( boolean visible ) {
         if (isCursorVisible != visible) {
             isCursorVisible = visible;
             invalidateCursor (isCursorVisible);
@@ -938,7 +938,7 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    public void onScreenStateChanged(int screenState) {
+    public void onScreenStateChanged ( int screenState ) {
         super.onScreenStateChanged (screenState);
         switch (screenState) {
             case View.SCREEN_STATE_ON:
@@ -951,29 +951,29 @@ public class PinView extends AppCompatEditText {
     }
 
     @Override
-    protected void onAttachedToWindow() {
+    protected void onAttachedToWindow ( ) {
         super.onAttachedToWindow ();
         resumeBlink ();
     }
 
     @Override
-    protected void onDetachedFromWindow() {
+    protected void onDetachedFromWindow ( ) {
         super.onDetachedFromWindow ();
         suspendBlink ();
     }
 
-    private boolean shouldBlink() {
+    private boolean shouldBlink ( ) {
         return isCursorVisible () && isFocused ();
     }
 
-    private void makeBlink() {
+    private void makeBlink ( ) {
         if (shouldBlink ()) {
             if (mBlink == null) {
                 mBlink = new Blink ();
             }
             removeCallbacks (mBlink);
             drawCursor = false;
-            postDelayed (mBlink, BLINK);
+            postDelayed (mBlink,BLINK);
         } else {
             if (mBlink != null) {
                 removeCallbacks (mBlink);
@@ -981,34 +981,34 @@ public class PinView extends AppCompatEditText {
         }
     }
 
-    private void suspendBlink() {
+    private void suspendBlink ( ) {
         if (mBlink != null) {
             mBlink.cancel ();
             invalidateCursor (false);
         }
     }
 
-    private void resumeBlink() {
+    private void resumeBlink ( ) {
         if (mBlink != null) {
             mBlink.uncancel ();
             makeBlink ();
         }
     }
 
-    private void invalidateCursor(boolean showCursor) {
+    private void invalidateCursor ( boolean showCursor ) {
         if (drawCursor != showCursor) {
             drawCursor = showCursor;
             invalidate ();
         }
     }
 
-    private void updateCursorHeight() {
+    private void updateCursorHeight ( ) {
         int delta = 2 * dpToPx (2);
         mCursorHeight = mPinItemHeight - getTextSize () > delta ? getTextSize () + delta : getTextSize ();
     }
 
-    private int dpToPx(float dp) {
-        return (int) (dp * getResources ().getDisplayMetrics ().density + 0.5f);
+    private int dpToPx ( float dp ) {
+        return (int)( dp * getResources ().getDisplayMetrics ().density + 0.5f );
     }
     //endregion
 
@@ -1016,7 +1016,7 @@ public class PinView extends AppCompatEditText {
         private boolean mCancelled;
 
         @Override
-        public void run() {
+        public void run ( ) {
             if (mCancelled) {
                 return;
             }
@@ -1025,18 +1025,18 @@ public class PinView extends AppCompatEditText {
 
             if (shouldBlink ()) {
                 invalidateCursor (! drawCursor);
-                postDelayed (this, BLINK);
+                postDelayed (this,BLINK);
             }
         }
 
-        private void cancel() {
+        private void cancel ( ) {
             if (! mCancelled) {
                 removeCallbacks (this);
                 mCancelled = true;
             }
         }
 
-        void uncancel() {
+        void uncancel ( ) {
             mCancelled = false;
         }
     }

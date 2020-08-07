@@ -55,11 +55,11 @@ public class MainActivity extends DrawerActivity {
     int total = 0;
     private boolean isLoadMore = false;
 
-    @SuppressLint ("SetTextI18n")
+    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
-        getLayoutInflater ().inflate (R.layout.activity_main, frameLayout);
+        getLayoutInflater ().inflate (R.layout.activity_main,frameLayout);
         toolbar = findViewById (R.id.toolbar);
 
 
@@ -86,16 +86,16 @@ public class MainActivity extends DrawerActivity {
 
             lyt_main_activity_swipe_refresh.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
                 @Override
-                public void onRefresh() {
+                public void onRefresh ( ) {
                     if (AppController.isConnected (activity)) {
-                        session.setData (Constant.OFFSET, "" + 0);
+                        session.setData (Constant.OFFSET,"" + 0);
                         GetData (0);
                         getDeliveryBoyData (activity);
 
                         disableSwipe (lyt_main_activity_swipe_refresh);
 
                     } else {
-                        setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+                        setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
                     }
 
                     lyt_main_activity_swipe_refresh.setRefreshing (false);
@@ -106,7 +106,7 @@ public class MainActivity extends DrawerActivity {
         drawerToggle = new ActionBarDrawerToggle
                 (
                         this,
-                        drawer, toolbar,
+                        drawer,toolbar,
                         R.string.drawer_open,
                         R.string.drawer_close
                 ) {
@@ -114,7 +114,7 @@ public class MainActivity extends DrawerActivity {
 
         FirebaseInstanceId.getInstance ().getInstanceId ().addOnSuccessListener (new OnSuccessListener<InstanceIdResult> () {
             @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
+            public void onSuccess ( InstanceIdResult instanceIdResult ) {
                 String token = instanceIdResult.getToken ();
                 AppController.getInstance ().setDeviceToken (token);
                 if (! token.equals (session.getData (Session.KEY_FCM_ID))) {
@@ -124,38 +124,38 @@ public class MainActivity extends DrawerActivity {
         });
     }
 
-    public void updateFCMId() {
-        Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.ID, session.getData (Constant.ID));
-        params.put (Constant.UPDATE_DELIVERY_BOY_FCM_ID, Constant.GetVal);
-        params.put (Constant.FCM_ID, "" + AppController.getInstance ().getDeviceToken ());
+    public void updateFCMId ( ) {
+        Map<String,String> params = new HashMap<String,String> ();
+        params.put (Constant.ID,session.getData (Constant.ID));
+        params.put (Constant.UPDATE_DELIVERY_BOY_FCM_ID,Constant.GetVal);
+        params.put (Constant.FCM_ID,"" + AppController.getInstance ().getDeviceToken ());
 
         ApiConfig.RequestToVolley (new VolleyCallback () {
-            @SuppressLint ("SetTextI18n")
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onSuccess(boolean result, String response) {
+            public void onSuccess ( boolean result,String response ) {
             }
-        }, activity, Constant.MAIN_URL, params, true);
+        },activity,Constant.MAIN_URL,params,true);
     }
 
 
-    private void GetData(final int startoffset) {
+    private void GetData ( final int startoffset ) {
         orderListArrayList = new ArrayList<> ();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
         recycleOrderList.setLayoutManager (linearLayoutManager);
 
 
-        Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.ID, session.getData (Constant.ID));
-        params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
-        params.put (Constant.OFFSET, session.getData (Constant.OFFSET));
-        params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
+        Map<String,String> params = new HashMap<String,String> ();
+        params.put (Constant.ID,session.getData (Constant.ID));
+        params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID,Constant.GetVal);
+        params.put (Constant.OFFSET,session.getData (Constant.OFFSET));
+        params.put (Constant.LIMIT,Constant.PRODUCT_LOAD_LIMIT);
 
 
 //        System.out.println("====params " + params.toString());
         ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
-            public void onSuccess(boolean result, String response) {
+            public void onSuccess ( boolean result,String response ) {
 
                 if (result) {
                     try {
@@ -163,7 +163,7 @@ public class MainActivity extends DrawerActivity {
                         JSONObject objectbject = new JSONObject (response);
                         if (! objectbject.getBoolean (Constant.ERROR)) {
                             total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
-                            session.setData (Constant.TOTAL, String.valueOf (total));
+                            session.setData (Constant.TOTAL,String.valueOf (total));
 
                             final JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
@@ -176,7 +176,7 @@ public class MainActivity extends DrawerActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                 if (jsonObject1 != null) {
-                                    OrderList orderList = g.fromJson (jsonObject1.toString (), OrderList.class);
+                                    OrderList orderList = g.fromJson (jsonObject1.toString (),OrderList.class);
                                     orderListArrayList.add (orderList);
                                 } else {
                                     break;
@@ -184,16 +184,16 @@ public class MainActivity extends DrawerActivity {
 
                             }
                             if (startoffset == 0) {
-                                orderListAdapter = new OrderListAdapter (activity, orderListArrayList);
+                                orderListAdapter = new OrderListAdapter (activity,orderListArrayList);
                                 orderListAdapter.setHasStableIds (true);
                                 recycleOrderList.setAdapter (orderListAdapter);
                                 scrollView.setOnScrollChangeListener (new NestedScrollView.OnScrollChangeListener () {
                                     @Override
-                                    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                                    public void onScrollChange ( NestedScrollView v,int scrollX,int scrollY,int oldScrollX,int oldScrollY ) {
 
                                         // if (diff == 0) {
-                                        if (scrollY == (v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight ())) {
-                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recycleOrderList.getLayoutManager ();
+                                        if (scrollY == ( v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight () )) {
+                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recycleOrderList.getLayoutManager ();
                                             if (orderListArrayList.size () < total) {
                                                 if (! isLoadMore) {
                                                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition () == orderListArrayList.size () - 1) {
@@ -202,19 +202,19 @@ public class MainActivity extends DrawerActivity {
                                                         orderListAdapter.notifyItemInserted (orderListArrayList.size () - 1);
                                                         new Handler ().postDelayed (new Runnable () {
                                                             @Override
-                                                            public void run() {
+                                                            public void run ( ) {
 
-                                                                session.setData (Constant.OFFSET, Integer.parseInt (session.getData (Constant.OFFSET)) + Constant.LOAD_ITEM_LIMIT);
+                                                                session.setData (Constant.OFFSET,Integer.parseInt (session.getData (Constant.OFFSET)) + Constant.LOAD_ITEM_LIMIT);
 
-                                                                Map<String, String> params = new HashMap<> ();
-                                                                params.put (Constant.ID, session.getData (Constant.ID));
-                                                                params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
-                                                                params.put (Constant.LIMIT, Constant.LOAD_ITEM_LIMIT);
-                                                                params.put (Constant.OFFSET, session.getData (Constant.OFFSET));
+                                                                Map<String,String> params = new HashMap<> ();
+                                                                params.put (Constant.ID,session.getData (Constant.ID));
+                                                                params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID,Constant.GetVal);
+                                                                params.put (Constant.LIMIT,Constant.LOAD_ITEM_LIMIT);
+                                                                params.put (Constant.OFFSET,session.getData (Constant.OFFSET));
 
                                                                 ApiConfig.RequestToVolley (new VolleyCallback () {
                                                                     @Override
-                                                                    public void onSuccess(boolean result, String response) {
+                                                                    public void onSuccess ( boolean result,String response ) {
 
                                                                         if (result) {
                                                                             try {
@@ -222,7 +222,7 @@ public class MainActivity extends DrawerActivity {
                                                                                 JSONObject objectbject1 = new JSONObject (response);
                                                                                 if (! objectbject1.getBoolean (Constant.ERROR)) {
 
-                                                                                    session.setData (Constant.TOTAL, objectbject1.getString (Constant.TOTAL));
+                                                                                    session.setData (Constant.TOTAL,objectbject1.getString (Constant.TOTAL));
 
                                                                                     orderListArrayList.remove (orderListArrayList.size () - 1);
                                                                                     orderListAdapter.notifyItemRemoved (orderListArrayList.size ());
@@ -237,7 +237,7 @@ public class MainActivity extends DrawerActivity {
                                                                                         JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                                                                         if (jsonObject1 != null) {
-                                                                                            OrderList orderList = g.fromJson (jsonObject1.toString (), OrderList.class);
+                                                                                            OrderList orderList = g.fromJson (jsonObject1.toString (),OrderList.class);
                                                                                             orderListArrayList.add (orderList);
                                                                                         } else {
                                                                                             break;
@@ -253,10 +253,10 @@ public class MainActivity extends DrawerActivity {
                                                                             }
                                                                         }
                                                                     }
-                                                                }, activity, Constant.MAIN_URL, params, false);
+                                                                },activity,Constant.MAIN_URL,params,false);
 
                                                             }
-                                                        }, 0);
+                                                        },0);
                                                         isLoadMore = true;
                                                     }
 
@@ -272,25 +272,25 @@ public class MainActivity extends DrawerActivity {
                     }
                 }
             }
-        }, activity, Constant.MAIN_URL, params, false);
+        },activity,Constant.MAIN_URL,params,false);
     }
 
-    public void getTotalOrderCount(final Activity activity) {
+    public void getTotalOrderCount ( final Activity activity ) {
         if (AppController.isConnected (activity)) {
 
-            Map<String, String> params = new HashMap<String, String> ();
-            params.put (Constant.ID, session.getData (Constant.ID));
-            params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID, Constant.GetVal);
+            Map<String,String> params = new HashMap<String,String> ();
+            params.put (Constant.ID,session.getData (Constant.ID));
+            params.put (Constant.GET_ORDERS_BY_DELIVERY_BOY_ID,Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
                 @Override
-                public void onSuccess(boolean result, String response) {
+                public void onSuccess ( boolean result,String response ) {
                     if (result) {
                         try {
                             JSONObject jsonObject = new JSONObject (response);
 
                             if (! jsonObject.getBoolean (Constant.ERROR)) {
-                                session.setData (Constant.TOTAL, jsonObject.getString (Constant.TOTAL));
+                                session.setData (Constant.TOTAL,jsonObject.getString (Constant.TOTAL));
 
                             }
                         } catch (JSONException e) {
@@ -298,43 +298,43 @@ public class MainActivity extends DrawerActivity {
                         }
                     }
                 }
-            }, activity, Constant.MAIN_URL, params, true);
+            },activity,Constant.MAIN_URL,params,true);
 
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
         }
     }
 
-    public void getDeliveryBoyData(final Activity activity) {
+    public void getDeliveryBoyData ( final Activity activity ) {
         if (AppController.isConnected (activity)) {
 
-            Map<String, String> params = new HashMap<String, String> ();
-            params.put (Constant.ID, session.getData (Constant.ID));
-            params.put (Constant.GET_DELIVERY_BOY_BY_ID, Constant.GetVal);
+            Map<String,String> params = new HashMap<String,String> ();
+            params.put (Constant.ID,session.getData (Constant.ID));
+            params.put (Constant.GET_DELIVERY_BOY_BY_ID,Constant.GetVal);
 
             ApiConfig.RequestToVolley (new VolleyCallback () {
                 @Override
-                public void onSuccess(boolean result, String response) {
+                public void onSuccess ( boolean result,String response ) {
                     //  System.out.println("============" + response);
                     if (result) {
                         try {
                             JSONObject jsonObject = new JSONObject (response);
                             if (! jsonObject.getBoolean (Constant.ERROR)) {
-                                StartMainActivity (activity, jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
+                                StartMainActivity (activity,jsonObject.getJSONArray (Constant.DATA).getJSONObject (0));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace ();
                         }
                     }
                 }
-            }, activity, Constant.MAIN_URL, params, false);
+            },activity,Constant.MAIN_URL,params,false);
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
         }
     }
 
-    @SuppressLint ("SetTextI18n")
-    public void StartMainActivity(Activity activity, JSONObject jsonObject) {
+    @SuppressLint("SetTextI18n")
+    public void StartMainActivity ( Activity activity,JSONObject jsonObject ) {
         if (AppController.isConnected (activity)) {
             try {
                 new Session (activity).createUserLoginSession (
@@ -349,7 +349,7 @@ public class MainActivity extends DrawerActivity {
                         jsonObject.getString (Constant.STATUS),
                         jsonObject.getString (Constant.CREATED_AT));
 
-                session.setData (Constant.ID, jsonObject.getString (Constant.ID));
+                session.setData (Constant.ID,jsonObject.getString (Constant.ID));
 
                 getTotalOrderCount (activity);
 
@@ -365,39 +365,39 @@ public class MainActivity extends DrawerActivity {
                 e.printStackTrace ();
             }
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.retry));
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.retry));
         }
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed ( ) {
         if (drawer.isDrawerOpen (navigationView))
             drawer.closeDrawers ();
         else
             doubleBack ();
     }
 
-    public void doubleBack() {
+    public void doubleBack ( ) {
 
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed ();
             return;
         }
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText (this, getString (R.string.please_click_back_again_to_exit), Toast.LENGTH_SHORT).show ();
+        Toast.makeText (this,getString (R.string.please_click_back_again_to_exit),Toast.LENGTH_SHORT).show ();
         new Handler ().postDelayed (new Runnable () {
             @Override
-            public void run() {
+            public void run ( ) {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        },2000);
     }
 
-    public void setSnackBar(final Activity activity, String message, String action) {
-        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction (action, new View.OnClickListener () {
+    public void setSnackBar ( final Activity activity,String message,String action ) {
+        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction (action,new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
                 snackbar.dismiss ();
             }
         });
@@ -409,7 +409,7 @@ public class MainActivity extends DrawerActivity {
     }
 
     @Override
-    public void onResume() {
+    public void onResume ( ) {
         super.onResume ();
 
         if (Constant.CLICK) {

@@ -30,42 +30,42 @@ public class MyNotificationManager {
 
     private Context mCtx;
 
-    public MyNotificationManager(Context mCtx) {
+    public MyNotificationManager ( Context mCtx ) {
         this.mCtx = mCtx;
     }
 
-    public void showBigNotification(String title, String message, String url, Intent intent) {
-        PendingIntent resultPendingIntent = PendingIntent.getActivity (mCtx, ID_BIG_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public void showBigNotification ( String title,String message,String url,Intent intent ) {
+        PendingIntent resultPendingIntent = PendingIntent.getActivity (mCtx,ID_BIG_NOTIFICATION,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle ();
         bigPictureStyle.setBigContentTitle (Html.fromHtml (title).toString ());
         bigPictureStyle.setSummaryText (Html.fromHtml (message).toString ());
         bigPictureStyle.bigPicture (getBitmapFromURL (url));
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder (mCtx, "notification");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder (mCtx,"notification");
         Notification notification;
         notification = mBuilder.setSmallIcon (R.drawable.ic_launcher).setTicker (title).setWhen (0)
                 .setAutoCancel (true)
                 .setContentIntent (resultPendingIntent)
                 .setStyle (bigPictureStyle)
                 .setSmallIcon (R.drawable.ic_launcher)
-                .setLargeIcon (BitmapFactory.decodeResource (mCtx.getResources (), R.drawable.ic_launcher))
+                .setLargeIcon (BitmapFactory.decodeResource (mCtx.getResources (),R.drawable.ic_launcher))
                 .setPriority (Notification.PRIORITY_HIGH)
                 .build ();
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        NotificationManager notificationManager = (NotificationManager) mCtx.getSystemService (Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)mCtx.getSystemService (Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel (notificationManager);
         }
-        notificationManager.notify (ID_BIG_NOTIFICATION, notification);
+        notificationManager.notify (ID_BIG_NOTIFICATION,notification);
     }
 
-    public void showSmallNotification(String title, String message, Intent intent) {
-        PendingIntent resultPendingIntent = PendingIntent.getActivity (mCtx, ID_SMALL_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    public void showSmallNotification ( String title,String message,Intent intent ) {
+        PendingIntent resultPendingIntent = PendingIntent.getActivity (mCtx,ID_SMALL_NOTIFICATION,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         //NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder (mCtx, "notification");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder (mCtx,"notification");
         Notification notification;
         notification = mBuilder.setSmallIcon (R.drawable.ic_launcher).setTicker (title).setWhen (0)
                 .setAutoCancel (true)
@@ -73,25 +73,25 @@ public class MyNotificationManager {
                 .setContentTitle (Html.fromHtml (title).toString ())
                 .setContentText (Html.fromHtml (message).toString ())
                 .setSmallIcon (R.drawable.ic_launcher)
-                .setLargeIcon (BitmapFactory.decodeResource (mCtx.getResources (), R.drawable.ic_launcher))
+                .setLargeIcon (BitmapFactory.decodeResource (mCtx.getResources (),R.drawable.ic_launcher))
                 .setPriority (Notification.PRIORITY_HIGH)
                 .setStyle (new NotificationCompat.BigTextStyle ().bigText (Html.fromHtml (message).toString ()))
                 .build ();
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        NotificationManager notificationManager = (NotificationManager) mCtx.getSystemService (Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)mCtx.getSystemService (Context.NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel (notificationManager);
         }
-        notificationManager.notify ((int) System.currentTimeMillis (), notification);
+        notificationManager.notify ((int)System.currentTimeMillis (),notification);
     }
 
 
     //The method will return Bitmap from an image URL
-    private Bitmap getBitmapFromURL(String strURL) {
+    private Bitmap getBitmapFromURL ( String strURL ) {
         try {
             URL url = new URL (strURL);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection ();
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection ();
             connection.setDoInput (true);
             connection.connect ();
             InputStream input = connection.getInputStream ();
@@ -103,12 +103,12 @@ public class MyNotificationManager {
         }
     }
 
-    @RequiresApi (Build.VERSION_CODES.O)
-    private void createChannel(NotificationManager notificationManager) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void createChannel ( NotificationManager notificationManager ) {
         String name = "notification";
         String description = "Notifications for download status";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel mChannel = new NotificationChannel ("notification", name, importance);
+        NotificationChannel mChannel = new NotificationChannel ("notification",name,importance);
         mChannel.setDescription (description);
         mChannel.enableLights (true);
         mChannel.setLightColor (Color.BLUE);

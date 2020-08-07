@@ -31,46 +31,46 @@ public class Session {
     int PRIVATE_MODE = 0;
 
 
-    public Session(Context context) {
+    public Session ( Context context ) {
         this._context = context;
-        pref = _context.getSharedPreferences (PREFER_NAME, PRIVATE_MODE);
+        pref = _context.getSharedPreferences (PREFER_NAME,PRIVATE_MODE);
         editor = pref.edit ();
     }
 
-    public void createUserLoginSession(String fcmId, String id, String name, String mobile, String password, String address, String bonus, String balance, String status, String created_at) {
-        editor.putBoolean (IS_USER_LOGIN, true);
-        editor.putString (KEY_FCM_ID, fcmId);
-        editor.putString (KEY_ID, id);
-        editor.putString (KEY_NAME, name);
-        editor.putString (KEY_MOBILE, mobile);
-        editor.putString (KEY_PASSWORD, password);
-        editor.putString (KEY_ADDRESS, address);
-        editor.putString (KEY_BONUS, bonus);
-        editor.putString (KEY_BALANCE, balance);
-        editor.putString (KEY_STATUS, status);
-        editor.putString (KEY_CREATED_AT, created_at);
+    public void createUserLoginSession ( String fcmId,String id,String name,String mobile,String password,String address,String bonus,String balance,String status,String created_at ) {
+        editor.putBoolean (IS_USER_LOGIN,true);
+        editor.putString (KEY_FCM_ID,fcmId);
+        editor.putString (KEY_ID,id);
+        editor.putString (KEY_NAME,name);
+        editor.putString (KEY_MOBILE,mobile);
+        editor.putString (KEY_PASSWORD,password);
+        editor.putString (KEY_ADDRESS,address);
+        editor.putString (KEY_BONUS,bonus);
+        editor.putString (KEY_BALANCE,balance);
+        editor.putString (KEY_STATUS,status);
+        editor.putString (KEY_CREATED_AT,created_at);
         editor.commit ();
     }
 
-    public String getData(String id) {
-        return pref.getString (id, "");
+    public String getData ( String id ) {
+        return pref.getString (id,"");
     }
 
-    public void setData(String id, String val) {
-        editor.putString (id, val);
+    public void setData ( String id,String val ) {
+        editor.putString (id,val);
         editor.commit ();
     }
 
-    public boolean isUserLoggedIn() {
-        return pref.getBoolean (IS_USER_LOGIN, false);
+    public boolean isUserLoggedIn ( ) {
+        return pref.getBoolean (IS_USER_LOGIN,false);
     }
 
-    public void logoutUser(final Activity activity) {
+    public void logoutUser ( final Activity activity ) {
 
         editor.clear ();
         editor.commit ();
 
-        Intent i = new Intent (activity, LoginActivity.class);
+        Intent i = new Intent (activity,LoginActivity.class);
         i.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity (i);
@@ -78,7 +78,7 @@ public class Session {
 
     }
 
-    public void logoutUserConfirmation(final Activity activity) {
+    public void logoutUserConfirmation ( final Activity activity ) {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder (_context);
         // Setting Dialog Message
@@ -89,20 +89,20 @@ public class Session {
         final AlertDialog alertDialog1 = alertDialog.create ();
 
         // Setting OK Button
-        alertDialog.setPositiveButton (R.string.yes, new DialogInterface.OnClickListener () {
-            public void onClick(DialogInterface dialog, int which) {
+        alertDialog.setPositiveButton (R.string.yes,new DialogInterface.OnClickListener () {
+            public void onClick ( DialogInterface dialog,int which ) {
                 editor.clear ();
                 editor.commit ();
 
-                Intent i = new Intent (activity, LoginActivity.class);
+                Intent i = new Intent (activity,LoginActivity.class);
                 i.addFlags (Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 i.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
                 activity.startActivity (i);
                 activity.finish ();
             }
         });
-        alertDialog.setNegativeButton (R.string.no, new DialogInterface.OnClickListener () {
-            public void onClick(DialogInterface dialog, int which) {
+        alertDialog.setNegativeButton (R.string.no,new DialogInterface.OnClickListener () {
+            public void onClick ( DialogInterface dialog,int which ) {
                 alertDialog1.dismiss ();
             }
         });

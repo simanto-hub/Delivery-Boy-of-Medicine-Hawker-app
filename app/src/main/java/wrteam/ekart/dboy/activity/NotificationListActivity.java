@@ -52,7 +52,7 @@ public class NotificationListActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate ( Bundle savedInstanceState ) {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.activity_notification_list);
         toolbar = findViewById (R.id.toolbar);
@@ -70,49 +70,49 @@ public class NotificationListActivity extends AppCompatActivity {
         if (AppController.isConnected (activity)) {
             getNotificationData (0);
         } else {
-            setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.ok), Color.RED);
+            setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.ok),Color.RED);
         }
 
 
         swipeLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener () {
             @Override
-            public void onRefresh() {
+            public void onRefresh ( ) {
                 if (AppController.isConnected (activity)) {
-                    session.setData (Constant.OFFSET_NOTIFICATION, "" + 0);
+                    session.setData (Constant.OFFSET_NOTIFICATION,"" + 0);
                     getNotificationData (0);
                     swipeLayout.setRefreshing (false);
                     disableSwipe (swipeLayout);
                 } else {
-                    setSnackBar (activity, getString (R.string.no_internet_message), getString (R.string.ok), Color.RED);
+                    setSnackBar (activity,getString (R.string.no_internet_message),getString (R.string.ok),Color.RED);
                 }
 
             }
         });
     }
 
-    private void getNotificationData(final int startoffset) {
+    private void getNotificationData ( final int startoffset ) {
         notifications = new ArrayList<> ();
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager (activity);
         recyclerView.setLayoutManager (linearLayoutManager);
 
-        Map<String, String> params = new HashMap<String, String> ();
-        params.put (Constant.ID, session.getData (Constant.ID));
-        params.put (Constant.GET_NOTIFICATION, Constant.GetVal);
-        params.put (Constant.OFFSET, session.getData (Constant.OFFSET_NOTIFICATION));
-        params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
+        Map<String,String> params = new HashMap<String,String> ();
+        params.put (Constant.ID,session.getData (Constant.ID));
+        params.put (Constant.GET_NOTIFICATION,Constant.GetVal);
+        params.put (Constant.OFFSET,session.getData (Constant.OFFSET_NOTIFICATION));
+        params.put (Constant.LIMIT,Constant.PRODUCT_LOAD_LIMIT);
 
 
 //        System.out.println("====params " + params.toString());
         ApiConfig.RequestToVolley (new VolleyCallback () {
             @Override
-            public void onSuccess(boolean result, String response) {
+            public void onSuccess ( boolean result,String response ) {
                 if (result) {
                     try {
                         //System.out.println("====product  " + response);
                         JSONObject objectbject = new JSONObject (response);
                         if (! objectbject.getBoolean (Constant.ERROR)) {
                             total = Integer.parseInt (objectbject.getString (Constant.TOTAL));
-                            session.setData (Constant.TOTAL, String.valueOf (total));
+                            session.setData (Constant.TOTAL,String.valueOf (total));
 
                             JSONObject object = new JSONObject (response);
                             JSONArray jsonArray = object.getJSONArray (Constant.DATA);
@@ -123,7 +123,7 @@ public class NotificationListActivity extends AppCompatActivity {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                 if (jsonObject1 != null) {
-                                    Notification notification = g.fromJson (jsonObject1.toString (), Notification.class);
+                                    Notification notification = g.fromJson (jsonObject1.toString (),Notification.class);
                                     notifications.add (notification);
                                 } else {
                                     break;
@@ -131,16 +131,16 @@ public class NotificationListActivity extends AppCompatActivity {
 
                             }
                             if (startoffset == 0) {
-                                notificationAdapter = new NotificationAdapter (activity, notifications);
+                                notificationAdapter = new NotificationAdapter (activity,notifications);
                                 notificationAdapter.setHasStableIds (true);
                                 recyclerView.setAdapter (notificationAdapter);
                                 scrollView.setOnScrollChangeListener (new NestedScrollView.OnScrollChangeListener () {
                                     @Override
-                                    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                                    public void onScrollChange ( NestedScrollView v,int scrollX,int scrollY,int oldScrollX,int oldScrollY ) {
 
                                         // if (diff == 0) {
-                                        if (scrollY == (v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight ())) {
-                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager ();
+                                        if (scrollY == ( v.getChildAt (0).getMeasuredHeight () - v.getMeasuredHeight () )) {
+                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager ();
                                             if (notifications.size () < total) {
                                                 if (! isLoadMore) {
                                                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition () == notifications.size () - 1) {
@@ -149,18 +149,18 @@ public class NotificationListActivity extends AppCompatActivity {
                                                         notificationAdapter.notifyItemInserted (notifications.size () - 1);
                                                         new Handler ().postDelayed (new Runnable () {
                                                             @Override
-                                                            public void run() {
+                                                            public void run ( ) {
 
-                                                                session.setData (Constant.OFFSET_NOTIFICATION, Integer.parseInt (session.getData (Constant.OFFSET_NOTIFICATION)) + Constant.LOAD_ITEM_LIMIT);
-                                                                Map<String, String> params = new HashMap<> ();
-                                                                params.put (Constant.ID, session.getData (Constant.ID));
-                                                                params.put (Constant.GET_NOTIFICATION, Constant.GetVal);
-                                                                params.put (Constant.OFFSET, session.getData (Constant.OFFSET_NOTIFICATION));
-                                                                params.put (Constant.LIMIT, Constant.PRODUCT_LOAD_LIMIT);
+                                                                session.setData (Constant.OFFSET_NOTIFICATION,Integer.parseInt (session.getData (Constant.OFFSET_NOTIFICATION)) + Constant.LOAD_ITEM_LIMIT);
+                                                                Map<String,String> params = new HashMap<> ();
+                                                                params.put (Constant.ID,session.getData (Constant.ID));
+                                                                params.put (Constant.GET_NOTIFICATION,Constant.GetVal);
+                                                                params.put (Constant.OFFSET,session.getData (Constant.OFFSET_NOTIFICATION));
+                                                                params.put (Constant.LIMIT,Constant.PRODUCT_LOAD_LIMIT);
 
                                                                 ApiConfig.RequestToVolley (new VolleyCallback () {
                                                                     @Override
-                                                                    public void onSuccess(boolean result, String response) {
+                                                                    public void onSuccess ( boolean result,String response ) {
 
                                                                         if (result) {
                                                                             try {
@@ -168,7 +168,7 @@ public class NotificationListActivity extends AppCompatActivity {
                                                                                 JSONObject objectbject1 = new JSONObject (response);
                                                                                 if (! objectbject1.getBoolean (Constant.ERROR)) {
 
-                                                                                    session.setData (Constant.TOTAL, objectbject1.getString (Constant.TOTAL));
+                                                                                    session.setData (Constant.TOTAL,objectbject1.getString (Constant.TOTAL));
 
                                                                                     notifications.remove (notifications.size () - 1);
                                                                                     notificationAdapter.notifyItemRemoved (notifications.size ());
@@ -183,7 +183,7 @@ public class NotificationListActivity extends AppCompatActivity {
                                                                                         JSONObject jsonObject1 = jsonArray.getJSONObject (i);
 
                                                                                         if (jsonObject1 != null) {
-                                                                                            Notification notification = g.fromJson (jsonObject1.toString (), Notification.class);
+                                                                                            Notification notification = g.fromJson (jsonObject1.toString (),Notification.class);
                                                                                             notifications.add (notification);
                                                                                         } else {
                                                                                             break;
@@ -199,10 +199,10 @@ public class NotificationListActivity extends AppCompatActivity {
                                                                             }
                                                                         }
                                                                     }
-                                                                }, activity, Constant.MAIN_URL, params, false);
+                                                                },activity,Constant.MAIN_URL,params,false);
 
                                                             }
-                                                        }, 0);
+                                                        },0);
                                                         isLoadMore = true;
                                                     }
 
@@ -218,11 +218,11 @@ public class NotificationListActivity extends AppCompatActivity {
                     }
                 }
             }
-        }, activity, Constant.MAIN_URL, params, true);
+        },activity,Constant.MAIN_URL,params,true);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected ( MenuItem item ) {
         if (item.getItemId () == android.R.id.home) {
             onBackPressed ();
             return true;
@@ -231,22 +231,22 @@ public class NotificationListActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed ( ) {
         super.onBackPressed ();
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp ( ) {
         onBackPressed ();
         return super.onSupportNavigateUp ();
 
     }
 
-    public void setSnackBar(final Activity activity, String message, String action, int color) {
-        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content), message, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction (action, new View.OnClickListener () {
+    public void setSnackBar ( final Activity activity,String message,String action,int color ) {
+        final Snackbar snackbar = Snackbar.make (activity.findViewById (android.R.id.content),message,Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction (action,new View.OnClickListener () {
             @Override
-            public void onClick(View view) {
+            public void onClick ( View view ) {
                 getNotificationData (0);
                 snackbar.dismiss ();
             }
