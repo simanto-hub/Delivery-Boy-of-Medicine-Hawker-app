@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="wrteam.ekart.dboy">
+    package="threebigo.medicinehawker.dboy">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,9 +11,9 @@
         android:required="false" />
 
     <application
-        android:name=".helper.AppController"
+        android:name="threebigo.medicinehawker.dboy.helper.AppController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/deliveryboylogo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -21,22 +21,22 @@
         tools:replace="android:usesCleartextTraffic,android:allowBackup">
 
         <activity
-            android:name=".activity.OrderDetailActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.OrderDetailActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.NotificationListActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.NotificationListActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.WalletHistoryActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.WalletHistoryActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.SplashActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -47,31 +47,31 @@
         </activity>
 
         <activity
-            android:name=".activity.DrawerActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.DrawerActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.LoginActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
 
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.ProfileActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.WebViewActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name="threebigo.medicinehawker.dboy.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />
 
-        <service android:name=".helper.MyFirebaseMessagingService">
+        <service android:name="threebigo.medicinehawker.dboy.helper.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

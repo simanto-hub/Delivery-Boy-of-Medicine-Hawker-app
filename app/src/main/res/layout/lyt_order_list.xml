@@ -115,7 +115,7 @@
             android:layout_alignParentEnd="true"
             android:paddingEnd="@dimen/margin_10dp"
             android:text="@string/order_method"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/red"
             android:textStyle="bold" />
 
     </RelativeLayout>

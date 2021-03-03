@@ -21,7 +21,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorPrimary"
+                android:background="@color/red"
                 app:contentInsetLeft="@dimen/dimen_0dp"
                 app:contentInsetStart="@dimen/dimen_0dp"
                 app:contentInsetStartWithNavigation="@dimen/dimen_0dp"
@@ -53,18 +53,19 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:layout_margin="4dp"
                     android:id="@+id/imglogo"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="72dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/splash_logo" />
+                    android:src="@drawable/deliveryboylogo" />
 
                 <TextView
                     android:id="@+id/tvMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/mid_text"
                     android:textStyle="bold" />
 
@@ -120,7 +121,7 @@
                     android:onClick="OnClick"
                     android:padding="@dimen/dimen_5dp"
                     android:text="@string/changepsw"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/red"
                     android:textStyle="bold" />
 
             </LinearLayout>

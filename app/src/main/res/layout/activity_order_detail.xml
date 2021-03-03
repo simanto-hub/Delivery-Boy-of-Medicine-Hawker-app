@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/red"
             app:contentInsetLeft="@dimen/dimen_0dp"
             app:contentInsetStart="@dimen/dimen_0dp"
             app:contentInsetStartWithNavigation="@dimen/dimen_0dp"
@@ -118,7 +118,7 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_centerVertical="true"
                                 android:ems="10"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/red"
                                 android:textStyle="bold" />
 
                             <Button
@@ -345,7 +345,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="end"
-                                    android:textColor="@color/colorAccent"
+                                    android:textColor="@color/red"
                                     android:textSize="@dimen/mid_text"
                                     android:textStyle="bold" />
                             </LinearLayout>

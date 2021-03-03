@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "382070340183",
-    "firebase_url": "https://ekart-2d9ee.firebaseio.com",
-    "project_id": "ekart-2d9ee",
-    "storage_bucket": "ekart-2d9ee.appspot.com"
+    "project_number": "870834722643",
+    "firebase_url": "https://medicine-hawker-499de.firebaseio.com",
+    "project_id": "medicine-hawker-499de",
+    "storage_bucket": "medicine-hawker-499de.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:382070340183:android:f49943b4b5692944f7c112",
+        "mobilesdk_app_id": "1:870834722643:android:194bb5ccc935338f60b3a6",
         "android_client_info": {
-          "package_name": "wrteam.ekart.dboy"
+          "package_name": "threebigo.medicinehawker.dboy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "382070340183-msb3occmpb5b5nekg8v0lcp0vu97v7si.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "wrteam.ekart.dboy",
-            "certificate_hash": "d078a9b5d27166665a8de0d30dfe1ffad48d2ddb"
-          }
-        },
-        {
-          "client_id": "382070340183-456ojt9427fe4hi6dmi7f944kqbppimn.apps.googleusercontent.com",
+          "client_id": "870834722643-2t2bfppf98sjhjorf9ff71fcmc4caqjh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcu1jA6vsQxCh5_0xmO6RTIP-Fukxszyw"
+          "current_key": "AIzaSyBXhotykkg9LS4otwo5BCcqrR_BcPHDG2M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "382070340183-456ojt9427fe4hi6dmi7f944kqbppimn.apps.googleusercontent.com",
+              "client_id": "870834722643-2t2bfppf98sjhjorf9ff71fcmc4caqjh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -45,43 +37,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:382070340183:android:9537508329f59fc2f7c112",
+        "mobilesdk_app_id": "1:870834722643:android:3f03323763a4f76460b3a6",
         "android_client_info": {
-          "package_name": "wrteam.ekart.shop"
+          "package_name": "threebigo.medicinehawker.shop"
         }
       },
       "oauth_client": [
         {
-          "client_id": "382070340183-1gr13u5i6650og9tmij27bh1qrjmt0o7.apps.googleusercontent.com",
+          "client_id": "870834722643-980b0uhdq7hkoa5ofvnsgcmtgu3dusgv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "wrteam.ekart.shop",
-            "certificate_hash": "d078a9b5d27166665a8de0d30dfe1ffad48d2ddb"
+            "package_name": "threebigo.medicinehawker.shop",
+            "certificate_hash": "9991ffd2982e213cbeff2b54c6084f9cde838bab"
           }
         },
         {
-          "client_id": "382070340183-1rgi7hlmdpak7ng2jedn4dq013jbmvai.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "wrteam.ekart.shop",
-            "certificate_hash": "45bb3e18adfa655e32e201e664c93156920e29fb"
-          }
-        },
-        {
-          "client_id": "382070340183-456ojt9427fe4hi6dmi7f944kqbppimn.apps.googleusercontent.com",
+          "client_id": "870834722643-2t2bfppf98sjhjorf9ff71fcmc4caqjh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAcu1jA6vsQxCh5_0xmO6RTIP-Fukxszyw"
+          "current_key": "AIzaSyBXhotykkg9LS4otwo5BCcqrR_BcPHDG2M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "382070340183-456ojt9427fe4hi6dmi7f944kqbppimn.apps.googleusercontent.com",
+              "client_id": "870834722643-2t2bfppf98sjhjorf9ff71fcmc4caqjh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/red"
     android:focusableInTouchMode="true">
 
     <include layout="@layout/toolbar_layout" />
@@ -15,7 +15,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/margin_10dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/deliveryboylogo"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_10dp"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,6 +94,7 @@
 
                 <Button
                     android:id="@+id/btnlogin"
+                    android:backgroundTint="@color/red"
                     style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,6 +105,18 @@
                     android:onClick="OnBtnClick"
                     android:text="@string/login"
                     android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tvPrivacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:padding="@dimen/dimen_5dp"
+                    android:text="@string/msg_privacy_terms"
+                    android:textAlignment="center"
+                    android:textColor="@color/gray_blue"
+                    android:textSize="@dimen/p_text_size"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -298,9 +311,9 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/please_type_verification_code_sent_to"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/red" />
 
-                <wrteam.ekart.dboy.helper.PinView
+                <threebigo.medicinehawker.dboy.helper.PinView
                     android:id="@+id/edtotp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -310,11 +323,11 @@
                     android:layout_marginEnd="@dimen/common_padding"
                     android:focusableInTouchMode="true"
                     android:inputType="number"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/red"
                     android:textSize="@dimen/mid_text"
                     app:hideLineWhenFilled="false"
                     app:itemCount="6"
-                    app:lineColor="@color/colorPrimary"
+                    app:lineColor="@color/red"
                     app:viewType="line" />
 
                 <TextView
@@ -324,7 +337,6 @@
                     android:layout_gravity="end"
                     android:onClick="OnBtnClick"
                     android:padding="@dimen/margin_10dp"
-                    android:tag="disable"
                     android:text="@string/resend"
                     android:textColor="@color/txt_color" />
 
@@ -410,24 +422,7 @@
                     android:textColor="@color/white" />
 
             </LinearLayout>
-
-
         </LinearLayout>
-
-
     </ScrollView>
-
-    <TextView
-        android:id="@+id/tvPrivacy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="@dimen/dimen_5dp"
-        android:text="@string/msg_privacy_terms"
-        android:textAlignment="center"
-        android:textColor="@color/gray_blue"
-        android:textSize="@dimen/p_text_size"
-        android:textStyle="bold" />
-
 </RelativeLayout>
 

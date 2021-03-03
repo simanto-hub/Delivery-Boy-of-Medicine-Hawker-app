@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">EKart Delivery Boy</string>
+    <string name="app_name">Medicine Delivery Boy</string>
 
     <string name="login">Login</string>
     <string name="mobile">Mobile Number</string>
@@ -11,6 +11,9 @@
     <string name="msg_privacy_terms">By Logging in, you agree to our Terms &amp; Conditions and Privacy Policy</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_conditions">Terms &amp; Conditions</string>
+
+<!--    Note : If you are changeing privacy policy and terms condition string then the word which you use in 'privacy_policy'
+            and 'terms_conditions' these two words should be same in 'msg_privacy_terms' string.-->
 
     <string name="forgottext">Forgot password ?</string>S
     <string name="home">Home</string>
